@@ -21,8 +21,13 @@ jobs:
       image: ghcr.io/epitech/coding-style-checker:latest
 
     steps:
+      - name: Install Git and add it to PATH
+        run: |
+          apt-get update
+          apt-get install -y git
+
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v2
         with:
           fetch-depth: 0
           submodules: recursive
@@ -67,8 +72,12 @@ jobs:
     needs: [check_coding_style]
     container: epitechcontent/epitest-docker:latest
     steps:
+      - name: Install Git and add it to PATH
+        run: |
+          apt-get update
+          apt-get install -y git
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v2
         with:
           fetch-depth: 0
           submodules: recursive
@@ -106,7 +115,7 @@ jobs:
     container: epitechcontent/epitest-docker:latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v2
         with:
           fetch-depth: 0
           submodules: recursive
@@ -122,8 +131,12 @@ jobs:
     if: ${{ github.event_name == 'push' }}
     needs: [run_tests]
     steps:
+      - name: Install Git and add it to PATH
+        run: |
+          apt-get update
+          apt-get install -y git
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v2
         with:
           fetch-depth: 0
           submodules: recursive
