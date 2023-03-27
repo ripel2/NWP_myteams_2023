@@ -1,0 +1,13 @@
+*.a
+*.o
+*.so
+
+!/libs/myteams/libmyteams.so
+
+libmynetclient.a
+libmynetserver.a
+
+myteams_cli
+myteams_server
+
+coding-style-reports.log
