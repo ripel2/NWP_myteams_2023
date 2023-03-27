@@ -33,6 +33,9 @@ SHARED_OBJ	=	$(SHARED_SRC:.c=.o)
 SERVER_OBJ	=	$(SERVER_SRC:.c=.o)
 CLIENT_OBJ	=	$(CLIENT_SRC:.c=.o)
 
+TESTS_SRC	=
+TESTS_OBJ	=	$(TESTS_SRC:.c=.o)
+
 CFLAGS	=	-Wall -Wextra -Wshadow -Wpedantic -Werror
 CFLAGS	+=	-I./include -I./libs/mynet/include
 CFLAGS	+=	-ldl
@@ -86,6 +89,21 @@ fclean:	clean
 	printf $(RED)"[-] Failed deleting myteams binaries "$(DEFAULT)"\n"
 
 re:	fclean all
+
+tests_run:	CFLAGS += --coverage -fprofile-arcs -ftest-coverage
+tests_run:	CFLAGS += -lcriterion
+tests_run:	$(SERVER_LIB) $(CLIENT_LIB)
+tests_run:	$(SERVER_OBJ) $(CLIENT_OBJ) $(SHARED_OBJ)
+tests_run:	$(TESTS_OBJ)
+	@printf $(TEAL)"[+] Compiling tests"$(DEFAULT)"\n"
+	@$(GCC) $(CFLAGS) -o unit_tests $(SERVER_OBJ) $(CLIENT_OBJ) $(SHARED_OBJ) \
+	$(TESTS_OBJ) && \
+	printf $(GREEN)"[+] Compiled tests"$(DEFAULT)"\n" || \
+	printf $(RED)"[-] Failed compiling tests"$(DEFAULT)"\n"
+	@printf $(TEAL)"[+] Running tests"$(DEFAULT)"\n"
+	@./unit_tests && \
+	printf $(GREEN)"[+] Tests passed"$(DEFAULT)"\n" || \
+	printf $(RED)"[-] Tests failed"$(DEFAULT)"\n"
 
 debug:	CFLAGS += -g
 debug:	re

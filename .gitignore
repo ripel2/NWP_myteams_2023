@@ -10,4 +10,6 @@ libmynetserver.a
 myteams_cli
 myteams_server
 
+unit_tests
+
 coding-style-reports.log
