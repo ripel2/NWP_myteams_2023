@@ -46,7 +46,7 @@ jobs:
                 echo "FAIL_TASK=true" >> "$GITHUB_ENV"
               fi
               CODE=$(echo $LINE | cut -d':' -f4)
-              echo "::error file=${GITHUB_FILE},line=${LINE_NUMBER},col=1,title=${SEVERITY} coding style error::${CODE}"
+              echo "::error file=${FILE},line=${LINE_NUMBER},col=1,title=${SEVERITY} coding style error::${CODE}"
             done
           fi
 
