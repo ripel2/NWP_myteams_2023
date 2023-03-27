@@ -21,17 +21,13 @@ jobs:
       image: ghcr.io/epitech/coding-style-checker:latest
 
     steps:
-      - name: Install Git and add it to PATH
-        run: |
-          apt-get update
-          apt-get install -y git
-
       - name: Checkout repository
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
-          submodules: recursive
-          token: ${{ secrets.MYNET_TOKEN }}
+
+      - name: Pull submodules
+        run: git submodule update --init --recursive
 
       - name: Remove myteams project files that have coding style errors in them
         run: |
@@ -72,15 +68,11 @@ jobs:
     needs: [check_coding_style]
     container: epitechcontent/epitest-docker:latest
     steps:
-      - name: Install Git and add it to PATH
-        run: |
-          apt-get update
-          apt-get install -y git
       - name: Checkout repository
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
-          submodules: recursive
+          submodules: 'recursive'
           token: ${{ secrets.MYNET_TOKEN }}
 
       - run: make
@@ -118,7 +110,7 @@ jobs:
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
-          submodules: recursive
+          submodules: 'recursive'
           token: ${{ secrets.MYNET_TOKEN }}
 
       - name: Starts tests
@@ -131,15 +123,11 @@ jobs:
     if: ${{ github.event_name == 'push' }}
     needs: [run_tests]
     steps:
-      - name: Install Git and add it to PATH
-        run: |
-          apt-get update
-          apt-get install -y git
       - name: Checkout repository
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
-          submodules: recursive
+          submodules: 'recursive'
           token: ${{ secrets.MYNET_TOKEN }}
 
       - name: Push mirror repository
