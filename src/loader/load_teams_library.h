@@ -7,3 +7,4 @@
 
 #pragma once
 
+#define FUNC_MAX 40
