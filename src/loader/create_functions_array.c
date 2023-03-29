@@ -68,7 +68,7 @@ int load_teams_library(char *pathtolib)
             return 1;
         }
     }
-    myteamsCommands[0]("123e4567-e89b-12d3-a456-426614174000", "123e4567-e89b-12d3-a456-426614174000");
+    myteamsCommands[CLIENT_EVENT_LOGGED_IN]("123e4567-e89b-12d3-a456-426614174000", "123e4567-e89b-12d3-a456-426614174000");
     dlclose(handle);
     return 0;
 }
