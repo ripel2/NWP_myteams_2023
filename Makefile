@@ -25,7 +25,7 @@ CLIENT_MAIN	=	$(CLIENT_FOLDER)/main.c
 SERVER_MAIN_OBJ	=	$(SERVER_MAIN:.c=.o)
 CLIENT_MAIN_OBJ	=	$(CLIENT_MAIN:.c=.o)
 
-SHARED_SRC	=
+SHARED_SRC	=	$(SHARED_FOLDER)/print_help.c
 SERVER_SRC	=
 CLIENT_SRC	=
 
@@ -78,7 +78,8 @@ $(CLIENT_NAME):	$(CLIENT_LIB) $(CLIENT_MAIN_OBJ) $(CLIENT_OBJ) $(SHARED_OBJ)
 
 clean:
 	@printf $(TEAL)"[+] Cleaning myteams"$(DEFAULT)"\n"
-	@rm -f $(SERVER_OBJ) $(CLIENT_OBJ) && \
+	@rm -f $(SERVER_OBJ) $(CLIENT_OBJ) $(SHARED_OBJ) \
+	$(SERVER_MAIN_OBJ) $(CLIENT_MAIN_OBJ) && \
 	printf $(GREEN)"[+] Cleaned myteams"$(DEFAULT)"\n" || \
 	printf $(RED)"[-] Failed cleaning myteams"$(DEFAULT)"\n"
 
