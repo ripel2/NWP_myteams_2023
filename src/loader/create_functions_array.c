@@ -8,9 +8,6 @@
 #include "../../libs/myteams/logging_client.h"
 #include "../../libs/myteams/logging_server.h"
 #include "load_teams_library.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <dlfcn.h>
 
 const char *COMMAND_NAME[] = {
     "client_event_logged_in",
@@ -56,19 +53,15 @@ const char *COMMAND_NAME[] = {
     0
 };
 
-void (*myteamsCommands[FUNC_MAX])();
-
-int load_teams_library(char *pathtolib)
+int load_teams_library(char *pathtolib, DLLoader_t *dll)
 {
-    void *handle = dlopen(pathtolib, RTLD_LAZY);
+    dll->handle = dlopen(pathtolib, RTLD_LAZY);
     for (int i = 0; COMMAND_NAME[i]; i++) {
-        myteamsCommands[i] = dlsym(handle, COMMAND_NAME[i]);
-        if (!myteamsCommands[i]) {
+        dll->functions[i] = dlsym(dll->handle, COMMAND_NAME[i]);
+        if (!dll->functions[i]) {
             printf("Error: %s", dlerror());
             return 1;
         }
     }
-    myteamsCommands[CLIENT_EVENT_LOGGED_IN]("123e4567-e89b-12d3-a456-426614174000", "123e4567-e89b-12d3-a456-426614174000");
-    dlclose(handle);
     return 0;
 }
