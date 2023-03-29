@@ -5,9 +5,7 @@
 ** create_functions_array
 */
 
-#include "../../libs/myteams/logging_client.h"
-#include "../../libs/myteams/logging_server.h"
-#include "load_teams_library.h"
+#include "loader.h"
 
 const char *COMMAND_NAME[] = {
     "client_event_logged_in",
@@ -57,7 +55,7 @@ int load_teams_library(char *pathtolib, DLLoader_t *dll)
 {
     dll->handle = dlopen(pathtolib, RTLD_LAZY);
     for (int i = 0; COMMAND_NAME[i]; i++) {
-        dll->functions[i] = dlsym(dll->handle, COMMAND_NAME[i]);
+        *(void **)&dll->functions[i] = dlsym(dll->handle, COMMAND_NAME[i]);
         if (!dll->functions[i]) {
             printf("Error: %s", dlerror());
             return 1;

@@ -12,7 +12,7 @@ BLUE	=	"\033[1;34m"
 MAGENTA	=	"\033[1;35m"
 TEAL	=	"\033[1;36m"
 
-SHARED_FOLDER	=	./src/
+SHARED_FOLDER	=	./src/shared/
 SERVER_FOLDER	=	./src/server
 CLIENT_FOLDER	=	./src/client
 
@@ -25,7 +25,8 @@ CLIENT_MAIN	=	$(CLIENT_FOLDER)/main.c
 SERVER_MAIN_OBJ	=	$(SERVER_MAIN:.c=.o)
 CLIENT_MAIN_OBJ	=	$(CLIENT_MAIN:.c=.o)
 
-SHARED_SRC	=	$(SHARED_FOLDER)/print_help.c
+SHARED_SRC	=	$(SHARED_FOLDER)/print_help.c \
+				$(SHARED_FOLDER)/loader/load_functions.c
 SERVER_SRC	=
 CLIENT_SRC	=
 
