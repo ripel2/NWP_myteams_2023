@@ -125,7 +125,7 @@ Test(load_teams_library, client_channel_print_threads, .init=redirect_all_stderr
 {
     DLLoader_t *dll = init_dll();
     int return_value = dll->functions[CLIENT_CHANNEL_PRINT_THREADS]("a", "a", 1, "a", "a");
-    //cr_assert_stderr_eq_str("[Thread a] Created by a (Thu Jan  1 01:00:01 1970): a [a]\n");
+    cr_assert_stderr_eq_str("[Thread a] Created by a (Thu Jan  1 01:00:01 1970): a [a]\n");
     cr_assert_eq(return_value, 58);
     fini_dll(dll);
 }
