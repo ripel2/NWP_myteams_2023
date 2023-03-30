@@ -48,6 +48,7 @@ const char *COMMAND_NAME[] = {
     "server_event_user_logged_in",
     "server_event_user_logged_out",
     "server_event_private_message_sended",
+    "client_event_thread_reply_received",
     0
 };
 

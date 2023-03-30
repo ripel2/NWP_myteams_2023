@@ -11,7 +11,7 @@
 #include <stdlib.h>
 #include <dlfcn.h>
 
-#define FUNC_MAX 39
+#define FUNC_MAX 40
 #define CLIENT_EVENT_LOGGED_IN 0
 #define CLIENT_EVENT_LOGGED_OUT 1
 #define CLIENT_EVENT_PRIVATE_MESSAGE_RECEIVED 2
@@ -52,10 +52,11 @@
 #define SERVER_EVENT_USER_LOGGED_IN 37
 #define SERVER_EVENT_USER_LOGGED_OUT 38
 #define SERVER_EVENT_PRIVATE_MESSAGE_SENDED 39
+#define CLIENT_EVENT_THREAD_REPLY_RECEIVED 40
 
 typedef struct DLLoader_s
 {   
-    void (*functions[FUNC_MAX])();
+    int (*functions[FUNC_MAX])();
     void *handle;
 } DLLoader_t;
 
