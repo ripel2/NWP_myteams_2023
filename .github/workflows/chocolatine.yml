@@ -26,9 +26,6 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Pull submodules
-        run: git submodule update --init --recursive
-
       - name: Remove myteams project files that have coding style errors in them
         run: |
           COMMENT="The given lib has coding style errors in it and we can't fix them (functions with 5 arguments)"
