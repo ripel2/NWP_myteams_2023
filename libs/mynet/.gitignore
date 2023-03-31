@@ -1,0 +1,14 @@
+*.a
+*.o
+
+.vscode
+.vscode/*
+
+*.log
+
+unit_tests
+libmynetclient.a
+libmynetserver.a
+
+*.gc*
+*.gcov
