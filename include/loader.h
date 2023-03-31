@@ -54,10 +54,10 @@
 #define SERVER_EVENT_PRIVATE_MESSAGE_SENDED 39
 #define CLIENT_EVENT_THREAD_REPLY_RECEIVED 40
 
-typedef struct DLLoader_s
+typedef struct dlloader_s
 {   
     int (*functions[FUNC_MAX])();
     void *handle;
-} DLLoader_t;
+} dlloader_t;
 
-int load_teams_library(char *pathtolib, DLLoader_t *dll);
+int load_teams_library(char *pathtolib, dlloader_t *dll);

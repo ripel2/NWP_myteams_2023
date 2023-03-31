@@ -52,7 +52,7 @@ const char *COMMAND_NAME[] = {
     0
 };
 
-int load_teams_library(char *pathtolib, DLLoader_t *dll)
+int load_teams_library(char *pathtolib, dlloader_t *dll)
 {
     dll->handle = dlopen(pathtolib, RTLD_LAZY);
     for (int i = 0; COMMAND_NAME[i]; i++) {
