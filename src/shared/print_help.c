@@ -45,7 +45,7 @@ bool print_help_if_needed(int ac, char **av)
             print_client_help();
         return true;
     }
-    if (av[1] != NULL && (strcmp(av[1], "-help") == 0 \
+    if (av[1] != NULL && (strcmp(av[1], "-help") == 0
         || strcmp(av[1], "--help") == 0 || strcmp(av[1], "-h") == 0)) {
         if (what_type == SERVER)
             print_server_help();
