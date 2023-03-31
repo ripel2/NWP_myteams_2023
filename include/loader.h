@@ -54,8 +54,7 @@
 #define SERVER_EVENT_PRIVATE_MESSAGE_SENDED 39
 #define CLIENT_EVENT_THREAD_REPLY_RECEIVED 40
 
-typedef struct dlloader_s
-{   
+typedef struct dlloader_s {
     int (*functions[FUNC_MAX])();
     void *handle;
 } dlloader_t;

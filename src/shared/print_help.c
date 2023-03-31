@@ -11,14 +11,14 @@
 
 static void print_server_help(void)
 {
-    printf("USAGE: ./myteams_server port\n" \
+    printf("USAGE: ./myteams_server port\n"
     "\tport is the port number on which the server socket listens.\n");
 }
 
 static void print_client_help(void)
 {
-    printf("USAGE: ./myteams_cli ip port\n" \
-    "\tip is the server ip address on which the server socket listens\n" \
+    printf("USAGE: ./myteams_cli ip port\n"
+    "\tip is the server ip address on which the server socket listens\n"
     "\tport is the port number on which the server socket listens.\n");
 }
 
