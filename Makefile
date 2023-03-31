@@ -12,7 +12,7 @@ BLUE	=	"\033[1;34m"
 MAGENTA	=	"\033[1;35m"
 TEAL	=	"\033[1;36m"
 
-SHARED_FOLDER	=	./src/shared/
+SHARED_FOLDER	=	./src/shared
 SERVER_FOLDER	=	./src/server
 CLIENT_FOLDER	=	./src/client
 
