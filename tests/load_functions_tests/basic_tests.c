@@ -119,8 +119,6 @@ Test(load_teams_library, client_team_print_channels, .init=redirect_all_stderr)
     fini_dll(dll);
 }
 
-#include <time.h>
-
 Test(load_teams_library, client_channel_print_threads, .init=redirect_all_stderr)
 {
     dlloader_t *dll = init_dll();
