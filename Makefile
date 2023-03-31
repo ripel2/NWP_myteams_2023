@@ -25,7 +25,8 @@ CLIENT_MAIN	=	$(CLIENT_FOLDER)/main.c
 SERVER_MAIN_OBJ	=	$(SERVER_MAIN:.c=.o)
 CLIENT_MAIN_OBJ	=	$(CLIENT_MAIN:.c=.o)
 
-SHARED_SRC	=	$(SHARED_FOLDER)/print_help.c
+SHARED_SRC	=	$(SHARED_FOLDER)/print_help.c	\
+				$(SHARED_FOLDER)/port_handler.c
 SERVER_SRC	=
 CLIENT_SRC	=
 
