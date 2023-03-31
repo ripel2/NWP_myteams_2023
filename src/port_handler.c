@@ -15,11 +15,11 @@ bool is_port_valid(const char *port)
     int port_number = atoi(port);
 
     if (port_number == -1) {
-        fprintf(stderr, "Your port number is not valid he must be a number");
+        fprintf(stderr, "Your port number is not valid it must be a number");
         is_valid = false;
     }
     if (port_number < 0 || port_number > 65535) {
-        fprintf(stderr, "Your port number is not valid he must be between 0 and 65535");
+        fprintf(stderr, "Your port number is not valid it must be between 0 and 65535");
         is_valid = false;
     }
     return is_valid;
