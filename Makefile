@@ -67,13 +67,13 @@ $(CLIENT_LIB):
 
 $(SERVER_NAME):	$(SERVER_LIB) $(SERVER_MAIN_OBJ) $(SERVER_OBJ) $(SHARED_OBJ)
 	@printf $(TEAL)"[+] Creating $(SERVER_NAME) "$(DEFAULT)"\n"
-	@gcc -o $(SERVER_NAME) $(SERVER_MAIN_OBJ) $(SERVER_OBJ) $(SHARED_OBJ) && \
+	@gcc -o $(SERVER_NAME) $(SERVER_MAIN_OBJ) $(SERVER_OBJ) $(SHARED_OBJ) ${CFLAGS} && \
 	printf $(GREEN)"[+] Created $(SERVER_NAME) "$(DEFAULT)"\n" || \
 	printf $(RED)"[-] Failed creating $(SERVER_NAME) "$(DEFAULT)"\n"
 
 $(CLIENT_NAME):	$(CLIENT_LIB) $(CLIENT_MAIN_OBJ) $(CLIENT_OBJ) $(SHARED_OBJ)
 	@printf $(TEAL)"[+] Creating $(CLIENT_NAME) "$(DEFAULT)"\n"
-	@gcc -o $(CLIENT_NAME) $(CLIENT_MAIN_OBJ) $(CLIENT_OBJ) $(SHARED_OBJ) && \
+	@gcc -o $(CLIENT_NAME) $(CLIENT_MAIN_OBJ) $(CLIENT_OBJ) $(SHARED_OBJ) ${CFLAGS} && \
 	printf $(GREEN)"[+] Created $(CLIENT_NAME) "$(DEFAULT)"\n" || \
 	printf $(RED)"[-] Failed creating $(CLIENT_NAME) "$(DEFAULT)"\n"
 
