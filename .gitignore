@@ -13,3 +13,7 @@ myteams_server
 unit_tests
 
 coding-style-reports.log
+
+.vscode
+
+.bash_history
