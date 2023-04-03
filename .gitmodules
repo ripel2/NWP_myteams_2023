@@ -1,4 +1,0 @@
-[submodule "libs/mynet"]
-	path = libs/mynet
-	url = git@github.com:ripel2/mynet.git
-	branch = prod
