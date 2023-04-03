@@ -12,7 +12,7 @@ BLUE	=	"\033[1;34m"
 MAGENTA	=	"\033[1;35m"
 TEAL	=	"\033[1;36m"
 
-SHARED_FOLDER	=	./src/
+SHARED_FOLDER	=	./src/shared
 SERVER_FOLDER	=	./src/server
 CLIENT_FOLDER	=	./src/client
 
@@ -25,7 +25,8 @@ CLIENT_MAIN	=	$(CLIENT_FOLDER)/main.c
 SERVER_MAIN_OBJ	=	$(SERVER_MAIN:.c=.o)
 CLIENT_MAIN_OBJ	=	$(CLIENT_MAIN:.c=.o)
 
-SHARED_SRC	=	$(SHARED_FOLDER)/print_help.c
+SHARED_SRC	=	$(SHARED_FOLDER)/print_help.c \
+				$(SHARED_FOLDER)/loader/load_functions.c
 SERVER_SRC	=
 CLIENT_SRC	=
 
@@ -33,7 +34,7 @@ SHARED_OBJ	=	$(SHARED_SRC:.c=.o)
 SERVER_OBJ	=	$(SERVER_SRC:.c=.o)
 CLIENT_OBJ	=	$(CLIENT_SRC:.c=.o)
 
-TESTS_SRC	=
+TESTS_SRC	=	tests/load_functions_tests/basic_tests.c
 TESTS_OBJ	=	$(TESTS_SRC:.c=.o)
 
 CFLAGS	=	-Wall -Wextra -Wshadow -Wpedantic -Werror
@@ -66,13 +67,15 @@ $(CLIENT_LIB):
 
 $(SERVER_NAME):	$(SERVER_LIB) $(SERVER_MAIN_OBJ) $(SERVER_OBJ) $(SHARED_OBJ)
 	@printf $(TEAL)"[+] Creating $(SERVER_NAME) "$(DEFAULT)"\n"
-	@gcc -o $(SERVER_NAME) $(SERVER_MAIN_OBJ) $(SERVER_OBJ) $(SHARED_OBJ) && \
+	@gcc -o $(SERVER_NAME) $(SERVER_MAIN_OBJ) $(SERVER_OBJ) \
+	$(SHARED_OBJ) ${CFLAGS} && \
 	printf $(GREEN)"[+] Created $(SERVER_NAME) "$(DEFAULT)"\n" || \
 	printf $(RED)"[-] Failed creating $(SERVER_NAME) "$(DEFAULT)"\n"
 
 $(CLIENT_NAME):	$(CLIENT_LIB) $(CLIENT_MAIN_OBJ) $(CLIENT_OBJ) $(SHARED_OBJ)
 	@printf $(TEAL)"[+] Creating $(CLIENT_NAME) "$(DEFAULT)"\n"
-	@gcc -o $(CLIENT_NAME) $(CLIENT_MAIN_OBJ) $(CLIENT_OBJ) $(SHARED_OBJ) && \
+	@gcc -o $(CLIENT_NAME) $(CLIENT_MAIN_OBJ) $(CLIENT_OBJ) \
+	$(SHARED_OBJ) ${CFLAGS} && \
 	printf $(GREEN)"[+] Created $(CLIENT_NAME) "$(DEFAULT)"\n" || \
 	printf $(RED)"[-] Failed creating $(CLIENT_NAME) "$(DEFAULT)"\n"
 
