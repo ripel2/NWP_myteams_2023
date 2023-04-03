@@ -30,7 +30,14 @@ SHARED_SRC	=	$(SHARED_FOLDER)/print_help.c	\
         $(SHARED_FOLDER)/loader/load_functions.c
 
 SERVER_SRC	=
-CLIENT_SRC	=
+CLIENT_SRC	=	$(CLIENT_FOLDER)/logged.c	\
+				$(CLIENT_FOLDER)/private_message.c	\
+				$(CLIENT_FOLDER)/thread.c	\
+				$(CLIENT_FOLDER)/team.c	\
+				$(CLIENT_FOLDER)/channel.c	\
+				$(CLIENT_FOLDER)/print.c	\
+				$(CLIENT_FOLDER)/user.c	\
+				$(CLIENT_FOLDER)/subscribe.c
 
 SHARED_OBJ	=	$(SHARED_SRC:.c=.o)
 SERVER_OBJ	=	$(SERVER_SRC:.c=.o)
