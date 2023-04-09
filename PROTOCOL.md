@@ -111,6 +111,11 @@ Here is the list of all the service commands available:
 
 ### 3.5. Service command answers
 
+This is the list of all the possible answers for the service commands.
+They are only described if the answer is different from the one described in the table above.
+For example, it is very useful for commands that needs to send or get multiple lines.
+Remember that descriptions and messages can have multiple lines, separated by newlines (`\n`).
+
 #### 3.5.1. `HELP`
 
 The `HELP` command is used to get the list of all the commands available.
@@ -119,8 +124,8 @@ The server will then send a list of all the commands available, each command sep
 
 Example of a `HELP` command:
 ```
->>> HELP
-<<< 214 HELP LOGIN LOGOUT USERS USER SEND MESSAGES SUBSCRIBE SUBSCRIBED UNSUBSCRIBE USETEAM USECHANNEL USETHREAD CREATE LIST INFO
+IN  >>> HELP
+OUT <<< 214 HELP LOGIN LOGOUT USERS USER SEND MESSAGES SUBSCRIBE SUBSCRIBED UNSUBSCRIBE USETEAM USECHANNEL USETHREAD CREATE LIST INFO
 ```
 
 #### 3.5.2. `USERS`
@@ -137,12 +142,12 @@ A user will be represented by the following format:
 
 Example of a `USERS` command:
 ```
->>> USERS
-<<< 150 3
-<<< 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f user1
-<<< 2e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f user2
-<<< 3e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f user3
-<<< 200 OK
+IN  >>> USERS
+OUT <<< 150 3
+OUT <<< 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f user1
+OUT <<< 2e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f user2
+OUT <<< 3e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f user3
+OUT <<< 200 OK
 ```
 
 ### 3.5.3. `USER`
@@ -158,13 +163,13 @@ A user will be represented by the following format:
 
 Example of a `USER` command:
 ```
->>> USER 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f
-<<< 150 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f user1 1
+IN  >>> USER 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f
+OUT <<< 150 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f user1 1
 ```
 If the user is not logged in:
 ```
->>> USER 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f
-<<< 150 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f user1 0
+IN  >>> USER 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f
+OUT <<< 150 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f user1 0
 ```
 
 ### 3.5.4. `SEND`
@@ -176,13 +181,13 @@ The client should then send the message and a newline character (`\n`).
 
 Example of a `SEND` command:
 ```
->>> SEND 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f 4
-<<< 350 Waiting for data
->>> Hello!
->>> How are you?
->>> I'm fine, thanks!
->>> Bye!
-<<< 200 OK
+IN  >>> SEND 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f 4
+OUT <<< 350 Waiting for data
+IN  >>> Hello!
+IN  >>> How are you?
+IN  >>> I'm fine, thanks!
+IN  >>> Bye!
+OUT <<< 200 OK
 ```
 
 ### 3.5.5. `MESSAGES`
@@ -201,14 +206,14 @@ that can have multiple lines.
 
 Example of a `MESSAGES` command:
 ```
->>> MESSAGES 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f
-<<< 150 2
-<<< 2 FROM
-<<< Hello!
-<<< How are you?
-<<< 1 TO
-<<< I'm fine, thanks!
-<<< 200 OK
+IN  >>> MESSAGES 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f
+OUT <<< 150 2
+OUT <<< 2 FROM
+OUT <<< Hello!
+OUT <<< How are you?
+OUT <<< 1 TO
+OUT <<< I'm fine, thanks!
+OUT <<< 200 OK
 ```
 
 ### 3.5.6. `SUBSCRIBED`
@@ -231,23 +236,23 @@ A user will be represented by the following format:
 
 Example of a `SUBSCRIBED` command without arguments (get the list of all the teams the user is subscribed to):
 ```
->>> SUBSCRIBED
-<<< 150 2
-<<< 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f team1 3
-<<< The description...
-<<< of the team...
-<<< here it has 3 lines.
-<<< 2e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f team2 1
-<<< The description... here it has 1 line.
-<<< 200 OK
+IN  >>> SUBSCRIBED
+OUT <<< 150 2
+OUT <<< 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f team1 3
+OUT <<< The description...
+OUT <<< of the team...
+OUT <<< here it has 3 lines.
+OUT <<< 2e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f team2 1
+OUT <<< The description... here it has 1 line.
+OUT <<< 200 OK
 ```
 
 Example of a `SUBSCRIBED` command with a team uuid (get the list of all the users subscribed to a given team):
 ```
->>> SUBSCRIBED 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f
-<<< 150 2
-<<< 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f user1
-<<< 2e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f user2
+IN  >>> SUBSCRIBED 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f
+OUT <<< 150 2
+OUT <<< 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f user1
+OUT <<< 2e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f user2
 ```
 
 ### 3.5.7. `LIST`
@@ -264,47 +269,47 @@ The message will end with a `200 OK` response.
 
 Example of a `LIST` command without any context:
 ```
->>> LIST
-<<< 150 2 TEAMS
-<<< 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f team1 2
-<<< The description of the team...
-<<< here it has 2 lines.
-<<< 2e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f team2 1
-<<< The description of the team... here it has 1 line.
-<<< 200 OK
+IN  >>> LIST
+OUT <<< 150 2 TEAMS
+OUT <<< 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f team1 2
+OUT <<< The description of the team...
+OUT <<< here it has 2 lines.
+OUT <<< 2e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f team2 1
+OUT <<< The description of the team... here it has 1 line.
+OUT <<< 200 OK
 ```
 
 Example of a `LIST` command with a team context:
 ```
->>> LIST
-<<< 150 2 CHANNELS
-<<< 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f channel1 1
-<<< Channel description
-<<< 2e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f channel2 1
-<<< Channel description
-<<< 200 OK
+IN  >>> LIST
+OUT <<< 150 2 CHANNELS
+OUT <<< 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f channel1 1
+OUT <<< Channel description
+OUT <<< 2e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f channel2 1
+OUT <<< Channel description
+OUT <<< 200 OK
 ```
 
 Example of a `LIST` command with a team and a channel context:
 ```
->>> LIST
-<<< 150 2 THREADS
-<<< 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f thread1 1
-<<< Thread description
-<<< 2e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f thread2 1
-<<< Thread description
-<<< 200 OK
+IN  >>> LIST
+OUT <<< 150 2 THREADS
+OUT <<< 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f thread1 1
+OUT <<< Thread description
+OUT <<< 2e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f thread2 1
+OUT <<< Thread description
+OUT <<< 200 OK
 ```
 
 Example of a `LIST` command with a team, a channel and a thread context:
 ```
->>> LIST
-<<< 150 2 REPLIES
-<<< 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f reply1 1
-<<< Reply message
-<<< 2e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f reply2 1
-<<< Reply message
-<<< 200 OK
+IN  >>> LIST
+OUT <<< 150 2 REPLIES
+OUT <<< 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f reply1 1
+OUT <<< Reply message
+OUT <<< 2e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f reply2 1
+OUT <<< Reply message
+OUT <<< 200 OK
 ```
 
 ### 3.5.8. `CREATE`
@@ -319,85 +324,31 @@ The client should send the `CREATE` command followed by the name of the team/cha
 
 Example of a `CREATE` command without any context:
 ```
->>> CREATE team1 2
-<<< The description of the team...
-<<< here it has 2 lines.
-<<< 200 OK
+IN  >>> CREATE team1 2
+OUT <<< The description of the team...
+OUT <<< here it has 2 lines.
+OUT <<< 200 OK
 ```
 
 Example of a `CREATE` command with a team context:
 ```
->>> CREATE channel1 1
-<<< 350 Waiting for data
-<<< Channel description
-<<< 200 OK
+IN  >>> CREATE channel1 1
+OUT <<< 350 Waiting for data
+OUT <<< Channel description
+OUT <<< 200 OK
 ```
 
 Example of a `CREATE` command with a team and a channel context:
 ```
->>> CREATE thread1 1
-<<< 350 Waiting for data
-<<< Thread description
-<<< 200 OK
+IN  >>> CREATE thread1 1
+OUT <<< 350 Waiting for data
+OUT <<< Thread description
+OUT <<< 200 OK
 ```
 
 Example of a `CREATE` command with a team, a channel and a thread context:
 ```
->>> CREATE reply1 1
-<<< Reply message
-<<< 200 OK
-```
-
-### 3.5.9. `SUBSCRIBE`
-
-The `SUBSCRIBE` command can be used in multiple contexts:
- - If the client didn't register any context, the server will subscribe the user to the given team.
- - If the client registered a team context, the server will subscribe the user to the given channel.
- - If the client registered a team and a channel context, the server will subscribe the user to the given thread.
-
-The client should send the `SUBSCRIBE` command followed by the uuid of the team/channel/thread.
-
-Example of a `SUBSCRIBE` command without any context:
-```
->>> SUBSCRIBE 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f
-<<< 200 OK
-```
-
-Example of a `SUBSCRIBE` command with a team context:
-```
->>> SUBSCRIBE 2e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f
-<<< 200 OK
-```
-
-Example of a `SUBSCRIBE` command with a team and a channel context:
-```
->>> SUBSCRIBE 3e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f
-<<< 200 OK
-```
-
-### 3.5.10. `UNSUBSCRIBE`
-
-The `UNSUBSCRIBE` command can be used in multiple contexts:
- - If the client didn't register any context, the server will unsubscribe the user from the given team.
- - If the client registered a team context, the server will unsubscribe the user from the given channel.
- - If the client registered a team and a channel context, the server will unsubscribe the user from the given thread.
-
-The client should send the `UNSUBSCRIBE` command followed by the uuid of the team/channel/thread.
-
-Example of a `UNSUBSCRIBE` command without any context:
-```
->>> UNSUBSCRIBE 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f
-<<< 200 OK
-```
-
-Example of a `UNSUBSCRIBE` command with a team context:
-```
->>> UNSUBSCRIBE 2e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f
-<<< 200 OK
-```
-
-Example of a `UNSUBSCRIBE` command with a team and a channel context:
-```
->>> UNSUBSCRIBE 3e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f
-<<< 200 OK
+IN  >>> CREATE reply1 1
+OUT <<< Reply message
+OUT <<< 200 OK
 ```
