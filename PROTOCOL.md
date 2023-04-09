@@ -274,5 +274,130 @@ Example of a `LIST` command without any context:
 <<< 200 OK
 ```
 
+Example of a `LIST` command with a team context:
+```
+>>> LIST
+<<< 150 2 CHANNELS
+<<< 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f channel1 1
+<<< Channel description
+<<< 2e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f channel2 1
+<<< Channel description
+<<< 200 OK
+```
 
+Example of a `LIST` command with a team and a channel context:
+```
+>>> LIST
+<<< 150 2 THREADS
+<<< 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f thread1 1
+<<< Thread description
+<<< 2e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f thread2 1
+<<< Thread description
+<<< 200 OK
+```
 
+Example of a `LIST` command with a team, a channel and a thread context:
+```
+>>> LIST
+<<< 150 2 REPLIES
+<<< 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f reply1 1
+<<< Reply message
+<<< 2e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f reply2 1
+<<< Reply message
+<<< 200 OK
+```
+
+### 3.5.8. `CREATE`
+
+The `CREATE` command can be used in multiple contexts:
+ - If the client didn't register any context, the server will create a new team.
+ - If the client registered a team context, the server will create a new channel in the team.
+ - If the client registered a team and a channel context, the server will create a new thread in the channel.
+ - If the client registered a team, a channel and a thread context, the server will create a new reply in the thread.
+
+The client should send the `CREATE` command followed by the name of the team/channel/thread/reply, the number of lines of the description of the team/channel/thread/reply, and the description of the team/channel/thread/reply separated by newlines.
+
+Example of a `CREATE` command without any context:
+```
+>>> CREATE team1 2
+<<< The description of the team...
+<<< here it has 2 lines.
+<<< 200 OK
+```
+
+Example of a `CREATE` command with a team context:
+```
+>>> CREATE channel1 1
+<<< 350 Waiting for data
+<<< Channel description
+<<< 200 OK
+```
+
+Example of a `CREATE` command with a team and a channel context:
+```
+>>> CREATE thread1 1
+<<< 350 Waiting for data
+<<< Thread description
+<<< 200 OK
+```
+
+Example of a `CREATE` command with a team, a channel and a thread context:
+```
+>>> CREATE reply1 1
+<<< Reply message
+<<< 200 OK
+```
+
+### 3.5.9. `SUBSCRIBE`
+
+The `SUBSCRIBE` command can be used in multiple contexts:
+ - If the client didn't register any context, the server will subscribe the user to the given team.
+ - If the client registered a team context, the server will subscribe the user to the given channel.
+ - If the client registered a team and a channel context, the server will subscribe the user to the given thread.
+
+The client should send the `SUBSCRIBE` command followed by the uuid of the team/channel/thread.
+
+Example of a `SUBSCRIBE` command without any context:
+```
+>>> SUBSCRIBE 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f
+<<< 200 OK
+```
+
+Example of a `SUBSCRIBE` command with a team context:
+```
+>>> SUBSCRIBE 2e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f
+<<< 200 OK
+```
+
+Example of a `SUBSCRIBE` command with a team and a channel context:
+```
+>>> SUBSCRIBE 3e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f
+<<< 200 OK
+```
+
+### 3.5.10. `UNSUBSCRIBE`
+
+The `UNSUBSCRIBE` command can be used in multiple contexts:
+ - If the client didn't register any context, the server will unsubscribe the user from the given team.
+ - If the client registered a team context, the server will unsubscribe the user from the given channel.
+ - If the client registered a team and a channel context, the server will unsubscribe the user from the given thread.
+
+The client should send the `UNSUBSCRIBE` command followed by the uuid of the team/channel/thread.
+
+Example of a `UNSUBSCRIBE` command without any context:
+```
+>>> UNSUBSCRIBE 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f
+<<< 200 OK
+```
+
+Example of a `UNSUBSCRIBE` command with a team context:
+```
+>>> UNSUBSCRIBE 2e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f
+<<< 200 OK
+```
+
+Example of a `UNSUBSCRIBE` command with a team and a channel context:
+```
+>>> UNSUBSCRIBE 3e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f
+<<< 200 OK
+```
