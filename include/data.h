@@ -25,6 +25,10 @@ typedef struct user_s {
     TAILQ_HEAD(discussion_list_s, personal_discussion_s) discussions;
 } user_t;
 
+typedef struct team_uuid_s {
+    const char uuid[UUID_LENGTH + 1];
+} team_uuid_t;
+
 typedef struct team_s {
     const char name[MAX_NAME_LENGTH + 1];
     const char description[MAX_DESCRIPTION_LENGTH + 1];
