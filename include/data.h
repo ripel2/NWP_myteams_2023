@@ -20,9 +20,9 @@
 typedef struct user_s {
     const char username[MAX_NAME_LENGTH + 1];
     const char uuid[UUID_LENGTH + 1];
+    const char *uuid_team[UUID_LENGTH + 1];
     bool is_logged;
     TAILQ_HEAD(discussion_list_s, personal_discussion_s) discussions;
-    TAILQ_HEAD(team_list_s, team_s) teams;
 } user_t;
 
 typedef struct team_s {
@@ -72,6 +72,7 @@ typedef struct message_s {
 
 typedef struct global_s {
     TAILQ_HEAD(user_list_s, user_s) users;
+    TAILQ_HEAD(team_list_s, team_s) teams;
 } global_t;
 
 extern global_t global;
