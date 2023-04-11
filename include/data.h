@@ -69,7 +69,6 @@ typedef struct message_s {
     const char uuid[UUID_LENGTH + 1];
 } message_t;
 
-
 typedef struct global_s {
     TAILQ_HEAD(user_list_s, user_s) users;
 } global_t;
