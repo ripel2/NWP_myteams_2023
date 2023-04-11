@@ -20,8 +20,8 @@
 typedef struct user_s {
     const char username[MAX_NAME_LENGTH + 1];
     const char uuid[UUID_LENGTH + 1];
-    const char *uuid_team[UUID_LENGTH + 1];
     bool is_logged;
+    TAILQ_HEAD(team_uuid_list_s, team_uuid_s) team_uuids;
     TAILQ_HEAD(discussion_list_s, personal_discussion_s) discussions;
 } user_t;
 
