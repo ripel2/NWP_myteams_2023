@@ -64,11 +64,11 @@ typedef struct message_s {
     const char uuid[UUID_LENGTH + 1];
 } message_t;
 
-
 typedef struct global_s {
     TAILQ_HEAD(user_list_s, user_s) users;
     TAILQ_HEAD(personal_discussion_list_s, personal_discussion_s)
     personal_discussions;
+    TAILQ_HEAD(team_list_s, team_s) teams;
 } global_t;
 
 extern global_t global;
