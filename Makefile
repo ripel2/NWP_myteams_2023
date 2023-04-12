@@ -15,6 +15,8 @@ TEAL	=	"\033[1;36m"
 SHARED_FOLDER	=	./src/shared
 SERVER_FOLDER	=	./src/server
 CLIENT_FOLDER	=	./src/client
+ADD_FUNCTION	=   $(SERVER_FOLDER)/handle_database/add_functions
+GET_FUNCTION	=   $(SERVER_FOLDER)/handle_database/get_functions
 
 SERVER_NAME	=   myteams_server
 CLIENT_NAME	=   myteams_cli
@@ -27,16 +29,20 @@ CLIENT_MAIN_OBJ	=	$(CLIENT_MAIN:.c=.o)
 
 SHARED_SRC	=	$(SHARED_FOLDER)/print_help.c	\
 				$(SHARED_FOLDER)/port_handler.c \
-        $(SHARED_FOLDER)/loader/load_functions.c
+        		$(SHARED_FOLDER)/loader/load_functions.c
 
-SERVER_SRC	=
+SERVER_SRC	=	$(ADD_FUNCTION)/add_user_to_struct.c			\
+				$(GET_FUNCTION)/get_user_from_struct.c			\
+				$(SERVER_FOLDER)/handle_database/generate_uuid.c
 CLIENT_SRC	=
 
 SHARED_OBJ	=	$(SHARED_SRC:.c=.o)
 SERVER_OBJ	=	$(SERVER_SRC:.c=.o)
 CLIENT_OBJ	=	$(CLIENT_SRC:.c=.o)
 
-TESTS_SRC	=	tests/load_functions_tests/basic_tests.c
+TESTS_SRC	=	tests/load_functions_tests/basic_tests.c 			 \
+				tests/add_functions/add_user_to_struct/basic_tests.c \
+				tests/get_functions/get_user_from_struct/basic_tests.c
 TESTS_OBJ	=	$(TESTS_SRC:.c=.o)
 
 CFLAGS	=	-Wall -Wextra -Wshadow -Wpedantic -Werror

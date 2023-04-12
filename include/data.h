@@ -18,11 +18,12 @@
 #define MAX_BODY_LENGTH 512
 
 typedef struct user_s {
-    const char username[MAX_NAME_LENGTH + 1];
-    const char uuid[UUID_LENGTH + 1];
+    char username[MAX_NAME_LENGTH + 1];
+    char uuid[UUID_LENGTH + 1];
     bool is_logged;
     TAILQ_HEAD(team_uuid_list_s, team_uuid_s) team_uuids;
     TAILQ_HEAD(discussion_list_s, personal_discussion_s) discussions;
+    TAILQ_ENTRY(user_s) entries;
 } user_t;
 
 typedef struct team_uuid_s {
@@ -77,5 +78,3 @@ typedef struct global_s {
     TAILQ_HEAD(user_list_s, user_s) users;
     TAILQ_HEAD(team_list_s, team_s) teams;
 } global_t;
-
-extern global_t global;
