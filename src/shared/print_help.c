@@ -11,7 +11,7 @@
 
 static void print_server_help(void)
 {
-    printf("USAGE: ./myteams_server port\n" \
+    printf("USAGE: ./myteams_server port\n"
     "\tport is the port number on which the server socket listens.\n");
 }
 
@@ -25,7 +25,6 @@ static void print_client_help(void)
 static unsigned short get_type(char **av)
 {
     enum { SERVER, CLIENT, ERROR };
-
     if (av[0] != NULL && strstr(av[0], "myteams_server") != NULL)
         return SERVER;
     else if (av[0] != NULL && strstr(av[0], "myteams_cli") != NULL)
@@ -40,6 +39,10 @@ bool print_help_if_needed(int ac, char **av)
 
     if (what_type == SERVER && ac != 2) {
         print_server_help();
+        return true;
+    }
+    if (what_type == CLIENT && ac != 3) {
+        print_client_help();
         return true;
     }
     if (what_type == CLIENT && ac != 3) {

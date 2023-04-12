@@ -27,6 +27,7 @@ CLIENT_MAIN_OBJ	=	$(CLIENT_MAIN:.c=.o)
 
 SHARED_SRC	=	$(SHARED_FOLDER)/print_help.c	\
 				$(SHARED_FOLDER)/port_handler.c \
+				$(SHARED_FOLDER)/ip_handler.c \
         $(SHARED_FOLDER)/loader/load_functions.c
 
 SERVER_SRC	=
@@ -48,7 +49,7 @@ TESTS_OBJ	=	$(TESTS_SRC:.c=.o)
 
 CFLAGS	=	-Wall -Wextra -Wshadow -Wpedantic -Werror
 CFLAGS	+=	-I./include -I./libs/mynet/include
-CFLAGS	+=	-ldl
+CFLAGS	+=	-ldl -L./libs/mynet -lmynetserver -lmynetclient
 GCC	=	gcc
 
 SERVER_LIB	=	./libs/mynet/libmynetserver.a
@@ -60,7 +61,7 @@ CLIENT_LIB	=	./libs/mynet/libmynetclient.a
 	printf $(GREEN)"[+] Compiled $@ "$(DEFAULT)"\n" || \
 	printf $(RED)"[-] Failed compiling $@ "$(DEFAULT)"\n"
 
-all:	$(SERVER_NAME) $(CLIENT_NAME)
+all:	$(SERVER_NAME) $(CLIENT_NAME) $(SERVER_LIB) $(CLIENT_LIB)
 
 $(SERVER_LIB):
 	@printf $(TEAL)"[+] Compiling $(SERVER_LIB) "$(DEFAULT)"\n"

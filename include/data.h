@@ -67,7 +67,8 @@ typedef struct message_s {
 
 typedef struct global_s {
     TAILQ_HEAD(user_list_s, user_s) users;
-    TAILQ_HEAD(personal_discussion_list_s, personal_discussion_s) personal_discussions;
+    TAILQ_HEAD(personal_discussion_list_s, personal_discussion_s)
+    personal_discussions;
 } global_t;
 
 extern global_t global;
