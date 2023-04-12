@@ -6,6 +6,7 @@
 */
 
 #include <stdio.h>
+#include <unistd.h>
 #include <string.h>
 #include "shared.h"
 #include "data_struct_functions.h"
@@ -26,6 +27,10 @@ int main(int ac, char **av)
     TAILQ_INIT(&global->teams);
     dlloader_t *dll = init_dll();
     add_user_to_struct("test", dll, global);
+    user_t *user = get_user_from_struct("00000000-0000-0000-0000-000000000000"
+    , global);
+    if (user)
+        write(1, user->username, strlen(user->username));
     print_help_if_needed(ac, av);
     is_port_valid(av[1]);
     return 0;
