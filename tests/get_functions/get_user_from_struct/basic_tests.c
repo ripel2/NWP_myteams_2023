@@ -27,7 +27,7 @@ Test(get_user_from_struct, basic_test, .init=redirect_all_stderr)
     TAILQ_INIT(&global->teams);
     add_user_to_struct("Lucas", dll, global);
     TAILQ_FOREACH(user, &global->users, entries) {
-        user_got = get_user_from_struct(user->uuid, global);
+        user_got = get_user_from_struct(user->uuid, global, dll);
         if (user) {
             cr_assert_str_eq(user->username, user_got->username);
             cr_assert_eq(user->is_logged, user_got->is_logged);
@@ -50,7 +50,7 @@ Test(get_user_from_struct, multiple_user, .init=redirect_all_stderr)
     add_user_to_struct("Louis", dll, global);
     add_user_to_struct("Andréas", dll, global);
     TAILQ_FOREACH(user, &global->users, entries) {
-        user_got = get_user_from_struct(user->uuid, global);
+        user_got = get_user_from_struct(user->uuid, global, dll);
         if (user) {
             cr_assert_str_eq(user->username, user_got->username);
             cr_assert_eq(user->is_logged, user_got->is_logged);
@@ -74,7 +74,7 @@ Test(get_user_from_struct, multiple_user_with_same_name, .init=redirect_all_stde
     add_user_to_struct("Louis", dll, global);
     TAILQ_FOREACH(user, &global->users, entries) {
         if (user) {
-            user_got = get_user_from_struct(user->uuid, global);
+            user_got = get_user_from_struct(user->uuid, global, dll);
             if (user) {
                 cr_assert_str_eq(user->username, user_got->username);
                 cr_assert_eq(user->is_logged, user_got->is_logged);
@@ -98,7 +98,7 @@ Test(get_user_from_struct, bad_uuid, .init=redirect_all_stderr)
     TAILQ_INIT(&global->teams);
     add_user_to_struct("Lucas", dll, global);
     add_user_to_struct("Louis", dll, global);
-    user_got = get_user_from_struct("00000000-0000-0000-0000-000000000000", global);
+    user_got = get_user_from_struct("00000000-0000-0000-0000-000000000000", global, dll);
     cr_assert_null(user_got);
     fini_dll(dll);
     free(global);
