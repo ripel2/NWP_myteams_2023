@@ -17,7 +17,8 @@ team_t *get_team_from_struct(const char *uuid, global_t *global)
 
     TAILQ_FOREACH(team, &global->teams, entries) {
         if (team && strcmp(team->uuid, uuid) == 0) {
-            global->dll->functions[CLIENT_PRINT_TEAM](team->uuid, team->name, team->description);
+            global->dll->functions[CLIENT_PRINT_TEAM](team->uuid,
+            team->name, team->description);
             return team;
         }
     }

@@ -26,7 +26,8 @@ int main(int ac, char **av)
     TAILQ_INIT(&global->users);
     TAILQ_INIT(&global->teams);
     global->dll = init_dll();
-    add_team_to_struct("test", "00000000-0000-0000-0000-000000000000", "poire", global);
+    add_team_to_struct("test", "00000000-0000-0000-0000-000000000000"
+    , "poire", global);
     get_team_from_struct("00000000-0000-0000-0000-000000000000"
     , global);
     print_help_if_needed(ac, av);
