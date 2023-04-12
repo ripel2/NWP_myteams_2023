@@ -33,10 +33,11 @@ typedef struct team_uuid_s {
 } team_uuid_t;
 
 typedef struct team_s {
-    const char name[MAX_NAME_LENGTH + 1];
-    const char description[MAX_DESCRIPTION_LENGTH + 1];
-    const char uuid[UUID_LENGTH + 1];
+    char name[MAX_NAME_LENGTH + 1];
+    char description[MAX_DESCRIPTION_LENGTH + 1];
+    char uuid[UUID_LENGTH + 1];
     TAILQ_HEAD(channel_list_s, channel_s) channels;
+    TAILQ_ENTRY(team_s) entries;
 } team_t;
 
 typedef struct channel_s {

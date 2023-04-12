@@ -11,21 +11,21 @@
 #include <string.h>
 #include <unistd.h>
 
-int add_team_to_struct(const char *username, const char *uuid, global_t *global)
+int add_team_to_struct(const char *name, const char *uuid,
+const char *description, global_t *global)
 {
-    user_t *new_user = malloc(sizeof(user_t));
-
-    if (new_user == NULL)
+    team_t *new_team = malloc(sizeof(team_t));
+    
+    if (new_team == NULL)
         return (84);
-    new_user->username[0] = '\0';
-    new_user->uuid[0] = '\0';
-    strcat(new_user->username, username);
-    strcat(new_user->uuid, uuid);
-    new_user->is_logged = false;
-    global->dll->functions[CLIENT_PRINT_USER](new_user->uuid,
-    new_user->username, new_user->is_logged);
-    TAILQ_INIT(&new_user->team_uuids);
-    TAILQ_INIT(&new_user->discussions);
-    TAILQ_INSERT_TAIL(&global->users, new_user, entries);
+    new_team->name[0] = '\0';
+    new_team->uuid[0] = '\0';
+    new_team->description[0] = '\0';
+    strcat(new_team->name, name);
+    strcat(new_team->uuid, uuid);
+    strcat(new_team->description, description);
+    global->dll->functions[CLIENT_PRINT_TEAM_CREATED](new_team->uuid, new_team->name, new_team->description);
+    TAILQ_INIT(&new_team->channels);
+    TAILQ_INSERT_TAIL(&global->teams, new_team, entries);
     return (0);
 }

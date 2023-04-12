@@ -48,7 +48,7 @@ TESTS_OBJ	=	$(TESTS_SRC:.c=.o)
 
 CFLAGS	=	-Wall -Wextra -Wshadow -Wpedantic -Werror
 CFLAGS	+=	-I./include -I./libs/mynet/include
-CFLAGS	+=	-ldl
+CFLAGS	+=	-ldl -g
 GCC	=	gcc
 
 SERVER_LIB	=	./libs/mynet/libmynetserver.a
