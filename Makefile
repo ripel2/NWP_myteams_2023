@@ -38,7 +38,8 @@ SERVER_OBJ	=	$(SERVER_SRC:.c=.o)
 CLIENT_OBJ	=	$(CLIENT_SRC:.c=.o)
 
 TESTS_SRC	=	tests/load_functions_tests/basic_tests.c 			 \
-				tests/add_functions/add_user_to_struct/basic_tests.c
+				tests/add_functions/add_user_to_struct/basic_tests.c \
+				tests/get_functions/get_user_from_struct/basic_tests.c
 TESTS_OBJ	=	$(TESTS_SRC:.c=.o)
 
 CFLAGS	=	-Wall -Wextra -Wshadow -Wpedantic -Werror
