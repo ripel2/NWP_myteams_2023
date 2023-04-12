@@ -15,6 +15,8 @@ TEAL	=	"\033[1;36m"
 SHARED_FOLDER	=	./src/shared
 SERVER_FOLDER	=	./src/server
 CLIENT_FOLDER	=	./src/client
+ADD_FUNCTION	=   $(SERVER_FOLDER)/handle_database/add_functions
+GET_FUNCTION	=   $(SERVER_FOLDER)/handle_database/get_functions
 
 SERVER_NAME	=   myteams_server
 CLIENT_NAME	=   myteams_cli
@@ -29,8 +31,8 @@ SHARED_SRC	=	$(SHARED_FOLDER)/print_help.c	\
 				$(SHARED_FOLDER)/port_handler.c \
         		$(SHARED_FOLDER)/loader/load_functions.c
 
-SERVER_SRC	=	$(SERVER_FOLDER)/handle_database/add_functions/add_user_to_struct.c			\
-				$(SERVER_FOLDER)/handle_database/get_functions/get_user_from_struct.c
+SERVER_SRC	=	$(ADD_FUNCTION)/add_user_to_struct.c			\
+				$(GET_FUNCTION)/get_user_from_struct.c
 CLIENT_SRC	=
 
 SHARED_OBJ	=	$(SHARED_SRC:.c=.o)
