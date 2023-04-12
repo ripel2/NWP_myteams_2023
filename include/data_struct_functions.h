@@ -15,5 +15,6 @@ user_t *get_user_from_struct(const char *uuid,
 global_t *global);
 int add_team_to_struct(const char *name, const char *uuid,
 const char *description, global_t *global);
+team_t *get_team_from_struct(const char *uuid, global_t *global);
 
 char *generate_uuid(char *uuid);

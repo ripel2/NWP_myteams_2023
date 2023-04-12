@@ -27,8 +27,8 @@ int main(int ac, char **av)
     TAILQ_INIT(&global->teams);
     global->dll = init_dll();
     add_team_to_struct("test", "00000000-0000-0000-0000-000000000000", "poire", global);
-    //team_t *team = get_user_from_struct("00000000-0000-0000-0000-000000000000"
-    //, global);
+    get_team_from_struct("00000000-0000-0000-0000-000000000000"
+    , global);
     print_help_if_needed(ac, av);
     is_port_valid(av[1]);
     return 0;
