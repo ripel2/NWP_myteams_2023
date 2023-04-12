@@ -25,11 +25,10 @@ int main(int ac, char **av)
     global_t *global = malloc(sizeof(global_t));
     TAILQ_INIT(&global->users);
     TAILQ_INIT(&global->teams);
-    dlloader_t *dll = init_dll();
-    add_user_to_struct("test", "00000000-0000-0000-0000-000000000000",
-    dll, global);
+    global->dll = init_dll();
+    add_user_to_struct("test", "00000000-0000-0000-0000-000000000000", global);
     user_t *user = get_user_from_struct("00000000-0000-0000-0000-000000000000"
-    , global, dll);
+    , global);
     if (user)
         write(1, user->username, strlen(user->username));
     print_help_if_needed(ac, av);

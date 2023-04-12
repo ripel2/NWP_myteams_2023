@@ -2,7 +2,7 @@
 ** EPITECH PROJECT, 2023
 ** NWP_myteams_2023 [WSL: Ubuntu]
 ** File description:
-** add_user_to_struct
+** add_team_to_struct
 */
 
 #include "data_struct_functions.h"
@@ -11,12 +11,7 @@
 #include <string.h>
 #include <unistd.h>
 
-/**
- * @brief add a user to the list of users in the data structure
- * @param username the username of the user
- * @param dll the dll loader containing all the functions of debug
-*/
-int add_user_to_struct(const char *username, const char *uuid, global_t *global)
+int add_team_to_struct(const char *username, const char *uuid, global_t *global)
 {
     user_t *new_user = malloc(sizeof(user_t));
 

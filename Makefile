@@ -31,9 +31,10 @@ SHARED_SRC	=	$(SHARED_FOLDER)/print_help.c	\
 				$(SHARED_FOLDER)/port_handler.c \
         		$(SHARED_FOLDER)/loader/load_functions.c
 
-SERVER_SRC	=	$(ADD_FUNCTION)/add_user_to_struct.c			\
-				$(GET_FUNCTION)/get_user_from_struct.c			\
-				$(SERVER_FOLDER)/handle_database/generate_uuid.c
+SERVER_SRC	=	$(ADD_FUNCTION)/add_user_to_struct.c				\
+				$(GET_FUNCTION)/get_user_from_struct.c				\
+				$(SERVER_FOLDER)/handle_database/generate_uuid.c	\
+				$(ADD_FUNCTION)/add_team_to_struct.c
 CLIENT_SRC	=
 
 SHARED_OBJ	=	$(SHARED_SRC:.c=.o)
