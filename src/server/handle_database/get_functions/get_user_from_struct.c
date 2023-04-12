@@ -11,12 +11,13 @@
 #include <string.h>
 #include "loader.h"
 
-user_t *get_user_from_struct(const char *uuid, global_t *global, dlloader_t *dll)
+user_t *get_user_from_struct(const char *uuid, global_t *global
+, dlloader_t *dll)
 {
     user_t *user;
 
     TAILQ_FOREACH(user, &global->users, entries) {
-        if (user && strcmp(user->uuid, uuid) == 0) {       
+        if (user && strcmp(user->uuid, uuid) == 0) {
             dll->functions[CLIENT_PRINT_USER](user->uuid,
             user->username, user->is_logged);
             return user;
