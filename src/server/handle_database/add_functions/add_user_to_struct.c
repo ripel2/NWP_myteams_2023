@@ -11,22 +11,6 @@
 #include <string.h>
 #include <unistd.h>
 
-static char *generate_uuid(char *uuid)
-{
-    char charset[] = "0123456789abcdef";
-
-    for (int i = 0; i < UUID_LENGTH; i++) {
-        uuid[i] = charset[rand() % (sizeof(charset) - 1)];
-    }
-
-    uuid[UUID_LENGTH] = '\0';
-    uuid[8] = '-';
-    uuid[13] = '-';
-    uuid[18] = '-';
-    uuid[23] = '-';
-    return (uuid);
-}
-
 /**
  * @brief add a user to the list of users in the data structure
  * @param username the username of the user
