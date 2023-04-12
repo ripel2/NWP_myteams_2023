@@ -16,9 +16,8 @@
  * @param username the username of the user
  * @param dll the dll loader containing all the functions of debug
 */
-int add_user_to_struct(const char *username, dlloader_t *dll, global_t *global)
+int add_user_to_struct(const char *username, const char *uuid, dlloader_t *dll, global_t *global)
 {
-    char uuid[UUID_LENGTH + 1];
     user_t *new_user = malloc(sizeof(user_t));
 
     if (new_user == NULL)
@@ -26,7 +25,6 @@ int add_user_to_struct(const char *username, dlloader_t *dll, global_t *global)
     new_user->username[0] = '\0';
     new_user->uuid[0] = '\0';
     strcat(new_user->username, username);
-    generate_uuid(uuid);
     strcat(new_user->uuid, uuid);
     new_user->is_logged = false;
     dll->functions[CLIENT_PRINT_USER](new_user->uuid,
