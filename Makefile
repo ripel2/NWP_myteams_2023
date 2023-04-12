@@ -41,14 +41,16 @@ SHARED_OBJ	=	$(SHARED_SRC:.c=.o)
 SERVER_OBJ	=	$(SERVER_SRC:.c=.o)
 CLIENT_OBJ	=	$(CLIENT_SRC:.c=.o)
 
-TESTS_SRC	=	tests/load_functions_tests/basic_tests.c 			 \
-				tests/add_functions/add_user_to_struct/basic_tests.c \
-				tests/get_functions/get_user_from_struct/basic_tests.c
+TESTS_SRC	=	tests/load_functions_tests/basic_tests.c 			 	\
+				tests/add_functions/add_user_to_struct/basic_tests.c 	\
+				tests/get_functions/get_user_from_struct/basic_tests.c 	\
+				tests/add_functions/add_team_to_struct/basic_tests.c
+
 TESTS_OBJ	=	$(TESTS_SRC:.c=.o)
 
 CFLAGS	=	-Wall -Wextra -Wshadow -Wpedantic -Werror
 CFLAGS	+=	-I./include -I./libs/mynet/include
-CFLAGS	+=	-ldl -g
+CFLAGS	+=	-ldl
 GCC	=	gcc
 
 SERVER_LIB	=	./libs/mynet/libmynetserver.a
