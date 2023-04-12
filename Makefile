@@ -27,9 +27,9 @@ CLIENT_MAIN_OBJ	=	$(CLIENT_MAIN:.c=.o)
 
 SHARED_SRC	=	$(SHARED_FOLDER)/print_help.c	\
 				$(SHARED_FOLDER)/port_handler.c \
-        $(SHARED_FOLDER)/loader/load_functions.c
+        		$(SHARED_FOLDER)/loader/load_functions.c
 
-SERVER_SRC	=	$(SERVER_FOLDER)/handle_database/add_functions/add_user_to_struct.c 		\
+SERVER_SRC	=	$(SERVER_FOLDER)/handle_database/add_functions/add_user_to_struct.c			\
 				$(SERVER_FOLDER)/handle_database/get_functions/get_user_from_struct.c
 CLIENT_SRC	=
 
