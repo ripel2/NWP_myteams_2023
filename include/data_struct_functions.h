@@ -6,5 +6,7 @@
 */
 
 #pragma once
+#include "loader.h"
+#include "data.h"
 
-int add_user_to_struct(char *username);
+int add_user_to_struct(const char *username, dlloader_t *dll, global_t *global);

@@ -29,7 +29,7 @@ SHARED_SRC	=	$(SHARED_FOLDER)/print_help.c	\
 				$(SHARED_FOLDER)/port_handler.c \
         $(SHARED_FOLDER)/loader/load_functions.c
 
-SERVER_SRC	=
+SERVER_SRC	=	$(SERVER_FOLDER)/handle_database/add_functions/add_user_to_struct.c
 CLIENT_SRC	=
 
 SHARED_OBJ	=	$(SHARED_SRC:.c=.o)
@@ -41,7 +41,7 @@ TESTS_OBJ	=	$(TESTS_SRC:.c=.o)
 
 CFLAGS	=	-Wall -Wextra -Wshadow -Wpedantic -Werror
 CFLAGS	+=	-I./include -I./libs/mynet/include
-CFLAGS	+=	-ldl
+CFLAGS	+=	-ldl -g
 GCC	=	gcc
 
 SERVER_LIB	=	./libs/mynet/libmynetserver.a
