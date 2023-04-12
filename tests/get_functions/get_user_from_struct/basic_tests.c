@@ -82,7 +82,7 @@ Test(get_user_from_struct, multiple_user_with_same_name, .init=redirect_all_stde
     TAILQ_INIT(&global->users);
     TAILQ_INIT(&global->teams);
     add_user_to_struct("Lucas", uuid[0], global);
-    add_user_to_struct("Louis", uuid[1], global);
+    add_user_to_struct("Lucas", uuid[1], global);
     TAILQ_FOREACH(user, &global->users, entries) {
         if (user) {
             user_got = get_user_from_struct(user->uuid, global);
