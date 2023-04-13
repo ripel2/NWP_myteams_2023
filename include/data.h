@@ -82,3 +82,5 @@ typedef struct global_s {
     TAILQ_HEAD(user_list_s, user_s) users;
     TAILQ_HEAD(team_list_s, team_s) teams;
 } global_t;
+
+extern global_t *global;

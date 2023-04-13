@@ -1,8 +1,8 @@
 /*
 ** EPITECH PROJECT, 2023
-** NWP_myteams_2023 [WSL: Ubuntu]
+** $
 ** File description:
-** add_team_to_struct
+** add_channel_to_struct
 */
 
 #include "data_struct_functions.h"
@@ -11,7 +11,7 @@
 #include <string.h>
 #include <unistd.h>
 
-int add_team_to_struct(const char *name, const char *uuid,
+int add_channel_to_struct(const char *team_uuid, const char *name, const char *uuid,
 const char *description)
 {
     team_t *new_team = malloc(sizeof(team_t));

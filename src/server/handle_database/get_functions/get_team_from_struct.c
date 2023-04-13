@@ -11,7 +11,7 @@
 #include <string.h>
 #include "loader.h"
 
-team_t *get_team_from_struct(const char *uuid, global_t *global)
+team_t *get_team_from_struct(const char *uuid)
 {
     team_t *team;
 

@@ -18,7 +18,7 @@ void redirect_all_stderr(void);
 
 Test(get_team_from_struct, basic_test, .init=redirect_all_stderr)
 {
-    global_t *global = malloc(sizeof(global_t));
+    global = malloc(sizeof(global_t));
     global->dll = init_dll();
     team_t *team;
     team_t *team_got;
@@ -28,9 +28,9 @@ Test(get_team_from_struct, basic_test, .init=redirect_all_stderr)
     generate_uuid(uuid);
     TAILQ_INIT(&global->users);
     TAILQ_INIT(&global->teams);
-    add_team_to_struct("Lucas", uuid, "Description", global);
+    add_team_to_struct("Lucas", uuid, "Description");
     TAILQ_FOREACH(team, &global->teams, entries) {
-        team_got = get_team_from_struct(team->uuid, global);
+        team_got = get_team_from_struct(team->uuid);
         if (team) {
             cr_assert_str_eq(team->name, team_got->name);
             cr_assert_str_eq(team->description, team_got->description);
@@ -43,7 +43,7 @@ Test(get_team_from_struct, basic_test, .init=redirect_all_stderr)
 
 Test(get_team_from_struct, multiple_team, .init=redirect_all_stderr)
 {
-    global_t *global = malloc(sizeof(global_t));
+    global = malloc(sizeof(global_t));
     global->dll = init_dll();
     team_t *team;
     team_t *team_got;
@@ -53,11 +53,11 @@ Test(get_team_from_struct, multiple_team, .init=redirect_all_stderr)
 
     TAILQ_INIT(&global->users);
     TAILQ_INIT(&global->teams);
-    add_team_to_struct("Lucas", uuid[0], "Description", global);
-    add_team_to_struct("Louis", uuid[1], "Description", global);
-    add_team_to_struct("Andréas", uuid[2], "Description", global);
+    add_team_to_struct("Lucas", uuid[0], "Description");
+    add_team_to_struct("Louis", uuid[1], "Description");
+    add_team_to_struct("Andréas", uuid[2], "Description");
     TAILQ_FOREACH(team, &global->teams, entries) {
-        team_got = get_team_from_struct(team->uuid, global);
+        team_got = get_team_from_struct(team->uuid);
         if (team) {
             cr_assert_str_eq(team->name, team_got->name);
             cr_assert_str_eq(team->description, team_got->description);
@@ -70,7 +70,7 @@ Test(get_team_from_struct, multiple_team, .init=redirect_all_stderr)
 
 Test(get_team_from_struct, multiple_team_with_same_name, .init=redirect_all_stderr)
 {
-    global_t *global = malloc(sizeof(global_t));
+    global = malloc(sizeof(global_t));
     global->dll = init_dll();
     team_t *team;
     team_t *team_got;
@@ -83,11 +83,11 @@ Test(get_team_from_struct, multiple_team_with_same_name, .init=redirect_all_stde
     generate_uuid(uuid[1]);
     TAILQ_INIT(&global->users);
     TAILQ_INIT(&global->teams);
-    add_team_to_struct("Lucas", uuid[0], "Description", global);
-    add_team_to_struct("Lucas", uuid[1], "Description", global);
+    add_team_to_struct("Lucas", uuid[0], "Description");
+    add_team_to_struct("Lucas", uuid[1], "Description");
     TAILQ_FOREACH(team, &global->teams, entries) {
         if (team) {
-            team_got = get_team_from_struct(team->uuid, global);
+            team_got = get_team_from_struct(team->uuid);
             if (team) {
                 cr_assert_str_eq(team->name, team_got->name);
                 cr_assert_str_eq(team->description, team_got->description);
@@ -104,7 +104,7 @@ Test(get_team_from_struct, multiple_team_with_same_name, .init=redirect_all_stde
 
 Test(get_team_from_struct, bad_uuid, .init=redirect_all_stderr)
 {
-    global_t *global = malloc(sizeof(global_t));
+    global = malloc(sizeof(global_t));
     global->dll = init_dll();
     team_t *team_got;
     char *uuid[2] = {"00000000-0000-0000-0000-000000000001",
@@ -112,9 +112,9 @@ Test(get_team_from_struct, bad_uuid, .init=redirect_all_stderr)
 
     TAILQ_INIT(&global->users);
     TAILQ_INIT(&global->teams);
-    add_team_to_struct("Lucas", uuid[0], "Description", global);
-    add_team_to_struct("Louis", uuid[1], "Description", global);
-    team_got = get_team_from_struct("00000000-0000-0000-0000-000000000000", global);
+    add_team_to_struct("Lucas", uuid[0], "Description");
+    add_team_to_struct("Louis", uuid[1], "Description");
+    team_got = get_team_from_struct("00000000-0000-0000-0000-000000000000");
     cr_assert_null(team_got);
     fini_dll(global->dll);
     free(global);
