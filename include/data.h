@@ -41,10 +41,11 @@ typedef struct team_s {
 } team_t;
 
 typedef struct channel_s {
-    const char name[MAX_NAME_LENGTH + 1];
-    const char description[MAX_DESCRIPTION_LENGTH + 1];
-    const char uuid[UUID_LENGTH + 1];
+    char name[MAX_NAME_LENGTH + 1];
+    char description[MAX_DESCRIPTION_LENGTH + 1];
+    char uuid[UUID_LENGTH + 1];
     TAILQ_HEAD(thread_list_s, thread_s) threads;
+    TAILQ_ENTRY(channel_s) entries;
 } channel_t;
 
 typedef struct thread_s {
