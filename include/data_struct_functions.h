@@ -16,5 +16,6 @@ const char *description);
 team_t *get_team_from_struct(const char *uuid);
 int add_channel_to_struct(const char *team_uuid, const char *name, const char *uuid,
 const char *description);
+channel_t *get_channel_from_struct(const char *uuid);
 
 char *generate_uuid(char *uuid);

@@ -36,7 +36,8 @@ SERVER_SRC	=	$(ADD_FUNCTION)/add_user_to_struct.c				\
 				$(SERVER_FOLDER)/handle_database/generate_uuid.c	\
 				$(ADD_FUNCTION)/add_team_to_struct.c				\
 				$(GET_FUNCTION)/get_team_from_struct.c				\
-				${ADD_FUNCTION}/add_channel_to_struct.c	
+				${ADD_FUNCTION}/add_channel_to_struct.c				\
+				${GET_FUNCTION}/get_channel_from_struct.c
 CLIENT_SRC	=
 
 SHARED_OBJ	=	$(SHARED_SRC:.c=.o)
