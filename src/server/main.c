@@ -18,6 +18,8 @@ static dlloader_t *init_dll(void)
 {
     dlloader_t *dll = malloc(sizeof(dlloader_t));
 
+    if (dll == NULL)
+        return NULL;
     load_teams_library("libs/myteams/libmyteams.so", dll);
     return dll;
 }
