@@ -18,7 +18,6 @@ char *generate_uuid(char *uuid)
     for (int i = 0; i < UUID_LENGTH; i++) {
         uuid[i] = charset[rand() % (sizeof(charset) - 1)];
     }
-
     uuid[UUID_LENGTH] = '\0';
     uuid[8] = '-';
     uuid[13] = '-';
