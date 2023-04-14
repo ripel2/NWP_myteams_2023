@@ -10,7 +10,7 @@
 #include "data.h"
 #include <string.h>
 #include <unistd.h>
-    
+
 /**
  * @brief add a user to the list of users in the data structure
  * @param username the username of the user
