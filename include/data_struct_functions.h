@@ -20,6 +20,7 @@ data_t *thread_data);
 thread_t *get_thread_from_struct(const char *uuid);
 int add_reply_to_struct(const char *thread_uuid, data_t *user_data,
 data_t *reply_data);
+reply_t *get_reply_from_struct(const char *uuid);
 
 char *generate_uuid(char *uuid);
 data_t *init_data(char *name, char *description, char *body, char *uuid);

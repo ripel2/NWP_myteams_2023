@@ -21,6 +21,7 @@ int add_reply_to_struct(const char *thread_uuid, data_t *user_data, data_t *repl
     if (thread_selected == NULL)
         return (ERROR);
     new_reply->reply_data = reply_data;
+    new_reply->user_data = user_data;
     TAILQ_INSERT_TAIL(&thread_selected->replies, new_reply, entries);
     global->dll->functions[SERVER_EVENT_REPLY_CREATED]
     (thread_uuid, user_data->uuid, new_reply->reply_data->body);

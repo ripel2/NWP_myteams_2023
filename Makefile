@@ -41,7 +41,8 @@ SERVER_SRC	=	$(ADD_FUNCTION)/add_user_to_struct.c				\
 				${GET_FUNCTION}/get_channel_from_struct.c			\
 				$(ADD_FUNCTION)/add_thread_to_struct.c				\
 				$(GET_FUNCTION)/get_thread_from_struct.c			\
-				$(ADD_FUNCTION)/add_reply_to_struct.c
+				$(ADD_FUNCTION)/add_reply_to_struct.c				\
+				$(GET_FUNCTION)/get_reply_from_struct.c
 CLIENT_SRC	=
 
 SHARED_OBJ	=	$(SHARED_SRC:.c=.o)
