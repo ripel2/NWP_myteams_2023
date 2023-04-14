@@ -26,16 +26,11 @@ int main(int ac, char **av)
 {
     global = malloc(sizeof(global_t));
     if (global == NULL)
-        return 84;
-    TAILQ_INIT(&global->users);
-    TAILQ_INIT(&global->teams);
+        return ERROR;
     global->dll = init_dll();
-    add_team_to_struct("test", "00000000-0000-0000-0000-000000000000"
-    , "poire");
-    add_channel_to_struct("00000000-0000-0000-0000-000000000000", "test"
-    , "00000000-0000-0000-0000-000000000001", "poire");
-    get_channel_from_struct("00000000-0000-0000-0000-000000000001");
+    TAILQ_INIT(&global->teams);
+    TAILQ_INIT(&global->users);
     print_help_if_needed(ac, av);
     is_port_valid(av[1]);
-    return 0;
+    return SUCCESS;
 }
