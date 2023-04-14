@@ -25,6 +25,8 @@ static dlloader_t *init_dll(void)
 int main(int ac, char **av)
 {
     global = malloc(sizeof(global_t));
+    if (global == NULL)
+        return 84;
     TAILQ_INIT(&global->users);
     TAILQ_INIT(&global->teams);
     global->dll = init_dll();
