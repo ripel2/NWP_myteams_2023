@@ -38,7 +38,7 @@ int main(int ac, char **av)
     //data_t *reply = init_data("Reply", "Description", "Body", "00000000-0000-0000-0000-000000000003");
     data_t *channel = init_data("Channel", "Description", "", "00000000-0000-0000-0000-000000000004");
     add_user_to_struct(user);
-    add_team_to_struct(team);
+    add_team_to_struct("00000000-0000-0000-0000-000000000000", team);
     add_channel_to_struct("00000000-0000-0000-0000-000000000001", channel);
     add_thread_to_struct("00000000-0000-0000-0000-000000000004", user, thread);
     //add_reply_to_struct("00000000-0000-0000-0000-000000000002", user, reply);

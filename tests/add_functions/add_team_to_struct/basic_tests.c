@@ -30,7 +30,7 @@ Test(add_team_to_struct, basic_test, .init=redirect_all_stderr)
     TAILQ_INIT(&global->users);
     TAILQ_INIT(&global->teams);
     team_data = init_data("Lucas", "Description", "", uuid);
-    add_team_to_struct(team_data);
+    add_team_to_struct("00000000-0000-0000-0000-000000000000", team_data);
     TAILQ_FOREACH(team, &global->teams, entries) {
         cr_assert_str_eq(team->team_data->name, "Lucas");
         cr_assert_str_eq(team->team_data->description, "Description");
@@ -59,9 +59,9 @@ Test(add_team_to_struct, multiple_team, .init=redirect_all_stderr)
     team_data1 = init_data("Lucas", "Description", "", uuid[0]);
     team_data2 = init_data("Louis", "Description", "", uuid[1]);
     team_data3 = init_data("Andréas", "Description", "", uuid[2]);
-    add_team_to_struct(team_data1);
-    add_team_to_struct(team_data2);
-    add_team_to_struct(team_data3);
+    add_team_to_struct("00000000-0000-0000-0000-000000000000", team_data1);
+    add_team_to_struct("00000000-0000-0000-0000-000000000001", team_data2);
+    add_team_to_struct("00000000-0000-0000-0000-000000000002", team_data3);
     TAILQ_FOREACH(team, &global->teams, entries) {
         cr_assert_str_eq(name[idx], team->team_data->name);
         cr_assert_str_eq(team->team_data->description, "Description");
@@ -92,8 +92,8 @@ Test(add_team_to_struct, multiple_team_with_same_name, .init=redirect_all_stderr
     TAILQ_INIT(&global->teams);
     team_data1 = init_data("Lucas", "Description", "", uuid[0]);
     team_data2 = init_data("Lucas", "Description", "", uuid[1]);
-    add_team_to_struct(team_data1);
-    add_team_to_struct(team_data2);
+    add_team_to_struct("00000000-0000-0000-0000-000000000000", team_data1);
+    add_team_to_struct("00000000-0000-0000-0000-000000000001", team_data2);
     TAILQ_FOREACH(team, &global->teams, entries) {
         if (team) {
             cr_assert_str_eq(name[idx], team->team_data->name);
