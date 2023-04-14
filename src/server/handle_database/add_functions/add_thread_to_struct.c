@@ -17,18 +17,17 @@ data_t *thread_data)
 {
     thread_t *new_thread = malloc(sizeof(thread_t));
     channel_t *channel_selected = get_channel_from_struct(channel_uuid);
-    time_t timestamp = time(NULL);
 
     if (new_thread == NULL)
         return (84);
     if (channel_selected == NULL)
-        global->dll->functions[CLIENT_ERROR_UNKNOWN_CHANNEL](channel_uuid);
+        return (84);
     new_thread->thread_data = thread_data;
     new_thread->user_data = user_data;
     TAILQ_INIT(&new_thread->replies);
     TAILQ_INSERT_TAIL(&channel_selected->threads, new_thread, entries);
-    global->dll->functions[CLIENT_PRINT_THREAD_CREATED]
-    (new_thread->thread_data->uuid, new_thread->user_data->uuid,
-    timestamp, new_thread->thread_data->name, new_thread->thread_data->body);
+    global->dll->functions[SERVER_EVENT_THREAD_CREATED]
+    (channel_uuid, new_thread->thread_data->uuid, user_data->uuid,
+    new_thread->thread_data->name, new_thread->thread_data->description);
     return (0);
 }

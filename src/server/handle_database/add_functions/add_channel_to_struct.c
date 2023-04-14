@@ -19,7 +19,7 @@ int add_channel_to_struct(const char *team_uuid, data_t *channel_data)
     if (new_channel == NULL)
         return (84);
     if (team_selected == NULL)
-        global->dll->functions[CLIENT_ERROR_UNKNOWN_TEAM](team_uuid);
+        return (84);
     new_channel->channel_data = channel_data;
     TAILQ_INIT(&new_channel->threads);
     TAILQ_INSERT_TAIL(&team_selected->channels, new_channel, entries);

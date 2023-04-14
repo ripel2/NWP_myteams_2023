@@ -18,7 +18,7 @@ int add_team_to_struct(data_t *team_data)
     if (new_team == NULL)
         return (84);
     new_team->team_data = team_data;
-    global->dll->functions[CLIENT_PRINT_TEAM_CREATED]
+    global->dll->functions[SERVER_EVENT_TEAM_CREATED]
     (new_team->team_data->uuid, new_team->team_data->name,
     new_team->team_data->description);
     TAILQ_INIT(&new_team->channels);
