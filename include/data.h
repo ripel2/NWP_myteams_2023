@@ -62,6 +62,7 @@ typedef struct thread_s {
 typedef struct reply_s {
     data_t *user_data;
     data_t *reply_data;
+    TAILQ_ENTRY(reply_s) entries;
 } reply_t;
 
 typedef struct personal_discussion_s {
