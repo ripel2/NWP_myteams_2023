@@ -18,6 +18,8 @@
 #define UUID_LENGTH 36
 #define MAX_DESCRIPTION_LENGTH 255
 #define MAX_BODY_LENGTH 512
+#define ERROR 84
+#define SUCCESS 0
 
 typedef struct data_s {
     char name[MAX_NAME_LENGTH + 1];

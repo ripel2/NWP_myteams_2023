@@ -21,7 +21,7 @@ int add_user_to_struct(data_t *user_data)
     user_t *new_user = malloc(sizeof(user_t));
 
     if (new_user == NULL)
-        return (84);
+        return (ERROR);
     new_user->is_logged = false;
     new_user->user_data = user_data;
     global->dll->functions[SERVER_EVENT_USER_CREATED]
@@ -29,5 +29,5 @@ int add_user_to_struct(data_t *user_data)
     TAILQ_INIT(&new_user->team_uuids);
     TAILQ_INIT(&new_user->discussions);
     TAILQ_INSERT_TAIL(&global->users, new_user, entries);
-    return (0);
+    return (SUCCESS);
 }

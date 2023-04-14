@@ -19,9 +19,9 @@ data_t *thread_data)
     channel_t *channel_selected = get_channel_from_struct(channel_uuid);
 
     if (new_thread == NULL)
-        return (84);
+        return (ERROR);
     if (channel_selected == NULL)
-        return (84);
+        return (ERROR);
     new_thread->thread_data = thread_data;
     new_thread->user_data = user_data;
     TAILQ_INIT(&new_thread->replies);
@@ -29,5 +29,5 @@ data_t *thread_data)
     global->dll->functions[SERVER_EVENT_THREAD_CREATED]
     (channel_uuid, new_thread->thread_data->uuid, user_data->uuid,
     new_thread->thread_data->name, new_thread->thread_data->description);
-    return (0);
+    return (SUCCESS);
 }
