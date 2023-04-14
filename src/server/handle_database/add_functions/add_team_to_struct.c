@@ -12,7 +12,7 @@
 #include <unistd.h>
 
 int add_team_to_struct(const char *name, const char *uuid,
-const char *description, global_t *global)
+const char *description)
 {
     team_t *new_team = malloc(sizeof(team_t));
 

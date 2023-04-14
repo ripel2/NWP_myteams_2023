@@ -16,7 +16,7 @@
  * @param username the username of the user
  * @param dll the dll loader containing all the functions of debug
 */
-int add_user_to_struct(const char *username, const char *uuid, global_t *global)
+int add_user_to_struct(const char *username, const char *uuid)
 {
     user_t *new_user = malloc(sizeof(user_t));
 

@@ -9,12 +9,13 @@
 #include "loader.h"
 #include "data.h"
 
-int add_user_to_struct(const char *username, const char *uuid,
-global_t *global);
-user_t *get_user_from_struct(const char *uuid,
-global_t *global);
+int add_user_to_struct(const char *username, const char *uuid);
+user_t *get_user_from_struct(const char *uuid);
 int add_team_to_struct(const char *name, const char *uuid,
-const char *description, global_t *global);
-team_t *get_team_from_struct(const char *uuid, global_t *global);
+const char *description);
+team_t *get_team_from_struct(const char *uuid);
+int add_channel_to_struct(const char *team_uuid, const char *name,
+const char *uuid, const char *description);
+channel_t *get_channel_from_struct(const char *uuid);
 
 char *generate_uuid(char *uuid);

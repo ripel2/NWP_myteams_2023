@@ -11,7 +11,7 @@
 #include <string.h>
 #include "loader.h"
 
-user_t *get_user_from_struct(const char *uuid, global_t *global)
+user_t *get_user_from_struct(const char *uuid)
 {
     user_t *user;
 

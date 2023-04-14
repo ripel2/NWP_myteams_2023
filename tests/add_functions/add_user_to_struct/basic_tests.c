@@ -18,7 +18,7 @@ void redirect_all_stderr(void);
 
 Test(add_user_to_struct, basic_test, .init=redirect_all_stderr)
 {
-    global_t *global = malloc(sizeof(global_t));
+    global = malloc(sizeof(global_t));
     global->dll = init_dll();
     user_t *user;
     char uuid[37];
@@ -27,7 +27,7 @@ Test(add_user_to_struct, basic_test, .init=redirect_all_stderr)
     generate_uuid(uuid);
     TAILQ_INIT(&global->users);
     TAILQ_INIT(&global->teams);
-    add_user_to_struct("Lucas", uuid, global);
+    add_user_to_struct("Lucas", uuid);
     TAILQ_FOREACH(user, &global->users, entries) {
         cr_assert_str_eq("Lucas", user->username);
         cr_assert_eq(user->is_logged, false);
@@ -38,7 +38,7 @@ Test(add_user_to_struct, basic_test, .init=redirect_all_stderr)
 
 Test(add_user_to_struct, multiple_user, .init=redirect_all_stderr)
 {
-    global_t *global = malloc(sizeof(global_t));
+    global = malloc(sizeof(global_t));
     global->dll = init_dll();
     user_t *user;
     char *username[3] = {"Lucas", "Louis", "Andréas"};
@@ -49,9 +49,9 @@ Test(add_user_to_struct, multiple_user, .init=redirect_all_stderr)
 
     TAILQ_INIT(&global->users);
     TAILQ_INIT(&global->teams);
-    add_user_to_struct("Lucas", uuid[0], global);
-    add_user_to_struct("Louis", uuid[1], global);
-    add_user_to_struct("Andréas", uuid[2], global);
+    add_user_to_struct("Lucas", uuid[0]);
+    add_user_to_struct("Louis", uuid[1]);
+    add_user_to_struct("Andréas", uuid[2]);
     TAILQ_FOREACH(user, &global->users, entries) {
         cr_assert_str_eq(username[idx], user->username);
         cr_assert_eq(user->is_logged, false);
@@ -63,7 +63,7 @@ Test(add_user_to_struct, multiple_user, .init=redirect_all_stderr)
 
 Test(add_user_to_struct, multiple_user_with_same_name, .init=redirect_all_stderr)
 {
-    global_t *global = malloc(sizeof(global_t));
+    global = malloc(sizeof(global_t));
     global->dll = init_dll();
     user_t *user;
     char *username[2] = {"Lucas", "Louis"};
@@ -77,8 +77,8 @@ Test(add_user_to_struct, multiple_user_with_same_name, .init=redirect_all_stderr
     generate_uuid(uuid[1]);
     TAILQ_INIT(&global->users);
     TAILQ_INIT(&global->teams);
-    add_user_to_struct("Lucas", uuid[0], global);
-    add_user_to_struct("Louis", uuid[1], global);
+    add_user_to_struct("Lucas", uuid[0]);
+    add_user_to_struct("Louis", uuid[1]);
     TAILQ_FOREACH(user, &global->users, entries) {
         if (user) {
             cr_assert_str_eq(username[idx], user->username);
