@@ -25,13 +25,14 @@ static dlloader_t *init_dll(void)
 int main(int ac, char **av)
 {
     global = malloc(sizeof(global_t));
+    data_t *team_data = init_data("test", "poire", "", "00000000-0000-0000-0000-000000000000");
+    data_t *channel_data_1 = init_data("test", "poire", "", "00000000-0000-0000-0000-000000000001");
+    
     TAILQ_INIT(&global->users);
     TAILQ_INIT(&global->teams);
     global->dll = init_dll();
-    add_team_to_struct("test", "00000000-0000-0000-0000-000000000000"
-    , "poire");
-    add_channel_to_struct("00000000-0000-0000-0000-000000000000", "test"
-    , "00000000-0000-0000-0000-000000000001", "poire");
+    add_team_to_struct(team_data);
+    add_channel_to_struct("00000000-0000-0000-0000-000000000000", channel_data_1);
     get_channel_from_struct("00000000-0000-0000-0000-000000000001");
     print_help_if_needed(ac, av);
     is_port_valid(av[1]);

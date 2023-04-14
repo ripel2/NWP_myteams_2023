@@ -16,9 +16,9 @@ user_t *get_user_from_struct(const char *uuid)
     user_t *user;
 
     TAILQ_FOREACH(user, &global->users, entries) {
-        if (user && strcmp(user->uuid, uuid) == 0) {
-            global->dll->functions[CLIENT_PRINT_USER](user->uuid,
-            user->username, user->is_logged);
+        if (user && strcmp(user->user_data->uuid, uuid) == 0) {
+            global->dll->functions[CLIENT_PRINT_USER](user->user_data->uuid,
+            user->user_data->name, user->is_logged);
             return user;
         }
     }

@@ -18,9 +18,9 @@ channel_t *get_channel_from_struct(const char *uuid)
 
     TAILQ_FOREACH(team, &global->teams, entries) {
         TAILQ_FOREACH(channel, &team->channels, entries) {
-            if (channel && strcmp(channel->uuid, uuid) == 0) {
-                global->dll->functions[CLIENT_PRINT_CHANNEL](channel->uuid,
-                channel->name, channel->description);
+            if (channel && strcmp(channel->channel_data->uuid, uuid) == 0) {
+                global->dll->functions[CLIENT_PRINT_CHANNEL](channel->channel_data->uuid,
+                channel->channel_data->name, channel->channel_data->description);
                 return channel;
             }
         }

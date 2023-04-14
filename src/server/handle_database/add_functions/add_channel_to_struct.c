@@ -11,8 +11,7 @@
 #include <string.h>
 #include <unistd.h>
 
-int add_channel_to_struct(const char *team_uuid, const char *name,
-const char *uuid, const char *description)
+int add_channel_to_struct(const char *team_uuid, data_t *channel_data)
 {
     channel_t *new_channel = malloc(sizeof(channel_t));
     team_t *team_selected = get_team_from_struct(team_uuid);
@@ -21,15 +20,10 @@ const char *uuid, const char *description)
         return (84);
     if (team_selected == NULL)
         global->dll->functions[CLIENT_ERROR_UNKNOWN_TEAM](team_uuid);
-    new_channel->name[0] = '\0';
-    new_channel->uuid[0] = '\0';
-    new_channel->description[0] = '\0';
-    strcat(new_channel->name, name);
-    strcat(new_channel->uuid, uuid);
-    strcat(new_channel->description, description);
+    new_channel->channel_data = channel_data;
     TAILQ_INIT(&new_channel->threads);
     TAILQ_INSERT_TAIL(&team_selected->channels, new_channel, entries);
     global->dll->functions[CLIENT_PRINT_CHANNEL_CREATED]
-    (new_channel->uuid, new_channel->name, new_channel->description);
+    (new_channel->channel_data->uuid, new_channel->channel_data->name, new_channel->channel_data->description);
     return (0);
 }
