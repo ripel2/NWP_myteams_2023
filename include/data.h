@@ -12,6 +12,8 @@
 #include <sys/queue.h>
 #include <stdbool.h>
 
+#include "loader.h"
+
 #define MAX_NAME_LENGTH 32
 #define UUID_LENGTH 36
 #define MAX_DESCRIPTION_LENGTH 255
@@ -31,10 +33,11 @@ typedef struct team_uuid_s {
 } team_uuid_t;
 
 typedef struct team_s {
-    const char name[MAX_NAME_LENGTH + 1];
-    const char description[MAX_DESCRIPTION_LENGTH + 1];
-    const char uuid[UUID_LENGTH + 1];
+    char name[MAX_NAME_LENGTH + 1];
+    char description[MAX_DESCRIPTION_LENGTH + 1];
+    char uuid[UUID_LENGTH + 1];
     TAILQ_HEAD(channel_list_s, channel_s) channels;
+    TAILQ_ENTRY(team_s) entries;
 } team_t;
 
 typedef struct channel_s {
@@ -75,6 +78,7 @@ typedef struct message_s {
 } message_t;
 
 typedef struct global_s {
+    dlloader_t *dll;
     TAILQ_HEAD(user_list_s, user_s) users;
     TAILQ_HEAD(team_list_s, team_s) teams;
 } global_t;
