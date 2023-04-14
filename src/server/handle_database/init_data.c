@@ -16,6 +16,8 @@ data_t *init_data(char *name, char *description, char *body, char *uuid)
 {
     data_t *data = malloc(sizeof(data_t));
 
+    if (data == NULL)
+        return NULL;
     data->name[0] = '\0';
     data->description[0] = '\0';
     data->uuid[0] = '\0';
