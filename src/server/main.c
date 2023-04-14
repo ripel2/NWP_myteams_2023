@@ -24,6 +24,24 @@ static dlloader_t *init_dll(void)
 
 int main(int ac, char **av)
 {
+    global = malloc(sizeof(global_t));
+    data_t *team_data = init_data("test", "poire", "", "00000000-0000-0000-0000-000000000000");
+    data_t *channel_data_1 = init_data("test", "poire", "", "00000000-0000-0000-0000-000000000001");
+    data_t *thread_data = init_data("test", "poire", "@STUDENTPGE2025",
+    "00000000-0000-0000-0000-000000000002");
+    data_t *user_data = init_data("test", "poire", "", "00000000-0000-0000-0000-000000000003");
+    
+    TAILQ_INIT(&global->users);
+    TAILQ_INIT(&global->teams);
+    global->dll = init_dll();
+    add_user_to_struct(user_data);
+    add_team_to_struct(team_data);
+    add_channel_to_struct("00000000-0000-0000-0000-000000000000",
+    channel_data_1);
+    add_thread_to_struct("00000000-0000-0000-0000-000000000001",
+    get_user_from_struct("00000000-0000-0000-0000-000000000003")->user_data
+    , thread_data);
+    get_thread_from_struct("00000000-0000-0000-0000-000000000001");
     print_help_if_needed(ac, av);
     is_port_valid(av[1]);
     return 0;

@@ -17,6 +17,7 @@ int add_channel_to_struct(const char *team_uuid, data_t *channel_data);
 channel_t *get_channel_from_struct(const char *uuid);
 int add_thread_to_struct(const char *channel_uuid, data_t *user_data,
 data_t *thread_data);
+thread_t *get_thread_from_struct(const char *uuid);
 
 char *generate_uuid(char *uuid);
 data_t *init_data(char *name, char *description, char *body, char *uuid);
