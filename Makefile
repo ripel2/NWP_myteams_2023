@@ -42,14 +42,21 @@ SERVER_SRC	=	$(ADD_FUNCTION)/add_user_to_struct.c				\
 				${GET_FUNCTION}/get_channel_from_struct.c			\
 				$(ADD_FUNCTION)/add_thread_to_struct.c				\
 				$(GET_FUNCTION)/get_thread_from_struct.c
-CLIENT_SRC	=	$(CLIENT_FOLDER)/logged.c	\
-				$(CLIENT_FOLDER)/private_message.c	\
-				$(CLIENT_FOLDER)/thread.c	\
-				$(CLIENT_FOLDER)/team.c	\
-				$(CLIENT_FOLDER)/channel.c	\
-				$(CLIENT_FOLDER)/print.c	\
-				$(CLIENT_FOLDER)/user.c	\
-				$(CLIENT_FOLDER)/subscribe.c
+CLIENT_SRC	=	$(CLIENT_FOLDER)/client_loop.c	\
+				$(CLIENT_FOLDER)/help_command.c	\
+				$(CLIENT_FOLDER)/login_command.c	\
+				$(CLIENT_FOLDER)/logout_command.c	\
+				$(CLIENT_FOLDER)/user_command.c	\
+				$(CLIENT_FOLDER)/users_command.c	\
+				$(CLIENT_FOLDER)/send_command.c	\
+				$(CLIENT_FOLDER)/messages_command.c	\
+				$(CLIENT_FOLDER)/subscribe_command.c	\
+				$(CLIENT_FOLDER)/subscribed_command.c	\
+				$(CLIENT_FOLDER)/unsubscribe_command.c	\
+				$(CLIENT_FOLDER)/use_command.c	\
+				$(CLIENT_FOLDER)/create_command.c	\
+				$(CLIENT_FOLDER)/list_command.c	\
+				$(CLIENT_FOLDER)/info_command.c
 
 
 SHARED_OBJ	=	$(SHARED_SRC:.c=.o)
