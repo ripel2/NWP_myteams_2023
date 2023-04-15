@@ -107,6 +107,10 @@ clean:
 	@printf $(TEAL)"[+] Cleaning myteams"$(DEFAULT)"\n"
 	@rm -f $(SERVER_OBJ) $(CLIENT_OBJ) $(SHARED_OBJ) \
 	$(SERVER_MAIN_OBJ) $(CLIENT_MAIN_OBJ) && \
+	find . -name "*.gcno" -delete && \
+	find . -name "*.gcda" -delete && \
+	find . -name "*.o" -delete && \
+	rm -f "unit_tests" && \
 	printf $(GREEN)"[+] Cleaned myteams"$(DEFAULT)"\n" || \
 	printf $(RED)"[-] Failed cleaning myteams"$(DEFAULT)"\n"
 

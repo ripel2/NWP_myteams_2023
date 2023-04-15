@@ -87,7 +87,7 @@ Test(load_teams_library, client_event_thread_created, .init=redirect_all_stderr)
 {
     dlloader_t *dll = init_dll();
     int return_value = dll->functions[CLIENT_EVENT_THREAD_CREATED]("a", "a", 1, "a", "a");
-    cr_assert_stderr_eq_str("New thread created event id a by (a) at Thu Jan  1 01:00:01 1970: a (a)\n");
+    cr_assert_stderr_eq_str("New thread created event id a by (a) at Thu Jan  1 00:00:01 1970: a (a)\n");
     cr_assert_eq(return_value, 1);
     fini_dll(dll);
 }
@@ -123,7 +123,7 @@ Test(load_teams_library, client_channel_print_threads, .init=redirect_all_stderr
 {
     dlloader_t *dll = init_dll();
     int return_value = dll->functions[CLIENT_CHANNEL_PRINT_THREADS]("a", "a", 1, "a", "a");
-    cr_assert_stderr_eq_str("[Thread a] Created by a (Thu Jan  1 01:00:01 1970): a [a]\n");
+    cr_assert_stderr_eq_str("[Thread a] Created by a (Thu Jan  1 00:00:01 1970): a [a]\n");
     cr_assert_eq(return_value, 58);
     fini_dll(dll);
 }
@@ -132,7 +132,7 @@ Test(load_teams_library, client_thread_print_replies, .init=redirect_all_stderr)
 {
     dlloader_t *dll = init_dll();
     int return_value = dll->functions[CLIENT_THREAD_PRINT_REPLIES]("a", "a", 1, "a");
-    cr_assert_stderr_eq_str("[Thread a] a (Thu Jan  1 01:00:01 1970): a\n");
+    cr_assert_stderr_eq_str("[Thread a] a (Thu Jan  1 00:00:01 1970): a\n");
     cr_assert_eq(return_value, 43);
     fini_dll(dll);
 }
@@ -141,7 +141,7 @@ Test(load_teams_library, client_private_message_print_messages, .init=redirect_a
 {
     dlloader_t *dll = init_dll();
     int return_value = dll->functions[CLIENT_PRIVATE_MESSAGE_PRINT_MESSAGES]("a", 1, "a");
-    cr_assert_stderr_eq_str("[Private] a (Thu Jan  1 01:00:01 1970): a\n");
+    cr_assert_stderr_eq_str("[Private] a (Thu Jan  1 00:00:01 1970): a\n");
     cr_assert_eq(return_value, 42);
     fini_dll(dll);
 }
@@ -231,7 +231,7 @@ Test(load_teams_library, client_print_thread, .init=redirect_all_stderr)
 {
     dlloader_t *dll = init_dll();
     int return_value = dll->functions[CLIENT_PRINT_THREAD]("a", "a", 1, "a", "a");
-    cr_assert_stderr_eq_str("Thread \"a\" created by a (Thu Jan  1 01:00:01 1970): a [a]\n");
+    cr_assert_stderr_eq_str("Thread \"a\" created by a (Thu Jan  1 00:00:01 1970): a [a]\n");
     cr_assert_eq(return_value, 1);
     fini_dll(dll);
 }
@@ -258,7 +258,7 @@ Test(load_teams_library, client_print_thread_created, .init=redirect_all_stderr)
 {
     dlloader_t *dll = init_dll();
     int return_value = dll->functions[CLIENT_PRINT_THREAD_CREATED]("a", "a", 1, "a", "a");
-    cr_assert_stderr_eq_str("[Thread a] Created created by a (Thu Jan  1 01:00:01 1970): a [a]\n");
+    cr_assert_stderr_eq_str("[Thread a] Created created by a (Thu Jan  1 00:00:01 1970): a [a]\n");
     cr_assert_eq(return_value, 1);
     fini_dll(dll);
 }
@@ -267,7 +267,7 @@ Test(load_teams_library, client_print_reply_created, .init=redirect_all_stderr)
 {
     dlloader_t *dll = init_dll();
     int return_value = dll->functions[CLIENT_PRINT_REPLY_CREATED]("a", "a", 1, "a");
-    cr_assert_stderr_eq_str("[Reply] Created in thread a by a (Thu Jan  1 01:00:01 1970): a\n");
+    cr_assert_stderr_eq_str("[Reply] Created in thread a by a (Thu Jan  1 00:00:01 1970): a\n");
     cr_assert_eq(return_value, 1);
     fini_dll(dll);
 }
