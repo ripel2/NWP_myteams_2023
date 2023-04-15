@@ -9,6 +9,9 @@
 
 #include "data.h"
 #include "client.h"
+#include "loader.h"
+
+extern dlloader_t dll;
 
 typedef struct client_info_s {
     char username[MAX_NAME_LENGTH + 1];

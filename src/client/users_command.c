@@ -14,6 +14,17 @@
 #include "client.h"
 #include "client_functions.h"
 
+static void users_command_call_debug_lib(line_t *line)
+{
+    char uuid[UUID_LENGTH + 1] = {0};
+    char username[MAX_NAME_LENGTH + 1] = {0};
+    int status = 0;
+
+    if (sscanf(line->buf, "%36s %32s %d", uuid, username, &status) == 3) {
+        dll.functions[CLIENT_PRINT_USERS](uuid, username, status);
+    }
+}
+
 static int users_command_print_lines(client_t *client)
 {
     line_t *line = NULL;
@@ -22,11 +33,12 @@ static int users_command_print_lines(client_t *client)
     ret = client_get_line_timeout(client, &line);
     while (ret == 0) {
         write(1, line->buf, line->len);
-        if (line->len > 0 && line->buf[0] != '2') {
+        if (line->len > 0 && line->buf[0] == '2') {
             free(line->buf);
             free(line);
             return 0;
         }
+        users_command_call_debug_lib(line);
         free(line->buf);
         free(line);
         line = NULL;
