@@ -21,6 +21,8 @@ static int logout_command_end(client_info_t *info, line_t *answer)
         dll.functions[CLIENT_EVENT_LOGGED_OUT](info->uuid, info->username);
         memset(info->uuid, 0, UUID_LENGTH + 1);
         memset(info->username, 0, MAX_NAME_LENGTH + 1);
+    } else if (strncmp(answer->buf, "530", answer->len) == 0) {
+        dll.functions[CLIENT_ERROR_UNAUTHORIZED]();
     }
     free(answer->buf);
     free(answer);
