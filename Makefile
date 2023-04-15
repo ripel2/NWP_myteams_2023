@@ -32,16 +32,16 @@ SHARED_SRC	=	$(SHARED_FOLDER)/print_help.c	\
         		$(SHARED_FOLDER)/loader/load_functions.c
 
 SERVER_SRC	=	$(SERVER_FOLDER)/save/write_in_to_file.c	\
-				$(SERVER_FOLDER)/save/open_file.c
-				$(ADD_FUNCTION)/add_user_to_struct.c				\
-				$(GET_FUNCTION)/get_user_from_struct.c				\
+				$(SERVER_FOLDER)/save/open_file.c			\
+				$(ADD_FUNCTION)/add_user_to_struct.c		\
+				$(GET_FUNCTION)/get_user_from_struct.c		\
 				$(SERVER_FOLDER)/handle_database/generate_uuid.c	\
-				$(SERVER_FOLDER)/handle_database/init_data.c		\
-				$(ADD_FUNCTION)/add_team_to_struct.c				\
-				$(GET_FUNCTION)/get_team_from_struct.c				\
-				${ADD_FUNCTION}/add_channel_to_struct.c				\
-				${GET_FUNCTION}/get_channel_from_struct.c			\
-				$(ADD_FUNCTION)/add_thread_to_struct.c				\
+				$(SERVER_FOLDER)/handle_database/init_data.c	\
+				$(ADD_FUNCTION)/add_team_to_struct.c		\
+				$(GET_FUNCTION)/get_team_from_struct.c		\
+				${ADD_FUNCTION}/add_channel_to_struct.c		\
+				${GET_FUNCTION}/get_channel_from_struct.c	\
+				$(ADD_FUNCTION)/add_thread_to_struct.c		\
 				$(GET_FUNCTION)/get_thread_from_struct.c
 CLIENT_SRC	=
 

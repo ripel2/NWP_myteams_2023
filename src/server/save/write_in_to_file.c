@@ -12,6 +12,7 @@
 
 void write_global(FILE *fp)
 {
+    (void)fp;
     user_t *user;
     TAILQ_FOREACH(user, &global->users, entries) {
         // write_user_data(fp, user);
