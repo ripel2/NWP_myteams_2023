@@ -15,7 +15,7 @@
 #include "client.h"
 #include "client_functions.h"
 
-static int execute_simple_command_timeout(client_t *client, line_t **result)
+int client_get_line_timeout(client_t *client, line_t **result)
 {
     int ret = 0;
     size_t retries = 0;
@@ -31,7 +31,7 @@ static int execute_simple_command_timeout(client_t *client, line_t **result)
             sleep *= 2;
             retries++;
         }
-    } while (*result == NULL && retries < 14);
+    } while (*result == NULL && retries < 12);
     if (*result == NULL)
         return -1;
     return 0;
@@ -46,5 +46,5 @@ size_t size, line_t **result)
     if (ret != 0)
         return ret;
     *result = NULL;
-    return execute_simple_command_timeout(client, result);
+    return client_get_line_timeout(client, result);
 }

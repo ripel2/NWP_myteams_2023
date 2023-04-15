@@ -38,5 +38,5 @@ int unsubscribe_command(client_t *client, client_info_t *info, char **args)
     ret = execute_simple_command(client, command, strlen(command), &line);
     if (ret != 0)
         return ret;
-    return subscribe_command_end(line);
+    return unsubscribe_command_end(line);
 }
