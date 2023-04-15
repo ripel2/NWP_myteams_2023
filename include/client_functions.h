@@ -23,11 +23,20 @@ typedef struct command_s {
 } command_t;
 
 /**
+ * @brief Get a line from the server
+ * @param client The mynet client to use
+ * @param result The result of the command (pointer to a line_t)
+ * @return 0 if success, -1 if error
+*/
+int client_get_line_timeout(client_t *client, line_t **result);
+
+/**
  * @brief Execute a command and returns the first line of the response
  * @param client The mynet client to use
  * @param cmd The command to execute
  * @param size The size of the command
  * @param result The result of the command
+ * @return 0 if success, -1 if error
 */
 int execute_simple_command(client_t *client, char *cmd,
 size_t size, line_t **result);
