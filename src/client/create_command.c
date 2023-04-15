@@ -14,9 +14,10 @@
 #include "client.h"
 #include "client_functions.h"
 
-int create_command(client_t *client, char **args)
+int create_command(client_t *client, client_info_t *info, char **args)
 {
     (void)client;
     (void)args;
+    (void)info;
     return 0;
 }

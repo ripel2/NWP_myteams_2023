@@ -43,6 +43,7 @@ SERVER_SRC	=	$(ADD_FUNCTION)/add_user_to_struct.c				\
 				$(ADD_FUNCTION)/add_thread_to_struct.c				\
 				$(GET_FUNCTION)/get_thread_from_struct.c
 CLIENT_SRC	=	$(CLIENT_FOLDER)/client_loop.c	\
+				$(CLIENT_FOLDER)/execute_simple_command.c	\
 				$(CLIENT_FOLDER)/help_command.c	\
 				$(CLIENT_FOLDER)/login_command.c	\
 				$(CLIENT_FOLDER)/logout_command.c	\
@@ -71,7 +72,8 @@ TESTS_SRC	=	tests/load_functions_tests/basic_tests.c 			 		\
 				tests/get_functions/get_channel_from_struct/basic_tests.c	\
 				tests/get_functions/get_team_from_struct/basic_tests.c		\
 				tests/get_functions/get_user_from_struct/basic_tests.c		\
-				tests/get_functions/get_thread_from_struct/basic_tests.c
+				tests/get_functions/get_thread_from_struct/basic_tests.c	\
+				tests/client_functions/tests_login_command.c
 
 TESTS_OBJ	=	$(TESTS_SRC:.c=.o)
 
@@ -139,7 +141,7 @@ tests_run:	$(SERVER_OBJ) $(CLIENT_OBJ) $(SHARED_OBJ)
 tests_run:	$(TESTS_OBJ)
 	@printf $(TEAL)"[+] Compiling tests"$(DEFAULT)"\n"
 	@$(GCC) $(CFLAGS) -o unit_tests $(SERVER_OBJ) $(CLIENT_OBJ) $(SHARED_OBJ) \
-	$(TESTS_OBJ) && \
+	$(TESTS_OBJ) -L./libs/mynet -lmynetserver -lmynetclient && \
 	printf $(GREEN)"[+] Compiled tests"$(DEFAULT)"\n" || \
 	printf $(RED)"[-] Failed compiling tests"$(DEFAULT)"\n"
 	@printf $(TEAL)"[+] Running tests"$(DEFAULT)"\n"
