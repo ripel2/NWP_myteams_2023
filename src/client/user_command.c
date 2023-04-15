@@ -14,10 +14,29 @@
 #include "client.h"
 #include "client_functions.h"
 
+static int user_command_end(line_t *answer)
+{
+    write(1, answer->buf, answer->len);
+    free(answer->buf);
+    free(answer);
+    return 0;
+}
+
 int user_command(client_t *client, client_info_t *info, char **args)
 {
-    (void)client;
-    (void)args;
+    char command[128] = {0};
+    line_t *line = NULL;
+    int ret = 0;
+
     (void)info;
-    return 0;
+    strcpy(command, "USER");
+    if (args[1] != NULL) {
+        strcat(command, " ");
+        strcat(command, args[1]);
+        strcat(command, "\n");
+    }
+    ret = execute_simple_command(client, command, strlen(command), &line);
+    if (ret != 0)
+        return ret;
+    return user_command_end(line);
 }
