@@ -24,6 +24,5 @@ int main(int ac, char **av)
     printf("Connecting to %s:%s", av[1], av[2]);
     if (client_init(&client, av[1], atoi(av[2])) == errno)
         return (84);
-    if 
     return 0;
 }
