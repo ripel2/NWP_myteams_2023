@@ -63,8 +63,8 @@ int send_command(client_t *client, client_info_t *info, char **args)
         strcat(command, args[1]);
         strcat(command, " ");
         strcat(command, "1");
-        strcat(command, "\n");
     }
+    strcat(command, "\n");
     ret = execute_simple_command(client, command, strlen(command), &line);
     if (ret != 0)
         return ret;
