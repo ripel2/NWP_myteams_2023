@@ -62,7 +62,8 @@ ssize_t teams_getline(char **line, size_t *len, FILE *stream)
 {
     ssize_t ret = 0;
 
-    write(1, "myteams> ", 9);
+    printf("myteams> ");
+    fflush(stdout);
     ret = getline(line, len, stream);
     if (ret > 0 && (*line)[ret - 1] == '\n')
         (*line)[ret - 1] = '\0';
