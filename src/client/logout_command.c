@@ -18,6 +18,7 @@ static int logout_command_end(client_info_t *info, line_t *answer)
 {
     write(1, answer->buf, answer->len);
     if (answer->buf[0] == '2') {
+        dll.functions[CLIENT_EVENT_LOGGED_OUT](info->uuid, info->username);
         memset(info->uuid, 0, UUID_LENGTH + 1);
         memset(info->username, 0, MAX_NAME_LENGTH + 1);
     }

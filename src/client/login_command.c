@@ -22,6 +22,7 @@ static int login_command_end(client_info_t *info, line_t *answer, char *name)
         memcpy(info->uuid, answer->buf + 4, answer->len - 5);
         memset(info->username, 0, MAX_NAME_LENGTH + 1);
         memcpy(info->username, name, strlen(name));
+        dll.functions[CLIENT_EVENT_LOGGED_IN](info->uuid, info->username);
     }
     free(answer->buf);
     free(answer);
