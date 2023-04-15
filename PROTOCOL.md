@@ -98,14 +98,14 @@ Here is the list of all the service commands available:
 | SUBSCRIBED | None | Get the list of all the teams the user is subscribed to | `SUBSCRIBED\n` | 150 ...<br>530 Not logged in |
 | SUBSCRIBED | team_uuid | Get the list of all the users subscribed to a given team | `SUBSCRIBED <uuid>\n` | 150 ...<br>430 Team doesn't exist<br>530 Not logged in<br>550 Bad uuid |
 | UNSUBSCRIBE | team_uuid | Unsubscribe from a team | `UNSUBSCRIBE <uuid>\n` | 200 OK<br>430 Team doesn't exist<br>530 Not logged in<br>550 Bad uuid |
-| USETEAM | team_uuid | Sets the command context to the given team | `USE <uuid>\n` | 110 OK<br>430 Team doesn't exist<br>530 Not logged in<br>550 Bad uuid |
-| USECHANNEL | channel_uuid | Sets the command context to the given channel | `USE <uuid>\n` | 110 OK<br>430 Channel doesn't exist or doesn't belong to team<br>530 Not logged in<br>550 Bad uuid |
-| USETHREAD | thread_uuid | Sets the command context to the given thread | `USE <uuid>\n` | 110 OK<br>430 Thread doesn't exist or doesn't belong to channel<br>530 Not logged in<br>550 Bad uuid |
 | The following commands will be interpreted in the context set by the previous commands |
-| CREATE | team_name description_length | Create a new team | `CREATE <name> <description>\n` | 350 Waiting for data<br>150 `<uuid>`<br>530 Not logged in<br>550 Name or description too long |
-| CREATE | channel_name channel_description | Create a new channel | `CREATE <name> <description>\n` | 350 Waiting for data<br>150 `<uuid>`<br>530 Not logged in<br>550 Name or description too long |
-| CREATE | thread_title thread_message | Create a new thread | `CREATE <title> <message>\n` | 350 Waiting for data<br>150 `<uuid>`<br>530 Not logged in<br>550 Title or message too long |
-| CREATE | comment_body | Create a new comment | `CREATE <body>\n` | 150 `<uuid>`<br>530 Not logged in<br>550 Body too long |
+| USE (TEAM) | team_uuid | Sets the command context to the given team | `USE <uuid>\n` | 110 OK<br>430 Team doesn't exist<br>530 Not logged in<br>550 Bad uuid |
+| USE (CHANNEL) | channel_uuid | Sets the command context to the given channel | `USE <uuid>\n` | 110 OK<br>430 Channel doesn't exist or doesn't belong to team<br>530 Not logged in<br>550 Bad uuid |
+| USE (THREAD) | thread_uuid | Sets the command context to the given thread | `USE <uuid>\n` | 110 OK<br>430 Thread doesn't exist or doesn't belong to channel<br>530 Not logged in<br>550 Bad uuid |
+| CREATE (TEAM) | team_name description_length | Create a new team | `CREATE <name> <description>\n` | 350 Waiting for data<br>150 `<uuid>`<br>530 Not logged in<br>550 Name or description too long |
+| CREATE (CHANNEL) | channel_name channel_description | Create a new channel | `CREATE <name> <description>\n` | 350 Waiting for data<br>150 `<uuid>`<br>530 Not logged in<br>550 Name or description too long |
+| CREATE (THREAD) | thread_title thread_message | Create a new thread | `CREATE <title> <message>\n` | 350 Waiting for data<br>150 `<uuid>`<br>530 Not logged in<br>550 Title or message too long |
+| CREATE (COMMENT) | comment_body | Create a new comment | `CREATE <body>\n` | 150 `<uuid>`<br>530 Not logged in<br>550 Body too long |
 | LIST | None | Get the list of all the teams, channels and threads, depending on the context | `LIST\n` | 150 ...<br>530 Not logged in |
 | INFO | None | Get details about the user, the team, channel and thread, depending on the context | `INFO\n` | 150 ...<br>530 Not logged in |
 
@@ -137,16 +137,16 @@ The message will end with a `200 OK` response.
 
 A user will be represented by the following format:
 ```
-<uuid> <username>
+<uuid> <username> <is_logged_in>
 ```
 
 Example of a `USERS` command:
 ```
 IN  >>> USERS
 OUT <<< 150 3
-OUT <<< 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f user1
-OUT <<< 2e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f user2
-OUT <<< 3e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f user3
+OUT <<< 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f user1 1
+OUT <<< 2e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f user2 0
+OUT <<< 3e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f user3 1
 OUT <<< 200 OK
 ```
 
@@ -312,7 +312,52 @@ OUT <<< Reply message
 OUT <<< 200 OK
 ```
 
-### 3.5.8. `CREATE`
+### 3.5.8. `INFO`
+
+The `INFO` command can be used in multiple contexts:
+ - If the client didn't register any context, the server will send the information about a given team.
+ - If the client registered a team context, the server will send the information about a given channel in the team.
+ - If the client registered a team and a channel context, the server will send the information about a given thread in the channel.
+ - If the client registered a team, a channel and a thread context, the server will send the information about a given reply in the thread.
+
+The client should send the `INFO` command followed by a newline character (`\n`).
+The server will send the information and then the number of lines for the description/username.
+The message will end with a `200 OK` response.
+
+Example of a `INFO` command without any context (print user details)
+```
+IN  >>> INFO
+OUT <<< 150 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f 1
+OUT <<< user1
+OUT <<< 200 OK
+```
+
+Example of a `INFO` command with a team context:
+```
+IN  >>> INFO
+OUT <<< 150 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f 2
+OUT <<< Team description
+OUT <<< here it has 2 lines.
+OUT <<< 200 OK
+```
+
+Example of a `INFO` command with a team and a channel context:
+```
+IN  >>> INFO
+OUT <<< 150 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f 1
+OUT <<< Channel description
+OUT <<< 200 OK
+```
+
+Example of a `INFO` command with a team, a channel and a thread context:
+```
+IN  >>> INFO
+OUT <<< 150 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f 1
+OUT <<< Thread description
+OUT <<< 200 OK
+```
+
+### 3.5.9. `CREATE`
 
 The `CREATE` command can be used in multiple contexts:
  - If the client didn't register any context, the server will create a new team.
@@ -325,8 +370,9 @@ The client should send the `CREATE` command followed by the name of the team/cha
 Example of a `CREATE` command without any context:
 ```
 IN  >>> CREATE team1 2
-OUT <<< The description of the team...
-OUT <<< here it has 2 lines.
+OUT <<< 350 Waiting for data
+IN  >>> The description of the team...
+IN  >>> here it has 2 lines.
 OUT <<< 200 OK
 ```
 
@@ -334,7 +380,7 @@ Example of a `CREATE` command with a team context:
 ```
 IN  >>> CREATE channel1 1
 OUT <<< 350 Waiting for data
-OUT <<< Channel description
+IN  >>> Channel description
 OUT <<< 200 OK
 ```
 
@@ -342,13 +388,14 @@ Example of a `CREATE` command with a team and a channel context:
 ```
 IN  >>> CREATE thread1 1
 OUT <<< 350 Waiting for data
-OUT <<< Thread description
+IN  >>> Thread description
 OUT <<< 200 OK
 ```
 
 Example of a `CREATE` command with a team, a channel and a thread context:
 ```
 IN  >>> CREATE reply1 1
-OUT <<< Reply message
+OUT <<< 350 Waiting for data
+IN  >>> Reply message
 OUT <<< 200 OK
 ```
