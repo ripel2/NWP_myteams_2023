@@ -21,8 +21,7 @@ static int send_command_cleanup(client_t *client)
     client_get_line_timeout(client, &line);
     if (line == NULL)
         return -1;
-    if (line->len > 0 && line->buf[0] != '2')
-        write(1, line->buf, line->len);
+    write(1, line->buf, line->len);
     free(line->buf);
     free(line);
     return 0;
