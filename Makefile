@@ -29,7 +29,8 @@ SHARED_SRC	=	$(SHARED_FOLDER)/print_help.c	\
 				$(SHARED_FOLDER)/port_handler.c \
         $(SHARED_FOLDER)/loader/load_functions.c
 
-SERVER_SRC	=
+SERVER_SRC	=	$(SERVER_FOLDER)/save/write_in_to_file.c	\
+				$(SERVER_FOLDER)/save/open_file.c
 CLIENT_SRC	=
 
 SHARED_OBJ	=	$(SHARED_SRC:.c=.o)
