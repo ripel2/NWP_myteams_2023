@@ -1,3 +1,10 @@
+/*
+** EPITECH PROJECT, 2023
+** NWP_myteams_2023 [WSL: Ubuntu]
+** File description:
+** main
+*/
+
 #include <stdio.h>
 #include <unistd.h>
 #include <string.h>
