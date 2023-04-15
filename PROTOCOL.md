@@ -88,8 +88,8 @@ Here is the list of all the service commands available:
 | Command | Arguments | Description | Example | Responses |
 | --- | --- | --- | --- | --- |
 | HELP | None | Get the list of all the commands | `HELP\n` | 214 ... |
-| LOGIN | username | Log in to the server | `LOGIN <username>\n` | 230 Logged in<br>431 Already logged in<br>550 Username too long |
-| LOGOUT | None | Log out from the server | `LOGOUT\n` | 221 Logged out<br>530 Not logged in |
+| LOGIN | username | Log in to the server | `LOGIN <username>\n` | 230 `<uuid>` Logged in<br>431 Already logged in<br>550 Username too long |
+| LOGOUT | None | Log out from the server | `LOGOUT\n` | 221 `<uuid>` Logged out<br>530 Not logged in |
 | USERS | None | Get the list of all the users | `USERS\n` | 150 ...<br>530 Not logged in |
 | USER | user_uuid | Get details about a given user | `USER <uuid>\n` | 150 ...<br>430 User doesn't exist<br>530 Not logged in<br>550 Bad uuid|
 | SEND | user_uuid message_lines | Send a message to a user | `SEND <uuid> <message_lines>\n` | 350 Waiting for data<br>200 OK<br>430 User doesn't exist<br>530 Not logged in |
@@ -325,8 +325,9 @@ The client should send the `CREATE` command followed by the name of the team/cha
 Example of a `CREATE` command without any context:
 ```
 IN  >>> CREATE team1 2
-OUT <<< The description of the team...
-OUT <<< here it has 2 lines.
+OUT <<< 350 Waiting for data
+IN  >>> The description of the team...
+IN  >>> here it has 2 lines.
 OUT <<< 200 OK
 ```
 
@@ -334,7 +335,7 @@ Example of a `CREATE` command with a team context:
 ```
 IN  >>> CREATE channel1 1
 OUT <<< 350 Waiting for data
-OUT <<< Channel description
+IN  >>> Channel description
 OUT <<< 200 OK
 ```
 
@@ -342,13 +343,14 @@ Example of a `CREATE` command with a team and a channel context:
 ```
 IN  >>> CREATE thread1 1
 OUT <<< 350 Waiting for data
-OUT <<< Thread description
+IN  >>> Thread description
 OUT <<< 200 OK
 ```
 
 Example of a `CREATE` command with a team, a channel and a thread context:
 ```
 IN  >>> CREATE reply1 1
-OUT <<< Reply message
+OUT <<< 350 Waiting for data
+IN  >>> Reply message
 OUT <<< 200 OK
 ```
