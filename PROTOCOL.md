@@ -312,7 +312,52 @@ OUT <<< Reply message
 OUT <<< 200 OK
 ```
 
-### 3.5.8. `CREATE`
+### 3.5.8. `INFO`
+
+The `INFO` command can be used in multiple contexts:
+ - If the client didn't register any context, the server will send the information about a given team.
+ - If the client registered a team context, the server will send the information about a given channel in the team.
+ - If the client registered a team and a channel context, the server will send the information about a given thread in the channel.
+ - If the client registered a team, a channel and a thread context, the server will send the information about a given reply in the thread.
+
+The client should send the `INFO` command followed by a newline character (`\n`).
+The server will send the information and then the number of lines for the description/username.
+The message will end with a `200 OK` response.
+
+Example of a `INFO` command without any context (print user details)
+```
+IN  >>> INFO
+OUT <<< 150 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f 1
+OUT <<< user1
+OUT <<< 200 OK
+```
+
+Example of a `INFO` command with a team context:
+```
+IN  >>> INFO
+OUT <<< 150 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f 2
+OUT <<< Team description
+OUT <<< here it has 2 lines.
+OUT <<< 200 OK
+```
+
+Example of a `INFO` command with a team and a channel context:
+```
+IN  >>> INFO
+OUT <<< 150 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f 1
+OUT <<< Channel description
+OUT <<< 200 OK
+```
+
+Example of a `INFO` command with a team, a channel and a thread context:
+```
+IN  >>> INFO
+OUT <<< 150 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f 1
+OUT <<< Thread description
+OUT <<< 200 OK
+```
+
+### 3.5.9. `CREATE`
 
 The `CREATE` command can be used in multiple contexts:
  - If the client didn't register any context, the server will create a new team.
