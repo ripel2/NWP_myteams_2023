@@ -100,8 +100,8 @@ Here is the list of all the service commands available:
 | UNSUBSCRIBE | team_uuid | Unsubscribe from a team | `UNSUBSCRIBE <uuid>\n` | 200 OK<br>430 Team doesn't exist<br>530 Not logged in<br>550 Bad uuid |
 | The following commands will be interpreted in the context set by the previous commands |
 | USE (TEAM) | team_uuid | Sets the command context to the given team | `USE <uuid>\n` | 110 OK<br>430 Team doesn't exist<br>530 Not logged in<br>550 Bad uuid |
-| USE (CHANNEL) | team_uuid channel_uuid | Sets the command context to the given team and channel | `USE <uuid> <uuid>\n` | 110 OK<br>430 Channel doesn't exist or doesn't belong to team<br>530 Not logged in<br>550 Bad uuid |
-| USE (THREAD) | team_uuid channel_uuid thread_uuid | Sets the command context to the given team, channel and thread | `USE <uuid> <uuid> <uuid>\n` | 110 OK<br>430 Thread doesn't exist or doesn't belong to channel<br>530 Not logged in<br>550 Bad uuid |
+| USE (CHANNEL) | channel_uuid | Sets the command context to the given channel | `USE <uuid>\n` | 110 OK<br>430 Channel doesn't exist or doesn't belong to team<br>530 Not logged in<br>550 Bad uuid |
+| USE (THREAD) | thread_uuid | Sets the command context to the given thread | `USE <uuid>\n` | 110 OK<br>430 Thread doesn't exist or doesn't belong to channel<br>530 Not logged in<br>550 Bad uuid |
 | CREATE (TEAM) | team_name description_length | Create a new team | `CREATE <name> <description>\n` | 350 Waiting for data<br>150 `<uuid>`<br>530 Not logged in<br>550 Name or description too long |
 | CREATE (CHANNEL) | channel_name channel_description | Create a new channel | `CREATE <name> <description>\n` | 350 Waiting for data<br>150 `<uuid>`<br>530 Not logged in<br>550 Name or description too long |
 | CREATE (THREAD) | thread_title thread_message | Create a new thread | `CREATE <title> <message>\n` | 350 Waiting for data<br>150 `<uuid>`<br>530 Not logged in<br>550 Title or message too long |
@@ -137,16 +137,16 @@ The message will end with a `200 OK` response.
 
 A user will be represented by the following format:
 ```
-<uuid> <username> <is_logged_in>
+<uuid> <username>
 ```
 
 Example of a `USERS` command:
 ```
 IN  >>> USERS
 OUT <<< 150 3
-OUT <<< 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f user1 1
-OUT <<< 2e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f user2 0
-OUT <<< 3e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f user3 1
+OUT <<< 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f user1
+OUT <<< 2e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f user2
+OUT <<< 3e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f user3
 OUT <<< 200 OK
 ```
 
@@ -208,13 +208,14 @@ Example of a `MESSAGES` command:
 ```
 IN  >>> MESSAGES 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f
 OUT <<< 150 2
-OUT <<< 2 FROM
+OUT <<< 2 1234567 FROM
 OUT <<< Hello!
 OUT <<< How are you?
-OUT <<< 1 TO
+OUT <<< 1 1234567 TO
 OUT <<< I'm fine, thanks!
 OUT <<< 200 OK
 ```
+(first number is the number of lines of the message, second number is the timestamp of the message)
 
 ### 3.5.6. `SUBSCRIBED`
 
@@ -271,46 +272,50 @@ Example of a `LIST` command without any context:
 ```
 IN  >>> LIST
 OUT <<< 150 2 TEAMS
-OUT <<< 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f team1 2
+OUT <<< 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f team1 1234567 2
 OUT <<< The description of the team...
 OUT <<< here it has 2 lines.
-OUT <<< 2e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f team2 1
+OUT <<< 2e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f team2 1234567 1
 OUT <<< The description of the team... here it has 1 line.
 OUT <<< 200 OK
 ```
+(first number is the timestamp of the team creation and the second number is the number of lines in the description)
 
 Example of a `LIST` command with a team context:
 ```
 IN  >>> LIST
 OUT <<< 150 2 CHANNELS
-OUT <<< 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f channel1 1
+OUT <<< 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f channel1 1234567 1
 OUT <<< Channel description
-OUT <<< 2e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f channel2 1
+OUT <<< 2e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f channel2 1234567 1
 OUT <<< Channel description
 OUT <<< 200 OK
 ```
+(first number is the timestamp of the channel creation and the second number is the number of lines in the description)
 
 Example of a `LIST` command with a team and a channel context:
 ```
 IN  >>> LIST
 OUT <<< 150 2 THREADS
-OUT <<< 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f thread1 1
+OUT <<< 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f thread1 1234567 1
 OUT <<< Thread description
-OUT <<< 2e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f thread2 1
+OUT <<< 2e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f thread2 1234567 1
 OUT <<< Thread description
 OUT <<< 200 OK
 ```
+(first number is the timestamp of the thread creation and the second number is the number of lines in the description)
 
 Example of a `LIST` command with a team, a channel and a thread context:
 ```
 IN  >>> LIST
 OUT <<< 150 2 REPLIES
-OUT <<< 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f reply1 1
+OUT <<< 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f reply1 1234567 1
 OUT <<< Reply message
-OUT <<< 2e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f reply2 1
+OUT <<< 2e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f reply2 1234567 1
 OUT <<< Reply message
 OUT <<< 200 OK
 ```
+(first number is the timestamp of the reply creation and the second number is the number of lines in the message)
 
 ### 3.5.8. `INFO`
 
@@ -335,27 +340,30 @@ OUT <<< 200 OK
 Example of a `INFO` command with a team context:
 ```
 IN  >>> INFO
-OUT <<< 150 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f 2
+OUT <<< 150 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f 1234567 2
 OUT <<< Team description
 OUT <<< here it has 2 lines.
 OUT <<< 200 OK
 ```
+(first number is the timestamp of the team creation and the second number is the number of lines in the description)
 
 Example of a `INFO` command with a team and a channel context:
 ```
 IN  >>> INFO
-OUT <<< 150 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f 1
+OUT <<< 150 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f 1234567 1
 OUT <<< Channel description
 OUT <<< 200 OK
 ```
+(first number is the timestamp of the channel creation and the second number is the number of lines in the description)
 
 Example of a `INFO` command with a team, a channel and a thread context:
 ```
 IN  >>> INFO
-OUT <<< 150 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f 1
+OUT <<< 150 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f 1234567 1
 OUT <<< Thread description
 OUT <<< 200 OK
 ```
+(first number is the timestamp of the thread creation and the second number is the number of lines in the description)
 
 ### 3.5.9. `CREATE`
 
