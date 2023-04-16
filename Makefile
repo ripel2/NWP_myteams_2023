@@ -63,11 +63,12 @@ TESTS_SRC	=	tests/load_functions_tests/basic_tests.c 			 		\
 				tests/add_functions/add_user_to_struct/basic_tests.c		\
 				tests/add_functions/add_thread_to_struct/basic_tests.c		\
 				tests/add_functions/add_reply_to_struct/basic_tests.c		\
+				tests/add_functions/add_discussion_to_struct/basic_tests.c	\
 				tests/get_functions/get_channel_from_struct/basic_tests.c	\
 				tests/get_functions/get_team_from_struct/basic_tests.c		\
 				tests/get_functions/get_user_from_struct/basic_tests.c		\
 				tests/get_functions/get_thread_from_struct/basic_tests.c	\
-				tests/get_functions/get_reply_from_struct/basic_tests.c	\
+				tests/get_functions/get_reply_from_struct/basic_tests.c
 
 TESTS_OBJ	=	$(TESTS_SRC:.c=.o)
 
