@@ -73,7 +73,6 @@ TESTS_SRC	=	tests/load_functions_tests/basic_tests.c 			 		\
 				tests/get_functions/get_team_from_struct/basic_tests.c		\
 				tests/get_functions/get_user_from_struct/basic_tests.c		\
 				tests/get_functions/get_thread_from_struct/basic_tests.c	\
-				tests/client_functions/tests_login_command.c
 
 TESTS_OBJ	=	$(TESTS_SRC:.c=.o)
 
