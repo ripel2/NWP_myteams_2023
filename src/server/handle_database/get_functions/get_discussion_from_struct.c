@@ -18,7 +18,7 @@ personal_discussion_t *get_personnal_discussion_from_struct(const char *uuid)
 
     TAILQ_FOREACH(user, &global->users, entries) {
         TAILQ_FOREACH(discussion, &user->discussions, entries) {
-            if (discussion && strcmp(discussion->user_data->uuid, uuid)
+            if (discussion && strcmp(discussion->uuid, uuid)
             == 0) {
                 return discussion;
             }
