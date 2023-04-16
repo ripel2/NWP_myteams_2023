@@ -21,6 +21,12 @@ thread_t *get_thread_from_struct(const char *uuid);
 int add_reply_to_struct(const char *thread_uuid, data_t *user_data,
 data_t *reply_data);
 reply_t *get_reply_from_struct(const char *uuid);
+int add_personnal_discussion_to_struct(char *discussion_uuid,
+char *current_user_uuid, data_t *user_data);
+personal_discussion_t *get_personnal_discussion_from_struct(const char *uuid);
+int add_message_to_struct(data_t *sender_uuid, data_t *receiver_uuid,
+data_t *message);
+int add_user_to_team(const char *team_uuid, const char *user_uuid);
 
 char *generate_uuid(char *uuid);
 data_t *init_data(char *name, char *description, char *body, char *uuid);

@@ -42,7 +42,11 @@ SERVER_SRC	=	$(ADD_FUNCTION)/add_user_to_struct.c				\
 				$(ADD_FUNCTION)/add_thread_to_struct.c				\
 				$(GET_FUNCTION)/get_thread_from_struct.c			\
 				$(ADD_FUNCTION)/add_reply_to_struct.c				\
-				$(GET_FUNCTION)/get_reply_from_struct.c
+				$(GET_FUNCTION)/get_reply_from_struct.c				\
+				$(ADD_FUNCTION)/add_discussion_to_struct.c			\
+				$(GET_FUNCTION)/get_discussion_from_struct.c		\
+				$(ADD_FUNCTION)/add_message_to_struct.c				\
+				$(ADD_FUNCTION)/add_user_to_team.c
 CLIENT_SRC	=
 
 SHARED_OBJ	=	$(SHARED_SRC:.c=.o)
