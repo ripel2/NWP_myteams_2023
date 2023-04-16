@@ -11,7 +11,8 @@
 #include <string.h>
 #include <unistd.h>
 
-int add_reply_to_struct(const char *thread_uuid, data_t *user_data, data_t *reply_data)
+int add_reply_to_struct(const char *thread_uuid, data_t *user_data,
+data_t *reply_data)
 {
     reply_t *new_reply = malloc(sizeof(reply_t));
     thread_t *thread_selected = get_thread_from_struct(thread_uuid);
