@@ -11,3 +11,4 @@
 
 bool print_help_if_needed(int ac, char **av);
 bool is_port_valid(const char *port);
+bool is_ip_valid(const char *ip);
