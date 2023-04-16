@@ -17,6 +17,9 @@
 static int use_command_end(line_t *answer)
 {
     write(1, answer->buf, answer->len);
+    if (strncmp(answer->buf, "530", 3) == 0) {
+        dll.functions[CLIENT_ERROR_UNAUTHORIZED]();
+    }
     free(answer->buf);
     free(answer);
     return 0;
@@ -24,15 +27,19 @@ static int use_command_end(line_t *answer)
 
 int use_command(client_t *client, client_info_t *info, char **args)
 {
-    char command[128] = {0};
+    char command[1024] = {0};
     line_t *line = NULL;
     int ret = 0;
+    size_t arg_count = 0;
 
     (void)info;
     strcpy(command, "USE");
-    if (args[1] != NULL) {
-        strcat(command, " ");
-        strcat(command, args[1]);
+    for (size_t c = 1; c < 4; c++) {
+        if (args[c] != NULL) {
+            strcat(command, " ");
+            strcat(command, args[c]);
+            arg_count++;
+        }
     }
     strcat(command, "\n");
     ret = execute_simple_command(client, command, strlen(command), &line);
