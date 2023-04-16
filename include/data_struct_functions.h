@@ -28,6 +28,8 @@ int add_message_to_struct(data_t *sender_uuid, data_t *receiver_uuid,
 data_t *message);
 int add_user_to_team(const char *team_uuid, const char *user_uuid);
 int remove_user_from_team(const char *team_uuid, const char *user_uuid);
+bool is_channel_in_team(const char *channel_uuid, const char *team_uuid);
+bool is_thread_in_channel(const char *thread_uuid, const char *channel_uuid);
 
 char *generate_uuid(char *uuid);
 data_t *init_data(char *name, char *description, char *body, char *uuid);
