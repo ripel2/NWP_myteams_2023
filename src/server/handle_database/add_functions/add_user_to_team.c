@@ -19,7 +19,7 @@ int add_user_to_team(const char *team_uuid, const char *user_uuid)
     if (user == NULL || get_team_from_struct(team_uuid) == NULL
     || team_uuid_list == NULL)
         return (84);
-
+    strcat(team_uuid_list->uuid, team_uuid);
     TAILQ_INSERT_TAIL(&user->team_uuids, team_uuid_list, entries);
     global->dll->functions[SERVER_EVENT_USER_SUBSCRIBED]
     (team_uuid, user_uuid);

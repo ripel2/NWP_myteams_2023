@@ -17,6 +17,7 @@ SERVER_FOLDER	=	./src/server
 CLIENT_FOLDER	=	./src/client
 ADD_FUNCTION	=   $(SERVER_FOLDER)/handle_database/add_functions
 GET_FUNCTION	=   $(SERVER_FOLDER)/handle_database/get_functions
+OTHER_FUNCTION =    $(SERVER_FOLDER)/handle_database/other_functions
 
 SERVER_NAME	=   myteams_server
 CLIENT_NAME	=   myteams_cli
@@ -33,8 +34,8 @@ SHARED_SRC	=	$(SHARED_FOLDER)/print_help.c	\
 
 SERVER_SRC	=	$(ADD_FUNCTION)/add_user_to_struct.c				\
 				$(GET_FUNCTION)/get_user_from_struct.c				\
-				$(SERVER_FOLDER)/handle_database/generate_uuid.c	\
-				$(SERVER_FOLDER)/handle_database/init_data.c		\
+				$(OTHER_FUNCTION)/generate_uuid.c					\
+				$(OTHER_FUNCTION)/init_data.c						\
 				$(ADD_FUNCTION)/add_team_to_struct.c				\
 				$(GET_FUNCTION)/get_team_from_struct.c				\
 				${ADD_FUNCTION}/add_channel_to_struct.c				\
@@ -46,7 +47,8 @@ SERVER_SRC	=	$(ADD_FUNCTION)/add_user_to_struct.c				\
 				$(ADD_FUNCTION)/add_discussion_to_struct.c			\
 				$(GET_FUNCTION)/get_discussion_from_struct.c		\
 				$(ADD_FUNCTION)/add_message_to_struct.c				\
-				$(ADD_FUNCTION)/add_user_to_team.c
+				$(ADD_FUNCTION)/add_user_to_team.c					\
+				$(OTHER_FUNCTION)/remove_user_from_team.c
 CLIENT_SRC	=
 
 SHARED_OBJ	=	$(SHARED_SRC:.c=.o)
