@@ -73,7 +73,8 @@ TESTS_SRC	=	tests/load_functions_tests/basic_tests.c 			 		\
 				tests/get_functions/get_reply_from_struct/basic_tests.c		\
 				tests/get_functions/get_discussion_from_struct/basic_tests.c\
 				tests/other_functions/remove_user_from_team/basic_tests.c	\
-				tests/other_functions/is_channel_in_team/basic_tests.c
+				tests/other_functions/is_channel_in_team/basic_tests.c		\
+				tests/other_functions/is_thread_in_channel/basic_tests.c	\
 
 TESTS_OBJ	=	$(TESTS_SRC:.c=.o)
 
