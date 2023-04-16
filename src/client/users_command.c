@@ -52,7 +52,7 @@ static int users_command_end(client_t *client, line_t *answer)
     write(1, answer->buf, answer->len);
     if (answer->len > 0 && answer->buf[0] == '1') {
         users_command_print_lines(client);
-    } else if (strncmp(answer->buf, "530", answer->len) == 0) {
+    } else if (strncmp(answer->buf, "530", 3) == 0) {
         dll.functions[CLIENT_ERROR_UNAUTHORIZED]();
     }
     free(answer->buf);
