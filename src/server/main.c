@@ -1,8 +1,8 @@
 /*
 ** EPITECH PROJECT, 2023
-** mynet
+** NWP_myteams_2023 [WSL: Ubuntu]
 ** File description:
-** mynet server main function
+** main
 */
 
 #include <stdio.h>

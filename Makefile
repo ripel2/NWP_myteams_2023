@@ -30,6 +30,7 @@ CLIENT_MAIN_OBJ	=	$(CLIENT_MAIN:.c=.o)
 
 SHARED_SRC	=	$(SHARED_FOLDER)/print_help.c	\
 				$(SHARED_FOLDER)/port_handler.c \
+				$(SHARED_FOLDER)/ip_handler.c \
         		$(SHARED_FOLDER)/loader/load_functions.c
 
 SERVER_SRC	=	$(ADD_FUNCTION)/add_user_to_struct.c				\
@@ -51,7 +52,23 @@ SERVER_SRC	=	$(ADD_FUNCTION)/add_user_to_struct.c				\
 				$(OTHER_FUNCTION)/remove_user_from_team.c			\
 				$(OTHER_FUNCTION)/is_channel_in_team.c				\
 				$(OTHER_FUNCTION)/is_thread_in_channel.c
-CLIENT_SRC	=
+
+CLIENT_SRC	=	$(CLIENT_FOLDER)/client_loop.c	\
+				$(CLIENT_FOLDER)/execute_simple_command.c	\
+				$(CLIENT_FOLDER)/help_command.c	\
+				$(CLIENT_FOLDER)/login_command.c	\
+				$(CLIENT_FOLDER)/logout_command.c	\
+				$(CLIENT_FOLDER)/user_command.c	\
+				$(CLIENT_FOLDER)/users_command.c	\
+				$(CLIENT_FOLDER)/send_command.c	\
+				$(CLIENT_FOLDER)/messages_command.c	\
+				$(CLIENT_FOLDER)/subscribe_command.c	\
+				$(CLIENT_FOLDER)/subscribed_command.c	\
+				$(CLIENT_FOLDER)/unsubscribe_command.c	\
+				$(CLIENT_FOLDER)/use_command.c	\
+				$(CLIENT_FOLDER)/create_command.c	\
+				$(CLIENT_FOLDER)/list_command.c	\
+				$(CLIENT_FOLDER)/info_command.c
 
 SHARED_OBJ	=	$(SHARED_SRC:.c=.o)
 SERVER_OBJ	=	$(SERVER_SRC:.c=.o)
@@ -74,13 +91,13 @@ TESTS_SRC	=	tests/load_functions_tests/basic_tests.c 			 		\
 				tests/get_functions/get_discussion_from_struct/basic_tests.c\
 				tests/other_functions/remove_user_from_team/basic_tests.c	\
 				tests/other_functions/is_channel_in_team/basic_tests.c		\
-				tests/other_functions/is_thread_in_channel/basic_tests.c	\
+				tests/other_functions/is_thread_in_channel/basic_tests.c
 
 TESTS_OBJ	=	$(TESTS_SRC:.c=.o)
 
 CFLAGS	=	-Wall -Wextra -Wshadow -Wpedantic -Werror
 CFLAGS	+=	-I./include -I./libs/mynet/include
-CFLAGS	+=	-ldl
+CFLAGS	+=	-ldl -L./libs/mynet -lmynetserver -lmynetclient
 GCC	=	gcc
 
 SERVER_LIB	=	./libs/mynet/libmynetserver.a
@@ -92,7 +109,7 @@ CLIENT_LIB	=	./libs/mynet/libmynetclient.a
 	printf $(GREEN)"[+] Compiled $@ "$(DEFAULT)"\n" || \
 	printf $(RED)"[-] Failed compiling $@ "$(DEFAULT)"\n"
 
-all:	$(SERVER_NAME) $(CLIENT_NAME)
+all:	$(SERVER_NAME) $(CLIENT_NAME) $(SERVER_LIB) $(CLIENT_LIB)
 
 $(SERVER_LIB):
 	@printf $(TEAL)"[+] Compiling $(SERVER_LIB) "$(DEFAULT)"\n"
@@ -146,7 +163,7 @@ tests_run:	$(SERVER_OBJ) $(CLIENT_OBJ) $(SHARED_OBJ)
 tests_run:	$(TESTS_OBJ)
 	@printf $(TEAL)"[+] Compiling tests"$(DEFAULT)"\n"
 	@$(GCC) $(CFLAGS) -o unit_tests $(SERVER_OBJ) $(CLIENT_OBJ) $(SHARED_OBJ) \
-	$(TESTS_OBJ) && \
+	$(TESTS_OBJ) -L./libs/mynet -lmynetserver -lmynetclient && \
 	printf $(GREEN)"[+] Compiled tests"$(DEFAULT)"\n" || \
 	printf $(RED)"[-] Failed compiling tests"$(DEFAULT)"\n"
 	@printf $(TEAL)"[+] Running tests"$(DEFAULT)"\n"
