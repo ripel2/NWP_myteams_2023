@@ -14,9 +14,18 @@
 #include "client.h"
 #include "client_functions.h"
 
-static int unsubscribe_command_end(line_t *answer)
+static int unsubscribe_command_end(line_t *answer, char *user, char *team)
 {
     write(1, answer->buf, answer->len);
+    if (strncmp(answer->buf, "530", 3) == 0) {
+        dll.functions[CLIENT_ERROR_UNAUTHORIZED]();
+    } else if (strncmp(answer->buf, "200", 3) == 0) {
+        dll.functions[CLIENT_PRINT_UNSUBSCRIBED](user, team);
+    }
+    if (strncmp(answer->buf, "430", 3) == 0 ||
+    strncmp(answer->buf, "550", 3) == 0) {
+        dll.functions[CLIENT_ERROR_UNKNOWN_TEAM]();
+    }
     free(answer->buf);
     free(answer);
     return 0;
@@ -38,5 +47,5 @@ int unsubscribe_command(client_t *client, client_info_t *info, char **args)
     ret = execute_simple_command(client, command, strlen(command), &line);
     if (ret != 0)
         return ret;
-    return unsubscribe_command_end(line);
+    return unsubscribe_command_end(line, info->username, args[1]);
 }
