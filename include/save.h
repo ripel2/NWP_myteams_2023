@@ -16,3 +16,4 @@ unsigned int write_global(void);
 void write_users(FILE *fd);
 int count_team_uuids(user_t *user);
 void write_team_uuids(FILE *fd, user_t *user);
+void write_personal_discussion(FILE *fd, user_t *user);

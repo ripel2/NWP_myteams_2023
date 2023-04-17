@@ -56,7 +56,8 @@ SERVER_SRC	=	$(ADD_FUNCTION)/add_user_to_struct.c				\
 				$(SAVE_FUNCTION)/write_in_to_file.c					\
 				$(SAVE_FUNCTION)/open_file.c						\
 				$(SAVE_FUNCTION)/write_users.c						\
-				$(SAVE_FUNCTION)/write_teams_uuids.c
+				$(SAVE_FUNCTION)/write_teams_uuids.c				\
+				$(SAVE_FUNCTION)/write_personal_discussion.c
 
 CLIENT_SRC	=	$(CLIENT_FOLDER)/client_loop.c	\
 				$(CLIENT_FOLDER)/execute_simple_command.c	\

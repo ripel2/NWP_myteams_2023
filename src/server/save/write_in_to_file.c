@@ -36,6 +36,36 @@ void read_users(FILE *fd)
             fread(uuid, sizeof(char), (UUID_LENGTH + 1), fd);
             printf("uuid: %s\n", uuid);
         }
+        int nb_personal_discussions = 0;
+        fread(&nb_personal_discussions, sizeof(int), 1, fd);
+        printf("nb_personal_discussions: %d\t", nb_personal_discussions);
+        for (int j = 0; j < nb_personal_discussions; j++) {
+            data_t *data2 = malloc(sizeof(data_t));
+            char *uuid = malloc(sizeof(char) * (UUID_LENGTH + 1));
+            fread(data2, sizeof(data_t), 1, fd);
+            printf("data2->name: %s\n\n", data2->name);
+            printf("data2->description: %s\n", data2->description);
+            printf("data2->body: %s\n", data2->body);
+            printf("data2->uuid: %s\n\n", data2->uuid);
+            fread(uuid, sizeof(char), (UUID_LENGTH + 1), fd);
+            printf("uuid: %s\n", uuid);
+            free(uuid);
+            int nb_messages = 0;
+            fread(&nb_messages, sizeof(int), 1, fd);
+            printf("nb_messages: %d\n", nb_messages);
+            for (int k = 0; k < nb_messages; k++) {
+                data_t *data3 = malloc(sizeof(data_t));
+                fread(data3, sizeof(data_t), 1, fd);
+                printf("data3->name: %s\t", data3->name);
+                printf("data3->description: %s\t", data3->description);
+                printf("data3->body: %s\t", data3->body);
+                data_t *data4 = malloc(sizeof(data_t));
+                fread(data4, sizeof(data_t), 1, fd);
+                printf("data3->name: %s\t", data3->name);
+                printf("data3->description: %s\t", data3->description);
+                printf("data3->body: %s", data3->body);
+            }
+        }
     }
 }
 

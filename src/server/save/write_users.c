@@ -35,5 +35,6 @@ void write_users(FILE *fd)
         fwrite(user->user_data, sizeof(data_t), 1, fd);
         fwrite(&user->is_logged, sizeof(bool), 1, fd);
         write_team_uuids(fd, user);
+        write_personal_discussion(fd, user);
     }
 }

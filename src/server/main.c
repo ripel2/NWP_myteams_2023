@@ -47,6 +47,10 @@ void debug_init(void)
         } else
             add_user_to_team("00000000-0000-0000-0000-222222222222", uuid[i]);
     }
+    user_t *user = get_user_from_struct("11111111-1111-1111-1111-111111111111");
+    user_t *user2 = get_user_from_struct("22222222-2222-2222-2222-222222222222");
+    add_personnal_discussion_to_struct("00000000-0000-0000-1111-111111111111", "22222222-2222-2222-2222-222222222222", user->user_data);
+    add_message_to_struct(user->user_data, user2->user_data, init_data("Discussion perso", "Discussion perso", "BOUBOULLLEE", "00000000-1111-0000-0000-000000000000"));
 }
 
 int main(int ac, char **av)
