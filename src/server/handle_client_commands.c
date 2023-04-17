@@ -40,7 +40,7 @@ void (*teams_commands[])() = {
 
 static int line_safe_strncmp(char *str1, const char *str2, size_t n)
 {
-    if (str1 == NULL ||  strlen(str1) < n)
+    if (str1 == NULL || strlen(str1) < n)
         return -1;
     return strncmp(str1, str2, n);
 }
@@ -51,7 +51,6 @@ static int get_nb_args(char *str, char *delim)
     char *token = NULL;
     char *tmp = strdup(str);
 
-    
     token = strtok(tmp, delim);
     for (int i = 0; token != NULL; i++) {
         token = strtok(NULL, delim);
@@ -72,6 +71,7 @@ static char **split_line(char *str, char *delim)
     token = strtok(str, delim);
     for (int i = 0; token != NULL; i++) {
         command_parsed[i] = strdup(token);
+        command_parsed[i + 1] = NULL;
         token = strtok(NULL, delim);
     }
     return command_parsed;
@@ -104,6 +104,6 @@ void teams_handle_client_commands(server_t *server, server_client_t *client)
         }
     }
     if (!found)
-        server_client_write_string(server, client, "500 Unknown command");
+        server_client_write_string(server, client, "500 Unknown command\n");
     free_array(command_parsed);
 }

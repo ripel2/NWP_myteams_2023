@@ -22,6 +22,10 @@ void handle_logout(server_t *server, server_client_t *client, char **args)
     server_client_write_string(server, client, args[0]);
     server_client_write_string(server, client, "\n");
     server_client_write_string(server, client, "Arguments: ");
+    if (args[1] == NULL) {
+        server_client_write_string(server, client, "No arguments given\n");
+        return;
+    }
     for (int i = 1; args[i]; i++) {
         server_client_write_string(server, client, args[i]);
         server_client_write_string(server, client, " ");
