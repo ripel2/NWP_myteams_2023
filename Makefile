@@ -84,6 +84,7 @@ TESTS_SRC	=	tests/add_functions/add_team_to_struct/basic_tests.c		\
 				tests/other_functions/is_thread_in_channel/basic_tests.c	\
 				tests/client_functions/tests_buffer_managment.c	\
 				tests/client_functions/tests_client_printf.c	\
+				tests/client_functions/tests_client_events.c	\
 
 TESTS_OBJ	=	$(TESTS_SRC:.c=.o)
 
