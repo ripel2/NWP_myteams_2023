@@ -80,11 +80,10 @@ TESTS_OBJ	=	$(TESTS_SRC:.c=.o)
 
 CFLAGS	=	-Wall -Wextra -Wshadow -Wpedantic -Werror
 CFLAGS	+=	-I./include -I./libs/mynet/include
-CFLAGS	+=	-ldl -L./libs/mynet -lmynetserver -lmynetclient
+CFLAGS	+=	-ldl -L./libs/mynet -lmynetserver
 GCC	=	gcc
 
 SERVER_LIB	=	./libs/mynet/libmynetserver.a
-CLIENT_LIB	=	./libs/mynet/libmynetclient.a
 
 %.o: %.c
 	@printf $(TEAL)"[+] Compiling $@ "$(DEFAULT)"\n"
@@ -92,19 +91,13 @@ CLIENT_LIB	=	./libs/mynet/libmynetclient.a
 	printf $(GREEN)"[+] Compiled $@ "$(DEFAULT)"\n" || \
 	printf $(RED)"[-] Failed compiling $@ "$(DEFAULT)"\n"
 
-all:	$(SERVER_NAME) $(CLIENT_NAME) $(SERVER_LIB) $(CLIENT_LIB)
+all:	$(SERVER_NAME) $(CLIENT_NAME) $(SERVER_LIB)
 
 $(SERVER_LIB):
 	@printf $(TEAL)"[+] Compiling $(SERVER_LIB) "$(DEFAULT)"\n"
 	@make -C ./libs/mynet/ && \
 	printf $(GREEN)"[+] Compiled $(SERVER_LIB) "$(DEFAULT)"\n" || \
 	printf $(RED)"[-] Failed compiling $(SERVER_LIB) "$(DEFAULT)"\n"
-
-$(CLIENT_LIB):
-	@printf $(TEAL)"[+] Compiling $(CLIENT_LIB) "$(DEFAULT)"\n"
-	@make -C ./libs/mynet/ && \
-	printf $(GREEN)"[+] Compiled $(CLIENT_LIB) "$(DEFAULT)"\n" || \
-	printf $(RED)"[-] Failed compiling $(CLIENT_LIB) "$(DEFAULT)"\n"
 
 $(SERVER_NAME):	$(SERVER_LIB) $(SERVER_MAIN_OBJ) $(SERVER_OBJ) $(SHARED_OBJ)
 	@printf $(TEAL)"[+] Creating $(SERVER_NAME) "$(DEFAULT)"\n"
@@ -113,7 +106,7 @@ $(SERVER_NAME):	$(SERVER_LIB) $(SERVER_MAIN_OBJ) $(SERVER_OBJ) $(SHARED_OBJ)
 	printf $(GREEN)"[+] Created $(SERVER_NAME) "$(DEFAULT)"\n" || \
 	printf $(RED)"[-] Failed creating $(SERVER_NAME) "$(DEFAULT)"\n"
 
-$(CLIENT_NAME):	$(CLIENT_LIB) $(CLIENT_MAIN_OBJ) $(CLIENT_OBJ) $(SHARED_OBJ)
+$(CLIENT_NAME):	$(CLIENT_MAIN_OBJ) $(CLIENT_OBJ) $(SHARED_OBJ)
 	@printf $(TEAL)"[+] Creating $(CLIENT_NAME) "$(DEFAULT)"\n"
 	@gcc -o $(CLIENT_NAME) $(CLIENT_MAIN_OBJ) $(CLIENT_OBJ) \
 	$(SHARED_OBJ) ${CFLAGS} && \
@@ -146,7 +139,7 @@ tests_run:	$(SERVER_OBJ) $(CLIENT_OBJ) $(SHARED_OBJ)
 tests_run:	$(TESTS_OBJ)
 	@printf $(TEAL)"[+] Compiling tests"$(DEFAULT)"\n"
 	@$(GCC) $(CFLAGS) -o unit_tests $(SERVER_OBJ) $(CLIENT_OBJ) $(SHARED_OBJ) \
-	$(TESTS_OBJ) -L./libs/mynet -lmynetserver -lmynetclient && \
+	$(TESTS_OBJ) -L./libs/mynet -lmynetserver && \
 	printf $(GREEN)"[+] Compiled tests"$(DEFAULT)"\n" || \
 	printf $(RED)"[-] Failed compiling tests"$(DEFAULT)"\n"
 	@printf $(TEAL)"[+] Running tests"$(DEFAULT)"\n"
