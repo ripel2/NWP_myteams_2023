@@ -11,7 +11,7 @@
 #include <string.h>
 #include <unistd.h>
 
-int add_message_to_struct(data_t *sender_uuid, data_t *receiver_uuid,
+int add_message_to_struct(data_t *sender_uuid, data_t *discussion_uuid,
 data_t *message)
 {
     user_t *user = get_user_from_struct(sender_uuid->uuid);
