@@ -15,6 +15,7 @@ TEAL	=	"\033[1;36m"
 SHARED_FOLDER	=	./src/shared
 SERVER_FOLDER	=	./src/server
 CLIENT_FOLDER	=	./src/client
+COMMANDS		=   $(SERVER_FOLDER)/commands
 ADD_FUNCTION	=   $(SERVER_FOLDER)/handle_database/add_functions
 GET_FUNCTION	=   $(SERVER_FOLDER)/handle_database/get_functions
 OTHER_FUNCTION =    $(SERVER_FOLDER)/handle_database/other_functions
@@ -50,8 +51,24 @@ SERVER_SRC	=	$(ADD_FUNCTION)/add_user_to_struct.c				\
 				$(ADD_FUNCTION)/add_user_to_team.c					\
 				$(OTHER_FUNCTION)/remove_user_from_team.c			\
 				$(OTHER_FUNCTION)/is_channel_in_team.c				\
-				$(OTHER_FUNCTION)/is_thread_in_channel.c	\
-				$(SERVER_FOLDER)/server_loop.c
+				$(OTHER_FUNCTION)/is_thread_in_channel.c			\
+				$(SERVER_FOLDER)/server_loop.c						\
+				$(SERVER_FOLDER)/handle_client_commands.c			\
+				$(COMMANDS)/create_command.c						\
+				$(COMMANDS)/help_command.c							\
+				$(COMMANDS)/info_command.c							\
+				$(COMMANDS)/list_command.c							\
+				$(COMMANDS)/login_command.c							\
+				$(COMMANDS)/logout_command.c						\
+				$(COMMANDS)/messages_command.c						\
+				$(COMMANDS)/send_command.c							\
+				$(COMMANDS)/subscribe_command.c						\
+				$(COMMANDS)/subscribed_command.c					\
+				$(COMMANDS)/unsubscribe_command.c					\
+				$(COMMANDS)/use_command.c							\
+				$(COMMANDS)/user_command.c							\
+				$(COMMANDS)/users_command.c
+
 
 CLIENT_SRC	=
 
