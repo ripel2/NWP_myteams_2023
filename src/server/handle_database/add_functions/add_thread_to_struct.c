@@ -28,6 +28,6 @@ data_t *thread_data)
     TAILQ_INSERT_TAIL(&channel_selected->threads, new_thread, entries);
     global->dll->functions[SERVER_EVENT_THREAD_CREATED]
     (channel_uuid, new_thread->thread_data->uuid, user_data->uuid,
-    new_thread->thread_data->name, new_thread->thread_data->description);
+    new_thread->thread_data->name, new_thread->thread_data->body);
     return (SUCCESS);
 }

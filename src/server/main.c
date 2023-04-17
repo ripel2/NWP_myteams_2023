@@ -30,6 +30,8 @@ int main(int ac, char **av)
     if (global == NULL)
         return ERROR;
     global->dll = init_dll();
+    if (global->dll == NULL)
+        return ERROR;
     TAILQ_INIT(&global->teams);
     TAILQ_INIT(&global->users);
     print_help_if_needed(ac, av);
