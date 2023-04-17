@@ -30,6 +30,7 @@ Test(open_file, ok_open_write)
 
 Test(open_file, error_parameter)
 {
+    cr_redirect_stderr();
     FILE *fp = open_file(NULL, NULL);
 
     cr_assert_null(fp);
@@ -37,6 +38,7 @@ Test(open_file, error_parameter)
 
 Test(open_file, error_file)
 {
+    cr_redirect_stderr();
     FILE *fp = open_file("tests/save/tests_files/error_file.my_teams", "r");
 
     cr_assert_null(fp);

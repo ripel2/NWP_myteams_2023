@@ -81,7 +81,8 @@ TESTS_SRC	=	tests/add_functions/add_team_to_struct/basic_tests.c		\
 				tests/other_functions/remove_user_from_team/basic_tests.c	\
 				tests/other_functions/is_channel_in_team/basic_tests.c		\
 				tests/other_functions/is_thread_in_channel/basic_tests.c	\
-				tests/save/open_file.c
+				tests/save/open_file.c										\
+				tests/save/add_user_to_struct.c
 
 TESTS_OBJ	=	$(TESTS_SRC:.c=.o)
 
