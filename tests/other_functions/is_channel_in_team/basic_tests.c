@@ -10,7 +10,7 @@
 #include <dlfcn.h>
 #include "data_struct_functions.h"
 #include "data.h"
-#include "loader.h"
+
 
 dlloader_t *init_dll(void);
 void fini_dll(dlloader_t *dll);
@@ -19,7 +19,7 @@ void redirect_all_stderr(void);
 Test(is_channel_in_team, true_case, .init=redirect_all_stderr)
 {
     global = malloc(sizeof(global_t));
-    global->dll = init_dll();
+    
     data_t *channel_data;
     data_t *team_data;
     char team_uuid[37];
@@ -43,7 +43,7 @@ Test(is_channel_in_team, true_case, .init=redirect_all_stderr)
 Test(is_channel_in_team, false_case, .init=redirect_all_stderr)
 {
     global = malloc(sizeof(global_t));
-    global->dll = init_dll();
+    
     data_t *team_data;
     char team_uuid[37];
     char channel_uuid[37];

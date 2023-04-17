@@ -10,7 +10,7 @@
 #include <dlfcn.h>
 #include "data_struct_functions.h"
 #include "data.h"
-#include "loader.h"
+
 
 dlloader_t *init_dll(void);
 void fini_dll(dlloader_t *dll);
@@ -20,7 +20,7 @@ global_t *global;
 Test(add_team_to_struct, basic_test, .init=redirect_all_stderr)
 {
     global = malloc(sizeof(global_t));
-    global->dll = init_dll();
+    
     data_t *team_data;
     team_t *team;
     char uuid[37];
@@ -43,7 +43,7 @@ Test(add_team_to_struct, basic_test, .init=redirect_all_stderr)
 Test(add_team_to_struct, multiple_team, .init=redirect_all_stderr)
 {
     global = malloc(sizeof(global_t));
-    global->dll = init_dll();
+    
     team_t *team;
     data_t *team_data1;
     data_t *team_data2;
@@ -75,7 +75,7 @@ Test(add_team_to_struct, multiple_team, .init=redirect_all_stderr)
 Test(add_team_to_struct, multiple_team_with_same_name, .init=redirect_all_stderr)
 {
     global = malloc(sizeof(global_t));
-    global->dll = init_dll();
+    
     team_t *team;
     data_t *team_data1;
     data_t *team_data2;

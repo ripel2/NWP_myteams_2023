@@ -10,7 +10,7 @@
 #include <dlfcn.h>
 #include "data_struct_functions.h"
 #include "data.h"
-#include "loader.h"
+
 
 dlloader_t *init_dll(void);
 void fini_dll(dlloader_t *dll);
@@ -19,7 +19,7 @@ void redirect_all_stderr(void);
 Test(get_user_from_struct, basic_test, .init=redirect_all_stderr)
 {
     global = malloc(sizeof(global_t));
-    global->dll = init_dll();
+    
     data_t *user_data;
     user_t *user;
     user_t *user_got;
@@ -45,7 +45,7 @@ Test(get_user_from_struct, basic_test, .init=redirect_all_stderr)
 Test(get_user_from_struct, multiple_user, .init=redirect_all_stderr)
 {
     global = malloc(sizeof(global_t));
-    global->dll = init_dll();
+    
     data_t *user_data1;
     data_t *user_data2;
     data_t *user_data3;
@@ -77,7 +77,7 @@ Test(get_user_from_struct, multiple_user, .init=redirect_all_stderr)
 Test(get_user_from_struct, multiple_user_with_same_name, .init=redirect_all_stderr)
 {
     global = malloc(sizeof(global_t));
-    global->dll = init_dll();
+    
     data_t *user_data1;
     data_t *user_data2;
     user_t *user;
@@ -114,7 +114,7 @@ Test(get_user_from_struct, multiple_user_with_same_name, .init=redirect_all_stde
 Test(get_user_from_struct, bad_uuid, .init=redirect_all_stderr)
 {
     global = malloc(sizeof(global_t));
-    global->dll = init_dll();
+    
     data_t *user_data1;
     data_t *user_data2;
     user_t *user_got;

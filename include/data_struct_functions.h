@@ -6,12 +6,12 @@
 */
 
 #pragma once
-#include "loader.h"
+
 #include "data.h"
 
 int add_user_to_struct(data_t *user_data);
 user_t *get_user_from_struct(const char *uuid);
-int add_team_to_struct(const char *user_uuid, data_t *team_data);
+int add_team_to_struct(data_t *team_data);
 team_t *get_team_from_struct(const char *uuid);
 int add_channel_to_struct(const char *team_uuid, data_t *channel_data);
 channel_t *get_channel_from_struct(const char *uuid);

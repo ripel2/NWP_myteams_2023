@@ -6,7 +6,7 @@
 */
 
 #include "data_struct_functions.h"
-#include "loader.h"
+
 #include "data.h"
 #include <string.h>
 #include <unistd.h>
@@ -23,8 +23,5 @@ int add_channel_to_struct(const char *team_uuid, data_t *channel_data)
     new_channel->channel_data = channel_data;
     TAILQ_INIT(&new_channel->threads);
     TAILQ_INSERT_TAIL(&team_selected->channels, new_channel, entries);
-    global->dll->functions[CLIENT_PRINT_CHANNEL_CREATED]
-    (team_uuid, new_channel->channel_data->uuid,
-    new_channel->channel_data->name);
     return (SUCCESS);
 }

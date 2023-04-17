@@ -9,7 +9,7 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <string.h>
-#include "loader.h"
+
 
 personal_discussion_t *get_personnal_discussion_from_struct(const char *uuid)
 {

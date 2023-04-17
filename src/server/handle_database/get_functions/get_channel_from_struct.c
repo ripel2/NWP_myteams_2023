@@ -9,7 +9,7 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <string.h>
-#include "loader.h"
+
 
 static channel_t *seek_in_teams(const char *uuid, team_t *team)
 {

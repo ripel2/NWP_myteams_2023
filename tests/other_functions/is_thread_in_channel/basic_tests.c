@@ -10,7 +10,7 @@
 #include <dlfcn.h>
 #include "data_struct_functions.h"
 #include "data.h"
-#include "loader.h"
+
 
 dlloader_t *init_dll(void);
 void fini_dll(dlloader_t *dll);
@@ -19,7 +19,7 @@ void redirect_all_stderr(void);
 Test(is_thread_in_channel, true_case, .init=redirect_all_stderr)
 {
     global = malloc(sizeof(global_t));
-    global->dll = init_dll();
+    
     data_t *thread_data;
     data_t *user_data;
     data_t *channel_data;
@@ -49,7 +49,7 @@ Test(is_thread_in_channel, true_case, .init=redirect_all_stderr)
 Test(is_thread_in_channel, false_case, .init=redirect_all_stderr)
 {
     global = malloc(sizeof(global_t));
-    global->dll = init_dll();
+    
     data_t *thread_data;
     data_t *user_data;
     data_t *channel_data;

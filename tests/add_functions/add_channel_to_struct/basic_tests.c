@@ -10,7 +10,7 @@
 #include <dlfcn.h>
 #include "data_struct_functions.h"
 #include "data.h"
-#include "loader.h"
+
 
 dlloader_t *init_dll(void);
 void fini_dll(dlloader_t *dll);
@@ -19,7 +19,7 @@ void redirect_all_stderr(void);
 Test(add_channel_to_struct, basic_test, .init=redirect_all_stderr)
 {
     global = malloc(sizeof(global_t));
-    global->dll = init_dll();
+    
     team_t *team;
     channel_t *channel;
     data_t *channel_data;
@@ -51,7 +51,7 @@ Test(add_channel_to_struct, basic_test, .init=redirect_all_stderr)
 Test(add_channel_to_struct, multiple_channel, .init=redirect_all_stderr)
 {
     global = malloc(sizeof(global_t));
-    global->dll = init_dll();
+    
     team_t *team;
     channel_t *channel;
     data_t *andreas_channel_data;
@@ -90,7 +90,7 @@ Test(add_channel_to_struct, multiple_channel, .init=redirect_all_stderr)
 Test(add_channel_to_struct, multiple_channel_with_same_name, .init=redirect_all_stderr)
 {
     global = malloc(sizeof(global_t));
-    global->dll = init_dll();
+    
     team_t *team;
     channel_t *channel;
     data_t *Andréas_channel_data;

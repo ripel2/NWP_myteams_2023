@@ -6,7 +6,7 @@
 */
 
 #include "data_struct_functions.h"
-#include "loader.h"
+
 #include "data.h"
 #include <string.h>
 #include <unistd.h>
@@ -22,8 +22,6 @@ int remove_user_from_team(const char *team_uuid, const char *user_uuid)
         if (team_uuid_list && strcmp(team_uuid_list->uuid, team_uuid) == 0) {
             TAILQ_REMOVE(&user->team_uuids, team_uuid_list, entries);
             free(team_uuid_list);
-            global->dll->functions[SERVER_EVENT_USER_UNSUBSCRIBED]
-            (team_uuid, user_uuid);
             return (0);
         }
     }

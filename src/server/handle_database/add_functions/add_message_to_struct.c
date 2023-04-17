@@ -6,7 +6,7 @@
 */
 
 #include "data_struct_functions.h"
-#include "loader.h"
+
 #include "data.h"
 #include <string.h>
 #include <unistd.h>
@@ -23,8 +23,6 @@ data_t *message)
         return (84);
     msg->user_data = sender_uuid;
     msg->message_data = message;
-    global->dll->functions[SERVER_EVENT_PRIVATE_MESSAGE_SENDED]
-    (sender_uuid->uuid, receiver_uuid->uuid, message->body);
     TAILQ_INSERT_TAIL(&discussion->messages, msg, entries);
     return (0);
 }
