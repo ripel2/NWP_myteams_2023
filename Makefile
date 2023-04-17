@@ -50,7 +50,8 @@ SERVER_SRC	=	$(ADD_FUNCTION)/add_user_to_struct.c				\
 				$(ADD_FUNCTION)/add_user_to_team.c					\
 				$(OTHER_FUNCTION)/remove_user_from_team.c			\
 				$(OTHER_FUNCTION)/is_channel_in_team.c				\
-				$(OTHER_FUNCTION)/is_thread_in_channel.c
+				$(OTHER_FUNCTION)/is_thread_in_channel.c	\
+				$(SERVER_FOLDER)/server_loop.c
 
 CLIENT_SRC	=
 
