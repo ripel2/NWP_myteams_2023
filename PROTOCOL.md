@@ -360,3 +360,76 @@ Example of a `CREATE` command with a team, a channel and a thread context:
 IN  >>> CREATE 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f message
 OUT <<< 200 <created_uuid>
 ```
+
+# 4. Client events
+
+The client can receive events from the server at any time. The client should be able to handle the following events:
+ - client_event_private_message_received
+ - client_event_team_created
+ - client_event_channel_created
+ - client_event_thread_created
+ - client_event_thread_reply_received
+
+## 4.1. `client_event_private_message_received`
+
+The `client_event_private_message_received` event is sent by the server to the user when a private message is received.
+Of course, it is only sent if the user is logged in.
+
+The server will send the `client_event_private_message_received` event followed by the uuid of the user who sent the message
+and the message itself.
+
+Example of a `client_event_private_message_received` event:
+```
+IN <<< client_event_private_message_received 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f message
+```
+
+## 4.2. `client_event_team_created`
+
+The `client_event_team_created` event is sent by the server to every user logged in when a new team is created.
+
+The server will send the `client_event_team_created` event followed by the uuid of the team, the name of the team
+and the description of the team.
+
+Example of a `client_event_team_created` event:
+```
+IN <<< client_event_team_created 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f team1 description
+```
+
+## 4.3. `client_event_channel_created`
+
+The `client_event_channel_created` event is sent by the server when a new channel is created in a team.
+It is sent to every user that belongs to the team and is logged in.
+
+The server will send the `client_event_channel_created` event followed by the uuid of the channel, the name of the channel
+and the description of the channel.
+
+Example of a `client_event_channel_created` event:
+```
+IN <<< client_event_channel_created 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f channel1 description
+```
+
+## 4.4. `client_event_thread_created`
+
+The `client_event_thread_created` event is sent by the server when a new thread is created in a channel.
+It is sent to every user that belongs to the channel and is logged in.
+
+The server will send the `client_event_thread_created` event followed by the uuid of the thread, the uuid of the
+user that created the thread, the timestamp of creation, the title of the thread and the message of the thread.
+
+Example of a `client_event_thread_created` event:
+```
+IN <<< client_event_thread_created 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f 1234567 title message
+```
+
+## 4.5. `client_event_thread_reply_received`
+
+The `client_event_thread_reply_received` event is sent by the server when a new reply is created in a thread.
+It is sent to every user that belongs to the thread and is logged in.
+
+The server will send the `client_event_thread_reply_received` event followed by the uuid of the team, the uuid of the thread,
+the uuid of the user that created the reply and the body of the reply.
+
+Example of a `client_event_thread_reply_received` event:
+```
+IN <<< client_event_thread_reply_received 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f message
+```
