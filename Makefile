@@ -58,8 +58,8 @@ CLIENT_SRC	=	$(CLIENT_FOLDER)/client_init.c	\
 				$(CLIENT_FOLDER)/client_loop.c	\
 				$(CLIENT_FOLDER)/client_read.c	\
 				$(CLIENT_FOLDER)/client_printf.c	\
-				$(CLIENT_FOLDER)/client_commands.c	\
-				$(CLIENT_FOLDER)/client_events.c
+				$(CLIENT_FOLDER)/client_events.c	\
+				$(CLIENT_FOLDER)/commands/handler.c
 
 SHARED_OBJ	=	$(SHARED_SRC:.c=.o)
 SERVER_OBJ	=	$(SERVER_SRC:.c=.o)
