@@ -30,7 +30,7 @@ Test(get_team_from_struct, basic_test, .init=redirect_all_stderr)
     TAILQ_INIT(&global->users);
     TAILQ_INIT(&global->teams);
     team_data = init_data("Lucas", "Description", "", uuid);
-    add_team_to_struct(team_data);
+    add_team_to_struct("00000000-0000-0000-0000-000000000000", team_data);
     TAILQ_FOREACH(team, &global->teams, entries) {
         team_got = get_team_from_struct(team->team_data->uuid);
         if (team) {
@@ -61,9 +61,9 @@ Test(get_team_from_struct, multiple_team, .init=redirect_all_stderr)
     team_data1 = init_data("Lucas", "Description", "", uuid[0]);
     team_data2 = init_data("Louis", "Description", "", uuid[1]);
     team_data3 = init_data("Andréas", "Description", "", uuid[2]);
-    add_team_to_struct(team_data1);
-    add_team_to_struct(team_data2);
-    add_team_to_struct(team_data3);
+    add_team_to_struct("00000000-0000-0000-0000-000000000000", team_data1);
+    add_team_to_struct("00000000-0000-0000-0000-000000000001", team_data2);
+    add_team_to_struct("00000000-0000-0000-0000-000000000002", team_data3);
     TAILQ_FOREACH(team, &global->teams, entries) {
         team_got = get_team_from_struct(team->team_data->uuid);
         if (team) {
@@ -95,8 +95,8 @@ Test(get_team_from_struct, multiple_team_with_same_name, .init=redirect_all_stde
     TAILQ_INIT(&global->teams);
     team_data1 = init_data("Lucas", "Description", "", uuid[0]);
     team_data2 = init_data("Lucas", "Description", "", uuid[1]);
-    add_team_to_struct(team_data1);
-    add_team_to_struct(team_data2);
+    add_team_to_struct("00000000-0000-0000-0000-000000000000", team_data1);
+    add_team_to_struct("00000000-0000-0000-0000-000000000000", team_data2);
     TAILQ_FOREACH(team, &global->teams, entries) {
         if (team) {
             team_got = get_team_from_struct(team->team_data->uuid);
@@ -128,8 +128,8 @@ Test(get_team_from_struct, bad_uuid, .init=redirect_all_stderr)
     TAILQ_INIT(&global->teams);
     team_data = init_data("Lucas", "Description", "", uuid[0]);
     team_data2 = init_data("Louis", "Description", "", uuid[1]);
-    add_team_to_struct(team_data);
-    add_team_to_struct(team_data2);
+    add_team_to_struct("00000000-0000-0000-0000-000000000000", team_data);
+    add_team_to_struct("00000000-0000-0000-0000-000000000000", team_data2);
     team_got = get_team_from_struct("00000000-0000-0000-0000-000000000000");
     cr_assert_null(team_got);
     fini_dll(global->dll);

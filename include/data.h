@@ -63,11 +63,11 @@ typedef struct thread_s {
 typedef struct reply_s {
     data_t *user_data;
     data_t *reply_data;
+    TAILQ_ENTRY(reply_s) entries;
 } reply_t;
 
 typedef struct personal_discussion_s {
-    char user_name[MAX_NAME_LENGTH + 1];
-    char user_uuid[UUID_LENGTH + 1];
+    data_t *user_data;
     char uuid[UUID_LENGTH + 1];
     TAILQ_HEAD(message_list_s, message_s) messages;
     TAILQ_ENTRY(personal_discussion_s) entries;
@@ -76,6 +76,7 @@ typedef struct personal_discussion_s {
 typedef struct message_s {
     data_t *user_data;
     data_t *message_data;
+    TAILQ_ENTRY(message_s) entries;
 } message_t;
 
 typedef struct global_s {

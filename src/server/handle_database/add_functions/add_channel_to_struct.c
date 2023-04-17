@@ -24,7 +24,7 @@ int add_channel_to_struct(const char *team_uuid, data_t *channel_data)
     TAILQ_INIT(&new_channel->threads);
     TAILQ_INSERT_TAIL(&team_selected->channels, new_channel, entries);
     global->dll->functions[CLIENT_PRINT_CHANNEL_CREATED]
-    (new_channel->channel_data->uuid, new_channel->channel_data->name,
-    new_channel->channel_data->description);
+    (team_uuid, new_channel->channel_data->uuid,
+    new_channel->channel_data->name);
     return (SUCCESS);
 }
