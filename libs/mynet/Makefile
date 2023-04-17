@@ -13,10 +13,8 @@ MAGENTA	=	"\033[1;35m"
 TEAL	=	"\033[1;36m"
 
 SERVER_NAME	=   libmynetserver.a
-CLIENT_NAME	=   libmynetclient.a
 
 SERVER_FOLDER	=	./server
-CLIENT_FOLDER	=	./client
 
 SERVER_SRC	=	$(SERVER_FOLDER)/server_client.c	\
 				$(SERVER_FOLDER)/server_destroy.c	\
@@ -26,14 +24,7 @@ SERVER_SRC	=	$(SERVER_FOLDER)/server_client.c	\
 				$(SERVER_FOLDER)/server_step.c	\
 				$(SERVER_FOLDER)/server_line_list.c
 
-CLIENT_SRC	=	$(CLIENT_FOLDER)/client_init.c	\
-				$(CLIENT_FOLDER)/client_destroy.c	\
-				$(CLIENT_FOLDER)/client_read.c	\
-				$(CLIENT_FOLDER)/client_write.c	\
-				$(CLIENT_FOLDER)/client_line_list.c
-
 SERVER_OBJ	=	$(SERVER_SRC:.c=.o)
-CLIENT_OBJ	=	$(CLIENT_SRC:.c=.o)
 
 CFLAGS	=	-Wall -Wextra -Wshadow -Wpedantic -Werror
 CFLAGS	+=	-I./include
@@ -53,15 +44,9 @@ $(SERVER_NAME):	$(SERVER_OBJ)
 	printf $(GREEN)"[+] Created $(SERVER_NAME) "$(DEFAULT)"\n" || \
 	printf $(RED)"[-] Failed creating $(SERVER_NAME) "$(DEFAULT)"\n"
 
-$(CLIENT_NAME):	$(CLIENT_OBJ)
-	@printf $(TEAL)"[+] Creating $(CLIENT_NAME) "$(DEFAULT)"\n"
-	@ar rc $(CLIENT_NAME) $(CLIENT_OBJ) && \
-	printf $(GREEN)"[+] Created $(CLIENT_NAME) "$(DEFAULT)"\n" || \
-	printf $(RED)"[-] Failed creating $(CLIENT_NAME) "$(DEFAULT)"\n"
-
 clean:
 	@printf $(TEAL)"[+] Cleaning mynet"$(DEFAULT)"\n"
-	@rm -f $(SERVER_OBJ) $(CLIENT_OBJ) && \
+	@rm -f $(SERVER_OBJ) && \
 	printf $(GREEN)"[+] Cleaned mynet"$(DEFAULT)"\n" || \
 	printf $(RED)"[-] Failed cleaning mynet"$(DEFAULT)"\n"
 

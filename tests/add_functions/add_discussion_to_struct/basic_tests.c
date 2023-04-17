@@ -10,16 +10,16 @@
 #include <dlfcn.h>
 #include "data_struct_functions.h"
 #include "data.h"
-#include "loader.h"
 
-dlloader_t *init_dll(void);
-void fini_dll(dlloader_t *dll);
+
+
+
 void redirect_all_stderr(void);
 
 Test(add_discussion_to_struct, basic_test, .init=redirect_all_stderr)
 {
     global = malloc(sizeof(global_t));
-    global->dll = init_dll();
+    
     personal_discussion_t *discussion;
     user_t *user;
     data_t *user_data;
@@ -39,14 +39,14 @@ Test(add_discussion_to_struct, basic_test, .init=redirect_all_stderr)
             cr_assert_str_eq(discussion->uuid, "00000000-0000-0000-0000-000000000000");
         }
     }
-    fini_dll(global->dll);
+    
     free(global);
 }
 
 Test(add_discussion_to_struct, multiple_discussion, .init=redirect_all_stderr)
 {
     global = malloc(sizeof(global_t));
-    global->dll = init_dll();
+    
     user_t *user;
     personal_discussion_t *discussion;
     data_t *user_data1;
@@ -77,6 +77,6 @@ Test(add_discussion_to_struct, multiple_discussion, .init=redirect_all_stderr)
             idx++;
         }
     }
-    fini_dll(global->dll);
+    
     free(global);
 }

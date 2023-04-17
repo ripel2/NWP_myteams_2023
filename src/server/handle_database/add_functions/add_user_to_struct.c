@@ -6,7 +6,7 @@
 */
 
 #include "data_struct_functions.h"
-#include "loader.h"
+
 #include "data.h"
 #include <string.h>
 #include <unistd.h>
@@ -24,8 +24,6 @@ int add_user_to_struct(data_t *user_data)
         return (ERROR);
     new_user->is_logged = false;
     new_user->user_data = user_data;
-    global->dll->functions[SERVER_EVENT_USER_CREATED]
-    (new_user->user_data->uuid, new_user->user_data->name);
     TAILQ_INIT(&new_user->team_uuids);
     TAILQ_INIT(&new_user->discussions);
     TAILQ_INSERT_TAIL(&global->users, new_user, entries);

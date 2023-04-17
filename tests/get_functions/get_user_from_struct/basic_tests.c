@@ -10,16 +10,16 @@
 #include <dlfcn.h>
 #include "data_struct_functions.h"
 #include "data.h"
-#include "loader.h"
 
-dlloader_t *init_dll(void);
-void fini_dll(dlloader_t *dll);
+
+
+
 void redirect_all_stderr(void);
 
 Test(get_user_from_struct, basic_test, .init=redirect_all_stderr)
 {
     global = malloc(sizeof(global_t));
-    global->dll = init_dll();
+    
     data_t *user_data;
     user_t *user;
     user_t *user_got;
@@ -38,14 +38,14 @@ Test(get_user_from_struct, basic_test, .init=redirect_all_stderr)
             cr_assert_eq(user->is_logged, user_got->is_logged);
         }
     }
-    fini_dll(global->dll);
+    
     free(global);
 }
 
 Test(get_user_from_struct, multiple_user, .init=redirect_all_stderr)
 {
     global = malloc(sizeof(global_t));
-    global->dll = init_dll();
+    
     data_t *user_data1;
     data_t *user_data2;
     data_t *user_data3;
@@ -70,14 +70,14 @@ Test(get_user_from_struct, multiple_user, .init=redirect_all_stderr)
             cr_assert_eq(user->is_logged, user_got->is_logged);
         }
     }
-    fini_dll(global->dll);
+    
     free(global);
 }
 
 Test(get_user_from_struct, multiple_user_with_same_name, .init=redirect_all_stderr)
 {
     global = malloc(sizeof(global_t));
-    global->dll = init_dll();
+    
     data_t *user_data1;
     data_t *user_data2;
     user_t *user;
@@ -107,14 +107,14 @@ Test(get_user_from_struct, multiple_user_with_same_name, .init=redirect_all_stde
             }
         }
     }
-    fini_dll(global->dll);
+    
     free(global);
 }
 
 Test(get_user_from_struct, bad_uuid, .init=redirect_all_stderr)
 {
     global = malloc(sizeof(global_t));
-    global->dll = init_dll();
+    
     data_t *user_data1;
     data_t *user_data2;
     user_t *user_got;
@@ -129,6 +129,6 @@ Test(get_user_from_struct, bad_uuid, .init=redirect_all_stderr)
     add_user_to_struct(user_data2);
     user_got = get_user_from_struct("00000000-0000-0000-0000-000000000000");
     cr_assert_null(user_got);
-    fini_dll(global->dll);
+    
     free(global);
 }

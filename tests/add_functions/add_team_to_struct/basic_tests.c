@@ -10,17 +10,17 @@
 #include <dlfcn.h>
 #include "data_struct_functions.h"
 #include "data.h"
-#include "loader.h"
 
-dlloader_t *init_dll(void);
-void fini_dll(dlloader_t *dll);
+
+
+
 void redirect_all_stderr(void);
 global_t *global;
 
 Test(add_team_to_struct, basic_test, .init=redirect_all_stderr)
 {
     global = malloc(sizeof(global_t));
-    global->dll = init_dll();
+    
     data_t *team_data;
     team_t *team;
     char uuid[37];
@@ -30,20 +30,20 @@ Test(add_team_to_struct, basic_test, .init=redirect_all_stderr)
     TAILQ_INIT(&global->users);
     TAILQ_INIT(&global->teams);
     team_data = init_data("Lucas", "Description", "", uuid);
-    add_team_to_struct("00000000-0000-0000-0000-000000000000", team_data);
+    add_team_to_struct(team_data);
     TAILQ_FOREACH(team, &global->teams, entries) {
         cr_assert_str_eq(team->team_data->name, "Lucas");
         cr_assert_str_eq(team->team_data->description, "Description");
         cr_assert_str_eq(team->team_data->uuid, uuid);
     }
-    fini_dll(global->dll);
+    
     free(global);
 }
 
 Test(add_team_to_struct, multiple_team, .init=redirect_all_stderr)
 {
     global = malloc(sizeof(global_t));
-    global->dll = init_dll();
+    
     team_t *team;
     data_t *team_data1;
     data_t *team_data2;
@@ -59,23 +59,23 @@ Test(add_team_to_struct, multiple_team, .init=redirect_all_stderr)
     team_data1 = init_data("Lucas", "Description", "", uuid[0]);
     team_data2 = init_data("Louis", "Description", "", uuid[1]);
     team_data3 = init_data("Andréas", "Description", "", uuid[2]);
-    add_team_to_struct("00000000-0000-0000-0000-000000000000", team_data1);
-    add_team_to_struct("00000000-0000-0000-0000-000000000001", team_data2);
-    add_team_to_struct("00000000-0000-0000-0000-000000000002", team_data3);
+    add_team_to_struct(team_data1);
+    add_team_to_struct(team_data2);
+    add_team_to_struct(team_data3);
     TAILQ_FOREACH(team, &global->teams, entries) {
         cr_assert_str_eq(name[idx], team->team_data->name);
         cr_assert_str_eq(team->team_data->description, "Description");
         cr_assert_str_eq(team->team_data->uuid, uuid[idx]);
         idx++;
     }
-    fini_dll(global->dll);
+    
     free(global);
 }
 
 Test(add_team_to_struct, multiple_team_with_same_name, .init=redirect_all_stderr)
 {
     global = malloc(sizeof(global_t));
-    global->dll = init_dll();
+    
     team_t *team;
     data_t *team_data1;
     data_t *team_data2;
@@ -92,8 +92,8 @@ Test(add_team_to_struct, multiple_team_with_same_name, .init=redirect_all_stderr
     TAILQ_INIT(&global->teams);
     team_data1 = init_data("Lucas", "Description", "", uuid[0]);
     team_data2 = init_data("Lucas", "Description", "", uuid[1]);
-    add_team_to_struct("00000000-0000-0000-0000-000000000000", team_data1);
-    add_team_to_struct("00000000-0000-0000-0000-000000000001", team_data2);
+    add_team_to_struct(team_data1);
+    add_team_to_struct(team_data2);
     TAILQ_FOREACH(team, &global->teams, entries) {
         if (team) {
             cr_assert_str_eq(name[idx], team->team_data->name);
@@ -105,6 +105,6 @@ Test(add_team_to_struct, multiple_team_with_same_name, .init=redirect_all_stderr
             idx++;
         }
     }
-    fini_dll(global->dll);
+    
     free(global);
 }

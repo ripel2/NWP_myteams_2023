@@ -18,3 +18,5 @@ coding-style-reports.log
 .vscode
 
 .bash_history
+
+*.gc*

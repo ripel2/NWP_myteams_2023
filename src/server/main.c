@@ -15,16 +15,6 @@
 
 global_t *global;
 
-static dlloader_t *init_dll(void)
-{
-    dlloader_t *dll = malloc(sizeof(dlloader_t));
-
-    if (dll == NULL)
-        return NULL;
-    load_teams_library("libs/myteams/libmyteams.so", dll);
-    return dll;
-}
-
 void debug_init(void)
 {
     char *name[] = {"Ninho", "NTM", "Booba", "Kaaris", "Niska", "Sofiane"};
@@ -36,8 +26,8 @@ void debug_init(void)
         "33333333-3333-3333-3333-333333333333",
         "44444444-4444-4444-4444-444444444444",
         "55555555-5555-5555-5555-555555555555"};
-    add_team_to_struct("00000000-0000-0000-0000-000000000000", init_data("Les Ziguigui", "Gang de la Paname", "BOUBOULLLEE", "00000000-0000-0000-0000-111111111111"));
-    add_team_to_struct("00000000-0000-0000-0000-000000000000", init_data("Les Zoulous", "Gang de la banlieue", "BOUBOULLLEE", "00000000-0000-0000-0000-222222222222"));
+    add_team_to_struct(init_data("Les Ziguigui", "Gang de la Paname", "BOUBOULLLEE", "00000000-0000-0000-0000-111111111111"));
+    add_team_to_struct(init_data("Les Zoulous", "Gang de la banlieue", "BOUBOULLLEE", "00000000-0000-0000-0000-222222222222"));
     for (int i = 0; i < 6; i++) {
         data_t *data = init_data(name[i], description[i], "BOUBOULLLEE", uuid[i]);
         add_user_to_struct(data);
@@ -56,11 +46,7 @@ void debug_init(void)
 int main(int ac, char **av)
 {
     global = malloc(sizeof(global_t));
-    if (global == NULL)
-        return ERROR;
-    global->dll = init_dll();
-    if (global->dll == NULL)
-        return ERROR;
+
     TAILQ_INIT(&global->teams);
     TAILQ_INIT(&global->users);
     print_help_if_needed(ac, av);

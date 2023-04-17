@@ -71,7 +71,6 @@ Here is a list of all the response codes that can be sent by the server:
 | 220 | Success | Service ready for new user | When the user connects to the server |
 | 221 | Success | Service closing control connection | When the user disconnects from the server using the "logout" command |
 | 230 | Success | User logged in, proceed | When the user logs in using the "login" command |
-| 350 | Success | Requested action pending further information | When the user uses a command and wants to send more data after |
 | 430 | Error | Ressource doesn't exist | When the user tries to interact with a ressource (team, channel, user, etc.) that doesn't exist |
 | 431 | Error | Cannot perform action | When the user tries to perform an action that they are not allowed to do |
 | 500 | Server error | Syntax error, command unrecognized | When the user sends a command that doesn't exist |
@@ -92,7 +91,7 @@ Here is the list of all the service commands available:
 | LOGOUT | None | Log out from the server | `LOGOUT\n` | 221 `<uuid>` Logged out<br>530 Not logged in |
 | USERS | None | Get the list of all the users | `USERS\n` | 150 ...<br>530 Not logged in |
 | USER | user_uuid | Get details about a given user | `USER <uuid>\n` | 150 ...<br>430 User doesn't exist<br>530 Not logged in<br>550 Bad uuid|
-| SEND | user_uuid message_lines | Send a message to a user | `SEND <uuid> <message_lines>\n` | 350 Waiting for data<br>200 OK<br>430 User doesn't exist<br>530 Not logged in |
+| SEND | user_uuid message | Send a message to a user | `SEND <uuid> <message>\n` | 200 OK<br>430 User doesn't exist<br>530 Not logged in |
 | MESSAGES | user_uuid | Get all messages exchanged with the given user | `MESSAGES <uuid>\n` | 150 ...<br>430 User doesn't exist<br>530 Not logged in<br>550 Bad uuid |
 | SUBSCRIBE | team_uuid | Subscribe to a team | `SUBSCRIBE <uuid>\n` | 200 OK<br>430 Team doesn't exist<br>530 Not logged in<br>550 Bad uuid |
 | SUBSCRIBED | None | Get the list of all the teams the user is subscribed to | `SUBSCRIBED\n` | 150 ...<br>530 Not logged in |
@@ -102,9 +101,9 @@ Here is the list of all the service commands available:
 | USE (TEAM) | team_uuid | Sets the command context to the given team | `USE <uuid>\n` | 110 OK<br>430 Team doesn't exist<br>530 Not logged in<br>550 Bad uuid |
 | USE (CHANNEL) | channel_uuid | Sets the command context to the given channel | `USE <uuid>\n` | 110 OK<br>430 Channel doesn't exist or doesn't belong to team<br>530 Not logged in<br>550 Bad uuid |
 | USE (THREAD) | thread_uuid | Sets the command context to the given thread | `USE <uuid>\n` | 110 OK<br>430 Thread doesn't exist or doesn't belong to channel<br>530 Not logged in<br>550 Bad uuid |
-| CREATE (TEAM) | team_name description_length | Create a new team | `CREATE <name> <description>\n` | 350 Waiting for data<br>150 `<uuid>`<br>530 Not logged in<br>550 Name or description too long |
+| CREATE (TEAM) | team_name description | Create a new team | `CREATE <name> <description>\n` | 150 `<uuid>`<br>530 Not logged in<br>550 Name or description too long |
 | CREATE (CHANNEL) | channel_name channel_description | Create a new channel | `CREATE <name> <description>\n` | 350 Waiting for data<br>150 `<uuid>`<br>530 Not logged in<br>550 Name or description too long |
-| CREATE (THREAD) | thread_title thread_message | Create a new thread | `CREATE <title> <message>\n` | 350 Waiting for data<br>150 `<uuid>`<br>530 Not logged in<br>550 Title or message too long |
+| CREATE (THREAD) | thread_title thread | Create a new thread | `CREATE <title> <message>\n` | 150 `<uuid>`<br>530 Not logged in<br>550 Title or message too long |
 | CREATE (COMMENT) | comment_body | Create a new comment | `CREATE <body>\n` | 150 `<uuid>`<br>530 Not logged in<br>550 Body too long |
 | LIST | None | Get the list of all the teams, channels and threads, depending on the context | `LIST\n` | 150 ...<br>530 Not logged in |
 | INFO | None | Get details about the user, the team, channel and thread, depending on the context | `INFO\n` | 150 ...<br>530 Not logged in |
@@ -113,8 +112,6 @@ Here is the list of all the service commands available:
 
 This is the list of all the possible answers for the service commands.
 They are only described if the answer is different from the one described in the table above.
-For example, it is very useful for commands that needs to send or get multiple lines.
-Remember that descriptions and messages can have multiple lines, separated by newlines (`\n`).
 
 #### 3.5.1. `HELP`
 
@@ -175,18 +172,12 @@ OUT <<< 150 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f user1 0
 ### 3.5.4. `SEND`
 
 The `SEND` command is used to send a message to a given user.
-The client should send the `SEND` command followed by the user uuid, the number of lines and a newline character (`\n`).
-The server will then send a `350 Waiting for data` response.
+The client should send the `SEND` command followed by the user uuid, the message and a newline character (`\n`).
 The client should then send the message and a newline character (`\n`).
 
 Example of a `SEND` command:
 ```
-IN  >>> SEND 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f 4
-OUT <<< 350 Waiting for data
-IN  >>> Hello!
-IN  >>> How are you?
-IN  >>> I'm fine, thanks!
-IN  >>> Bye!
+IN  >>> SEND 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f message
 OUT <<< 200 OK
 ```
 
@@ -199,20 +190,15 @@ The message will end with a `200 OK` response.
 
 A message will be represented by the following format:
 ```
-<number of lines> <FROM/TO>
-The message...
-that can have multiple lines.
+<FROM/TO> <message>
 ```
 
 Example of a `MESSAGES` command:
 ```
 IN  >>> MESSAGES 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f
 OUT <<< 150 2
-OUT <<< 2 1234567 FROM
-OUT <<< Hello!
-OUT <<< How are you?
-OUT <<< 1 1234567 TO
-OUT <<< I'm fine, thanks!
+OUT <<< FROM message
+OUT <<< TO message
 OUT <<< 200 OK
 ```
 (first number is the number of lines of the message, second number is the timestamp of the message)
@@ -226,8 +212,7 @@ The message will end with a `200 OK` response.
 
 A team will be represented by the following format:
 ```
-<uuid> <name> <description_lines>
-The description...
+<uuid> <name> <description>
 ```
 
 A user will be represented by the following format:
@@ -239,12 +224,8 @@ Example of a `SUBSCRIBED` command without arguments (get the list of all the tea
 ```
 IN  >>> SUBSCRIBED
 OUT <<< 150 2
-OUT <<< 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f team1 3
-OUT <<< The description...
-OUT <<< of the team...
-OUT <<< here it has 3 lines.
-OUT <<< 2e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f team2 1
-OUT <<< The description... here it has 1 line.
+OUT <<< 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f team1 description
+OUT <<< 2e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f team2 description
 OUT <<< 200 OK
 ```
 
@@ -272,50 +253,41 @@ Example of a `LIST` command without any context:
 ```
 IN  >>> LIST
 OUT <<< 150 2 TEAMS
-OUT <<< 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f team1 1234567 2
-OUT <<< The description of the team...
-OUT <<< here it has 2 lines.
-OUT <<< 2e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f team2 1234567 1
-OUT <<< The description of the team... here it has 1 line.
+OUT <<< 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f 1234567 team1 description
+OUT <<< 2e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f 1234567 team2 description
 OUT <<< 200 OK
 ```
-(first number is the timestamp of the team creation and the second number is the number of lines in the description)
+(the first number is the timestamp of the team creation)
 
 Example of a `LIST` command with a team context:
 ```
 IN  >>> LIST
 OUT <<< 150 2 CHANNELS
-OUT <<< 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f channel1 1234567 1
-OUT <<< Channel description
-OUT <<< 2e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f channel2 1234567 1
-OUT <<< Channel description
+OUT <<< 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f 1234567 channel1 channel_description
+OUT <<< 2e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f 1234567 channel2 channel_description
 OUT <<< 200 OK
 ```
-(first number is the timestamp of the channel creation and the second number is the number of lines in the description)
+(the first number is the timestamp of the channel creation)
 
 Example of a `LIST` command with a team and a channel context:
 ```
 IN  >>> LIST
 OUT <<< 150 2 THREADS
-OUT <<< 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f thread1 1234567 1
-OUT <<< Thread description
-OUT <<< 2e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f thread2 1234567 1
-OUT <<< Thread description
+OUT <<< 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f 1234567 thread1 thread_description
+OUT <<< 2e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f 1234567 thread2 thread_description
 OUT <<< 200 OK
 ```
-(first number is the timestamp of the thread creation and the second number is the number of lines in the description)
+(the first number is the timestamp of the thread creation)
 
 Example of a `LIST` command with a team, a channel and a thread context:
 ```
 IN  >>> LIST
 OUT <<< 150 2 REPLIES
-OUT <<< 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f reply1 1234567 1
-OUT <<< Reply message
-OUT <<< 2e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f reply2 1234567 1
-OUT <<< Reply message
+OUT <<< 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f 1234567 reply1 message
+OUT <<< 2e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f 1234567 reply2 message
 OUT <<< 200 OK
 ```
-(first number is the timestamp of the reply creation and the second number is the number of lines in the message)
+(the first number is the timestamp of the reply creation)
 
 ### 3.5.8. `INFO`
 
@@ -326,44 +298,34 @@ The `INFO` command can be used in multiple contexts:
  - If the client registered a team, a channel and a thread context, the server will send the information about a given reply in the thread.
 
 The client should send the `INFO` command followed by a newline character (`\n`).
-The server will send the information and then the number of lines for the description/username.
-The message will end with a `200 OK` response.
+The server will send the information and the description/username.
 
 Example of a `INFO` command without any context (print user details)
 ```
 IN  >>> INFO
-OUT <<< 150 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f 1
-OUT <<< user1
-OUT <<< 200 OK
+OUT <<< 150 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f user1
 ```
 
 Example of a `INFO` command with a team context:
 ```
 IN  >>> INFO
-OUT <<< 150 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f 1234567 2
-OUT <<< Team description
-OUT <<< here it has 2 lines.
-OUT <<< 200 OK
+OUT <<< 150 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f 1234567 description
 ```
-(first number is the timestamp of the team creation and the second number is the number of lines in the description)
+(first number is the timestamp of the team creation)
 
 Example of a `INFO` command with a team and a channel context:
 ```
 IN  >>> INFO
-OUT <<< 150 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f 1234567 1
-OUT <<< Channel description
-OUT <<< 200 OK
+OUT <<< 150 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f 1234567 description
 ```
-(first number is the timestamp of the channel creation and the second number is the number of lines in the description)
+(first number is the timestamp of the channel creation)
 
 Example of a `INFO` command with a team, a channel and a thread context:
 ```
 IN  >>> INFO
-OUT <<< 150 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f 1234567 1
-OUT <<< Thread description
-OUT <<< 200 OK
+OUT <<< 150 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f 1234567 description
 ```
-(first number is the timestamp of the thread creation and the second number is the number of lines in the description)
+(first number is the timestamp of the thread creation)
 
 ### 3.5.9. `CREATE`
 
@@ -373,37 +335,101 @@ The `CREATE` command can be used in multiple contexts:
  - If the client registered a team and a channel context, the server will create a new thread in the channel.
  - If the client registered a team, a channel and a thread context, the server will create a new reply in the thread.
 
-The client should send the `CREATE` command followed by the name of the team/channel/thread/reply, the number of lines of the description of the team/channel/thread/reply, and the description of the team/channel/thread/reply separated by newlines.
+The client should send the `CREATE` command followed by the uuid of the team/channel/thread/reply and and the description of the team/channel/thread/reply.
 
 Example of a `CREATE` command without any context:
 ```
-IN  >>> CREATE team1 2
-OUT <<< 350 Waiting for data
-IN  >>> The description of the team...
-IN  >>> here it has 2 lines.
-OUT <<< 200 OK
+IN  >>> CREATE 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f description
+OUT <<< 200 <created_uuid>
 ```
 
 Example of a `CREATE` command with a team context:
 ```
-IN  >>> CREATE channel1 1
-OUT <<< 350 Waiting for data
-IN  >>> Channel description
-OUT <<< 200 OK
+IN  >>> CREATE 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f description
+OUT <<< 200 <created_uuid>
 ```
 
 Example of a `CREATE` command with a team and a channel context:
 ```
-IN  >>> CREATE thread1 1
-OUT <<< 350 Waiting for data
-IN  >>> Thread description
-OUT <<< 200 OK
+IN  >>> CREATE 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f description
+OUT <<< 200 <created_uuid>
 ```
 
 Example of a `CREATE` command with a team, a channel and a thread context:
 ```
-IN  >>> CREATE reply1 1
-OUT <<< 350 Waiting for data
-IN  >>> Reply message
-OUT <<< 200 OK
+IN  >>> CREATE 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f message
+OUT <<< 200 <created_uuid>
+```
+
+# 4. Client events
+
+The client can receive events from the server at any time. The client should be able to handle the following events:
+ - client_event_private_message_received
+ - client_event_team_created
+ - client_event_channel_created
+ - client_event_thread_created
+ - client_event_thread_reply_received
+
+## 4.1. `client_event_private_message_received`
+
+The `client_event_private_message_received` event is sent by the server to the user when a private message is received.
+Of course, it is only sent if the user is logged in.
+
+The server will send the `client_event_private_message_received` event followed by the uuid of the user who sent the message
+and the message itself.
+
+Example of a `client_event_private_message_received` event:
+```
+IN <<< client_event_private_message_received 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f message
+```
+
+## 4.2. `client_event_team_created`
+
+The `client_event_team_created` event is sent by the server to every user logged in when a new team is created.
+
+The server will send the `client_event_team_created` event followed by the uuid of the team, the name of the team
+and the description of the team.
+
+Example of a `client_event_team_created` event:
+```
+IN <<< client_event_team_created 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f team1 description
+```
+
+## 4.3. `client_event_channel_created`
+
+The `client_event_channel_created` event is sent by the server when a new channel is created in a team.
+It is sent to every user that belongs to the team and is logged in.
+
+The server will send the `client_event_channel_created` event followed by the uuid of the channel, the name of the channel
+and the description of the channel.
+
+Example of a `client_event_channel_created` event:
+```
+IN <<< client_event_channel_created 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f channel1 description
+```
+
+## 4.4. `client_event_thread_created`
+
+The `client_event_thread_created` event is sent by the server when a new thread is created in a channel.
+It is sent to every user that belongs to the channel and is logged in.
+
+The server will send the `client_event_thread_created` event followed by the uuid of the thread, the uuid of the
+user that created the thread, the timestamp of creation, the title of the thread and the message of the thread.
+
+Example of a `client_event_thread_created` event:
+```
+IN <<< client_event_thread_created 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f 1234567 title message
+```
+
+## 4.5. `client_event_thread_reply_received`
+
+The `client_event_thread_reply_received` event is sent by the server when a new reply is created in a thread.
+It is sent to every user that belongs to the thread and is logged in.
+
+The server will send the `client_event_thread_reply_received` event followed by the uuid of the team, the uuid of the thread,
+the uuid of the user that created the reply and the body of the reply.
+
+Example of a `client_event_thread_reply_received` event:
+```
+IN <<< client_event_thread_reply_received 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f message
 ```
