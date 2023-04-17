@@ -31,7 +31,8 @@ CLIENT_MAIN_OBJ	=	$(CLIENT_MAIN:.c=.o)
 SHARED_SRC	=	$(SHARED_FOLDER)/print_help.c	\
 				$(SHARED_FOLDER)/port_handler.c \
 				$(SHARED_FOLDER)/ip_handler.c	\
-				$(SHARED_FOLDER)/fixed_array_split.c
+				$(SHARED_FOLDER)/fixed_array_split.c	\
+				$(SHARED_FOLDER)/str_to_time.c
 
 SERVER_SRC	=	$(ADD_FUNCTION)/add_user_to_struct.c				\
 				$(GET_FUNCTION)/get_user_from_struct.c				\
