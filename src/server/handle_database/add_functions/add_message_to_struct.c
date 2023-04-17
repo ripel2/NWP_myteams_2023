@@ -16,7 +16,7 @@ data_t *message)
 {
     user_t *user = get_user_from_struct(sender_uuid->uuid);
     personal_discussion_t *discussion =
-    get_personnal_discussion_from_struct(receiver_uuid->uuid);
+    get_personnal_discussion_from_struct(discussion_uuid->uuid);
     message_t *msg = malloc(sizeof(message_t));
 
     if (!user || !discussion || !msg)
