@@ -17,7 +17,8 @@ SERVER_FOLDER	=	./src/server
 CLIENT_FOLDER	=	./src/client
 ADD_FUNCTION	=   $(SERVER_FOLDER)/handle_database/add_functions
 GET_FUNCTION	=   $(SERVER_FOLDER)/handle_database/get_functions
-OTHER_FUNCTION =    $(SERVER_FOLDER)/handle_database/other_functions
+OTHER_FUNCTION 	=   $(SERVER_FOLDER)/handle_database/other_functions
+SAVE_FUNCTION   =   $(SERVER_FOLDER)/save
 
 SERVER_NAME	=   myteams_server
 CLIENT_NAME	=   myteams_cli
@@ -52,8 +53,10 @@ SERVER_SRC	=	$(ADD_FUNCTION)/add_user_to_struct.c				\
 				$(OTHER_FUNCTION)/remove_user_from_team.c			\
 				$(OTHER_FUNCTION)/is_channel_in_team.c				\
 				$(OTHER_FUNCTION)/is_thread_in_channel.c			\
-				$(SERVER_FOLDER)/save/write_in_to_file.c			\
-				$(SERVER_FOLDER)/save/open_file.c
+				$(SAVE_FUNCTION)/write_in_to_file.c					\
+				$(SAVE_FUNCTION)/open_file.c						\
+				$(SAVE_FUNCTION)/write_users.c						\
+				$(SAVE_FUNCTION)/write_teams_uuids.c
 
 CLIENT_SRC	=	$(CLIENT_FOLDER)/client_loop.c	\
 				$(CLIENT_FOLDER)/execute_simple_command.c	\
