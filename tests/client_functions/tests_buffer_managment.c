@@ -21,6 +21,8 @@ Test(client_read_in_buffer, basic, .timeout = 3) {
     write(pipefd[1], "test\n", 5);
     cr_assert_eq(client_read_in_buffer(&client), 0);
     cr_assert_eq(memcmp(client.buffer, "test\n", 5), 0);
+    client_destroy(&client);
+    close(pipefd[1]);
 }
 
 Test(client_read_in_buffer, splitted, .timeout = 3) {
@@ -32,6 +34,8 @@ Test(client_read_in_buffer, splitted, .timeout = 3) {
     write(pipefd[1], "test\ntest", 9);
     cr_assert_eq(client_read_in_buffer(&client), 0);
     cr_assert_eq(memcmp(client.buffer, "test\ntest", 5), 0);
+    client_destroy(&client);
+    close(pipefd[1]);
 }
 
 Test(client_flush_line, basic, .timeout = 3) {
@@ -46,6 +50,8 @@ Test(client_flush_line, basic, .timeout = 3) {
     cr_assert_eq(client_flush_line(&client, line), true);
     cr_assert_eq(memcmp(line, "test", 4), 0);
     cr_assert_eq(memcmp(client.buffer, "", 1), 0);
+    client_destroy(&client);
+    close(pipefd[1]);
 }
 
 Test(client_flush_line, splitted, .timeout = 3) {
@@ -60,6 +66,8 @@ Test(client_flush_line, splitted, .timeout = 3) {
     cr_assert_eq(client_flush_line(&client, line), true);
     cr_assert_eq(memcmp(line, "test", 4), 0);
     cr_assert_eq(memcmp(client.buffer, "test", 4), 0);
+    client_destroy(&client);
+    close(pipefd[1]);
 }
 
 Test(client_flush_line, splitted_multiple, .timeout = 3) {
@@ -77,6 +85,8 @@ Test(client_flush_line, splitted_multiple, .timeout = 3) {
     cr_assert_eq(client_flush_line(&client, line), true);
     cr_assert_eq(memcmp(line, "abcd", 4), 0);
     cr_assert_eq(memcmp(client.buffer, "efgh", 4), 0);
+    client_destroy(&client);
+    close(pipefd[1]);
 }
 
 Test(client_flush_line, multiple_writes, .timeout = 3) {
@@ -95,6 +105,8 @@ Test(client_flush_line, multiple_writes, .timeout = 3) {
     cr_assert_eq(client_flush_line(&client, line), true);
     cr_assert_eq(memcmp(line, "abcd", 4), 0);
     cr_assert_eq(memcmp(client.buffer, "efgh", 4), 0);
+    client_destroy(&client);
+    close(pipefd[1]);
 }
 
 Test(client_flush_line, multiple_writes_flushed, .timeout = 3) {
@@ -114,6 +126,8 @@ Test(client_flush_line, multiple_writes_flushed, .timeout = 3) {
     cr_assert_eq(client_flush_line(&client, line), true);
     cr_assert_eq(memcmp(line, "abcd", 4), 0);
     cr_assert_eq(memcmp(client.buffer, "efgh", 4), 0);
+    client_destroy(&client);
+    close(pipefd[1]);
 }
 
 Test(client_flush_line, five_flush, .timeout = 5) {
@@ -140,6 +154,8 @@ Test(client_flush_line, five_flush, .timeout = 5) {
     cr_assert_eq(client_flush_line(&client, line), true);
     cr_assert_eq(memcmp(line, "qrst", 4), 0);
     cr_assert_eq(memcmp(client.buffer, "", 1), 0);
+    client_destroy(&client);
+    close(pipefd[1]);
 }
 
 Test(client_flush_line, five_flush_not_ended, .timeout = 5) {
@@ -165,6 +181,8 @@ Test(client_flush_line, five_flush_not_ended, .timeout = 5) {
     cr_assert_eq(memcmp(client.buffer, "qrst", 4), 0);
     cr_assert_eq(client_flush_line(&client, line), false);
     cr_assert_eq(memcmp(client.buffer, "qrst", 4), 0);
+    client_destroy(&client);
+    close(pipefd[1]);
 }
 
 Test(client_flush_line, five_flush_not_ended_writes, .timeout = 5) {
@@ -191,4 +209,6 @@ Test(client_flush_line, five_flush_not_ended_writes, .timeout = 5) {
     cr_assert_eq(memcmp(client.buffer, "qrst", 4), 0);
     cr_assert_eq(client_flush_line(&client, line), false);
     cr_assert_eq(memcmp(client.buffer, "qrst", 4), 0);
+    client_destroy(&client);
+    close(pipefd[1]);
 }
