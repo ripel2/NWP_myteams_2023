@@ -12,8 +12,8 @@
 #include "data.h"
 
 
-dlloader_t *init_dll(void);
-void fini_dll(dlloader_t *dll);
+
+
 void redirect_all_stderr(void);
 
 Test(add_user_to_struct, basic_test, .init=redirect_all_stderr)
@@ -34,7 +34,7 @@ Test(add_user_to_struct, basic_test, .init=redirect_all_stderr)
         cr_assert_str_eq("Lucas", user->user_data->name);
         cr_assert_eq(user->is_logged, false);
     }
-    fini_dll(global->dll);
+    
     free(global);
 }
 
@@ -65,7 +65,7 @@ Test(add_user_to_struct, multiple_user, .init=redirect_all_stderr)
         cr_assert_eq(user->is_logged, false);
         idx++;
     }
-    fini_dll(global->dll);
+    
     free(global);
 }
 
@@ -101,6 +101,6 @@ Test(add_user_to_struct, multiple_user_with_same_name, .init=redirect_all_stderr
             idx++;
         }
     }
-    fini_dll(global->dll);
+    
     free(global);
 }

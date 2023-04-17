@@ -12,8 +12,8 @@
 #include "data.h"
 
 
-dlloader_t *init_dll(void);
-void fini_dll(dlloader_t *dll);
+
+
 void redirect_all_stderr(void);
 
 Test(add_thread_to_struct, basic_test, .init=redirect_all_stderr)
@@ -40,7 +40,7 @@ Test(add_thread_to_struct, basic_test, .init=redirect_all_stderr)
     team_data = init_data("Lucas", "Description", "", team_uuid);
     user_data = init_data("Lucas", "Description", "", "00000000-0000-0000-0000-000000000000");
     thread_data = init_data("Thread", "", "Je suis lucassssss", "00000000-0000-0000-0000-000000000000");
-    add_team_to_struct("00000000-0000-0000-0000-000000000000", team_data);
+    add_team_to_struct(team_data);
     add_channel_to_struct(team_uuid, channel_data);
     add_user_to_struct(user_data);
     add_thread_to_struct(channel_uuid, user_data, thread_data);
@@ -53,7 +53,7 @@ Test(add_thread_to_struct, basic_test, .init=redirect_all_stderr)
             }
         }
     }
-    fini_dll(global->dll);
+    
     free(global);
 }
 
@@ -83,7 +83,7 @@ Test(add_thread_to_struct, multiple_thread, .init=redirect_all_stderr)
     TAILQ_INIT(&global->teams);
     team_data = init_data("Lucas", "Description", "", team_uuid);
     
-    add_team_to_struct("00000000-0000-0000-0000-000000000000", team_data);
+    add_team_to_struct(team_data);
     channel_data = init_data("Andréas", "Weirdo", "", channel_uuid);
     user_data = init_data("Lucas", "Description", "", "00000000-0000-0000-0000-000000000000");
     thread_data1 = init_data(name[0], "", "Je suis lucassssss", thread_uuid[0]);
@@ -104,7 +104,7 @@ Test(add_thread_to_struct, multiple_thread, .init=redirect_all_stderr)
             }
         }
     }
-    fini_dll(global->dll);
+    
     free(global);
 }
 
@@ -140,7 +140,7 @@ Test(add_thread_to_struct, multiple_thread_with_same_name, .init=redirect_all_st
     thread_data1 = init_data("Andréas", "", "Je suis lucassssss", thread_uuid[0]);
     thread_data2 = init_data("Andréas", "", "Je suis lucassssss", thread_uuid[1]);
     add_user_to_struct(user_data);
-    add_team_to_struct("00000000-0000-0000-0000-000000000000", Lucas_team_data);
+    add_team_to_struct(Lucas_team_data);
     add_channel_to_struct(team_uuid, Andréas_channel_data);
     add_thread_to_struct(channel_uuid, user_data, thread_data1);
     add_thread_to_struct(channel_uuid, user_data, thread_data2);
@@ -157,6 +157,6 @@ Test(add_thread_to_struct, multiple_thread_with_same_name, .init=redirect_all_st
             }
         }
     }
-    fini_dll(global->dll);
+    
     free(global);
 }

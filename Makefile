@@ -30,8 +30,7 @@ CLIENT_MAIN_OBJ	=	$(CLIENT_MAIN:.c=.o)
 
 SHARED_SRC	=	$(SHARED_FOLDER)/print_help.c	\
 				$(SHARED_FOLDER)/port_handler.c \
-				$(SHARED_FOLDER)/ip_handler.c \
-        		$(SHARED_FOLDER)/loader/load_functions.c
+				$(SHARED_FOLDER)/ip_handler.c
 
 SERVER_SRC	=	$(ADD_FUNCTION)/add_user_to_struct.c				\
 				$(GET_FUNCTION)/get_user_from_struct.c				\
@@ -53,29 +52,13 @@ SERVER_SRC	=	$(ADD_FUNCTION)/add_user_to_struct.c				\
 				$(OTHER_FUNCTION)/is_channel_in_team.c				\
 				$(OTHER_FUNCTION)/is_thread_in_channel.c
 
-CLIENT_SRC	=	$(CLIENT_FOLDER)/client_loop.c	\
-				$(CLIENT_FOLDER)/execute_simple_command.c	\
-				$(CLIENT_FOLDER)/help_command.c	\
-				$(CLIENT_FOLDER)/login_command.c	\
-				$(CLIENT_FOLDER)/logout_command.c	\
-				$(CLIENT_FOLDER)/user_command.c	\
-				$(CLIENT_FOLDER)/users_command.c	\
-				$(CLIENT_FOLDER)/send_command.c	\
-				$(CLIENT_FOLDER)/messages_command.c	\
-				$(CLIENT_FOLDER)/subscribe_command.c	\
-				$(CLIENT_FOLDER)/subscribed_command.c	\
-				$(CLIENT_FOLDER)/unsubscribe_command.c	\
-				$(CLIENT_FOLDER)/use_command.c	\
-				$(CLIENT_FOLDER)/create_command.c	\
-				$(CLIENT_FOLDER)/list_command.c	\
-				$(CLIENT_FOLDER)/info_command.c
+CLIENT_SRC	=
 
 SHARED_OBJ	=	$(SHARED_SRC:.c=.o)
 SERVER_OBJ	=	$(SERVER_SRC:.c=.o)
 CLIENT_OBJ	=	$(CLIENT_SRC:.c=.o)
 
-TESTS_SRC	=	tests/load_functions_tests/basic_tests.c 			 		\
-				tests/add_functions/add_team_to_struct/basic_tests.c		\
+TESTS_SRC	=	tests/add_functions/add_team_to_struct/basic_tests.c		\
 				tests/add_functions/add_channel_to_struct/basic_tests.c 	\
 				tests/add_functions/add_user_to_struct/basic_tests.c		\
 				tests/add_functions/add_thread_to_struct/basic_tests.c		\

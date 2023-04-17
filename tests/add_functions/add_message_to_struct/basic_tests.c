@@ -12,8 +12,8 @@
 #include "data.h"
 
 
-dlloader_t *init_dll(void);
-void fini_dll(dlloader_t *dll);
+
+
 void redirect_all_stderr(void);
 
 Test(add_message_to_struct, basic_test, .init=redirect_all_stderr)
@@ -46,7 +46,7 @@ Test(add_message_to_struct, basic_test, .init=redirect_all_stderr)
             }
         }
     }
-    fini_dll(global->dll);
+    
     free(global);
 }
 
@@ -98,7 +98,7 @@ Test(add_message_to_struct, multiple_message, .init=redirect_all_stderr)
             }
         }
     }
-    fini_dll(global->dll);
+    
     free(global);
 }
 
@@ -128,6 +128,6 @@ Test(add_message_to_struct, no_discussion, .init=redirect_all_stderr)
             }
         }
     }
-    fini_dll(global->dll);
+    
     free(global);
 }

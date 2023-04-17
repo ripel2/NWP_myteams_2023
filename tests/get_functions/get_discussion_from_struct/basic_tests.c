@@ -12,8 +12,8 @@
 #include "data.h"
 
 
-dlloader_t *init_dll(void);
-void fini_dll(dlloader_t *dll);
+
+
 void redirect_all_stderr(void);
 
 Test(get_discussion_from_struct, basic_test, .init=redirect_all_stderr)
@@ -42,7 +42,7 @@ Test(get_discussion_from_struct, basic_test, .init=redirect_all_stderr)
             cr_assert_str_eq(discussion->user_data->name, discussion_got->user_data->name);
         }
     }
-    fini_dll(global->dll);
+    
     free(global);
 }
 
@@ -79,7 +79,7 @@ Test(get_discussion_from_struct, multiple_discussion, .init=redirect_all_stderr)
             cr_assert_str_eq(user_got->user_data->name, discussion->user_data->name);
         }
     }
-    fini_dll(global->dll);
+    
     free(global);
 }
 
@@ -118,7 +118,7 @@ Test(get_discussion_from_struct, multiple_user_with_same_name, .init=redirect_al
             strcat(last_uuid, discussion->uuid);
         }
     }
-    fini_dll(global->dll);
+    
     free(global);
 }
 
@@ -141,6 +141,6 @@ Test(get_discussion_from_struct, bad_uuid, .init=redirect_all_stderr)
     add_personnal_discussion_to_struct("00000000-0000-0000-0000-000000006000", user_data1->uuid, user_data1);
     discussion_got = get_personnal_discussion_from_struct("00000000-0000-0000-0000-000000000000");
     cr_assert_null(discussion_got);
-    fini_dll(global->dll);
+    
     free(global);
 }

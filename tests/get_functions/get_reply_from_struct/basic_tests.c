@@ -12,8 +12,8 @@
 #include "data.h"
 
 
-dlloader_t *init_dll(void);
-void fini_dll(dlloader_t *dll);
+
+
 void redirect_all_stderr(void);
 
 Test(get_reply_from_struct, basic_test, .init=redirect_all_stderr)
@@ -44,7 +44,7 @@ Test(get_reply_from_struct, basic_test, .init=redirect_all_stderr)
     channel_data = init_data("Andros", "TT", "", channel_uuid);
     team_data = init_data("Lucas", "Description", "", team_uuid);
     reply_data = init_data("Lucas", "Description", "", team_uuid);
-    add_team_to_struct("00000000-0000-0000-0000-000000000000", team_data);
+    add_team_to_struct(team_data);
     add_channel_to_struct(team_uuid, channel_data);
     add_user_to_struct(user_data);
     add_thread_to_struct(channel_uuid, user_data, thread_data);
@@ -64,7 +64,7 @@ Test(get_reply_from_struct, basic_test, .init=redirect_all_stderr)
             }
         }
     }
-    fini_dll(global->dll);
+    
     free(global);
 }
 
@@ -101,7 +101,7 @@ Test(get_reply_from_struct, multiple_reply, .init=redirect_all_stderr)
     reply_data1 = init_data("Lucas", "Description", "", reply_uuid[0]);
     reply_data2 = init_data("Lucas", "Description", "", reply_uuid[1]);
     reply_data3 = init_data("Lucas", "Description", "", reply_uuid[2]);
-    add_team_to_struct("00000000-0000-0000-0000-000000000000", team_data);
+    add_team_to_struct(team_data);
     add_channel_to_struct(team_uuid, channel_data);
     add_user_to_struct(user_data);
     add_thread_to_struct(team_uuid, user_data, thread_data);
@@ -124,7 +124,7 @@ Test(get_reply_from_struct, multiple_reply, .init=redirect_all_stderr)
             }
         }
     }
-    fini_dll(global->dll);
+    
     free(global);
 }
 
@@ -162,7 +162,7 @@ Test(get_reply_from_struct, multiple_reply_with_same_name, .init=redirect_all_st
     reply_data1 = init_data("Lucas", "Description", "", reply_uuid[0]);
     reply_data2 = init_data("Lucas", "Description", "", reply_uuid[1]);
     reply_data3 = init_data("Lucas", "Description", "", reply_uuid[2]);
-    add_team_to_struct("00000000-0000-0000-0000-000000000000", team_data);
+    add_team_to_struct(team_data);
     add_channel_to_struct(team_uuid, channel_data);
     add_user_to_struct(user_data);
     add_thread_to_struct(team_uuid, user_data, thread_data);
@@ -187,7 +187,7 @@ Test(get_reply_from_struct, multiple_reply_with_same_name, .init=redirect_all_st
             }
         }
     }
-    fini_dll(global->dll);
+    
     free(global);
 }
 
@@ -210,12 +210,12 @@ Test(get_reply_from_struct, bad_uuid, .init=redirect_all_stderr)
     channel_data = init_data("Andros", "TT", "", channel_uuid);
     thread_data = init_data("Andros", "TT", "", "00000000-0000-1111-0000-000000000000");
     user_data = init_data("Lucas", "", "Description", team_uuid);
-    add_team_to_struct("00000000-0000-0000-0000-000000000000", team_data);
+    add_team_to_struct(team_data);
     add_channel_to_struct(team_uuid, channel_data);
     add_user_to_struct(user_data);
     add_thread_to_struct(team_uuid, user_data, thread_data);
     reply_got = get_reply_from_struct("00000000-0000-0000-0000-000000000000");
     cr_assert_null(reply_got);
-    fini_dll(global->dll);
+    
     free(global);
 }

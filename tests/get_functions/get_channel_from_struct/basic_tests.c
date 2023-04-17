@@ -12,8 +12,8 @@
 #include "data.h"
 
 
-dlloader_t *init_dll(void);
-void fini_dll(dlloader_t *dll);
+
+
 void redirect_all_stderr(void);
 
 Test(get_channel_from_struct, basic_test, .init=redirect_all_stderr)
@@ -36,7 +36,7 @@ Test(get_channel_from_struct, basic_test, .init=redirect_all_stderr)
     TAILQ_INIT(&global->teams);
     channel_data = init_data("Andros", "TT", "", channel_uuid);
     team_data = init_data("Lucas", "Description", "", team_uuid);
-    add_team_to_struct("00000000-0000-0000-0000-000000000000", team_data);
+    add_team_to_struct(team_data);
     add_channel_to_struct(team_uuid, channel_data);
     TAILQ_FOREACH(team, &global->teams, entries) {
         TAILQ_FOREACH(channel, &team->channels, entries) {
@@ -48,7 +48,7 @@ Test(get_channel_from_struct, basic_test, .init=redirect_all_stderr)
             }
         }
     }
-    fini_dll(global->dll);
+    
     free(global);
 }
 
@@ -76,7 +76,7 @@ Test(get_channel_from_struct, multiple_channel, .init=redirect_all_stderr)
     channel_data1 = init_data("Andros", "TT", "", channel_uuid[0]);
     channel_data2 = init_data("Lucaer", "CC", "", channel_uuid[1]);
     channel_data3 = init_data("Louhihi", "II", "", channel_uuid[2]);
-    add_team_to_struct("00000000-0000-0000-0000-000000000000", team_data);
+    add_team_to_struct(team_data);
     add_channel_to_struct(team_uuid, channel_data1);
     add_channel_to_struct(team_uuid, channel_data2);
     add_channel_to_struct(team_uuid, channel_data3);
@@ -90,7 +90,7 @@ Test(get_channel_from_struct, multiple_channel, .init=redirect_all_stderr)
             }
         }
     }
-    fini_dll(global->dll);
+    
     free(global);
 }
 
@@ -117,7 +117,7 @@ Test(get_channel_from_struct, multiple_channel_with_same_name, .init=redirect_al
     team_data = init_data("Lucas", "Description", "", team_uuid);
     channel_data1 = init_data("Andros", "TT", "", channel_uuid[0]);
     channel_data2 = init_data("Andros", "CC", "", channel_uuid[1]);
-    add_team_to_struct("00000000-0000-0000-0000-000000000000", team_data);
+    add_team_to_struct(team_data);
     add_channel_to_struct(team_uuid, channel_data1);
     add_channel_to_struct(team_uuid, channel_data2);
     TAILQ_FOREACH(team, &global->teams, entries) {
@@ -133,7 +133,7 @@ Test(get_channel_from_struct, multiple_channel_with_same_name, .init=redirect_al
             }
         }
     }
-    fini_dll(global->dll);
+    
     free(global);
 }
 
@@ -151,10 +151,10 @@ Test(get_channel_from_struct, bad_uuid, .init=redirect_all_stderr)
     TAILQ_INIT(&global->teams);
     team_data = init_data("Lucas", "Description", "", team_uuid);
     channel_data = init_data("Andros", "TT", "", channel_uuid);
-    add_team_to_struct("00000000-0000-0000-0000-000000000000", team_data);
+    add_team_to_struct(team_data);
     add_channel_to_struct(team_uuid, channel_data);
     channel_got = get_channel_from_struct("00000000-0000-1111-0000-000000000000");
     cr_assert_null(channel_got);
-    fini_dll(global->dll);
+    
     free(global);
 }
