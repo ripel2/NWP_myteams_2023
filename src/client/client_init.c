@@ -17,8 +17,11 @@ int client_init(client_t *client, const char *ip, int port)
 {
     FD_ZERO(&client->read_fds);
     FD_ZERO(&client->write_fds);
+    client->server_closed = false;
     client->needs_exit = false;
     client->fd = socket(AF_INET, SOCK_STREAM, 0);
+    memset(&client->buffer, 0, sizeof(client->buffer));
+    client->buffer_cur = 0;
     if (client->fd == -1)
         return errno;
     client->addr.sin_family = AF_INET;

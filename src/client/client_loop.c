@@ -14,11 +14,19 @@
 #include <unistd.h>
 #include <errno.h>
 
+static void client_print_exit_reason(client_t *client)
+{
+    if (client->needs_exit)
+        printf("Client exiting...\n");
+    else if (client->server_closed)
+        printf("Server closed connection\n");
+}
+
 int client_loop(client_t *client)
 {
     int ret = 0;
 
-    while (client->needs_exit == false) {
+    while (!client->needs_exit && !client->server_closed) {
         FD_SET(STDIN_FILENO, &client->read_fds);
         FD_SET(client->fd, &client->read_fds);
         ret = select(client->fd + 1, &client->read_fds, NULL, NULL, NULL);
@@ -31,5 +39,7 @@ int client_loop(client_t *client)
         FD_CLR(client->fd, &client->read_fds);
         FD_CLR(STDIN_FILENO, &client->read_fds);
     }
+    client_print_exit_reason(client);
+    client_destroy(client);
     return 0;
 }
