@@ -30,7 +30,8 @@ CLIENT_MAIN_OBJ	=	$(CLIENT_MAIN:.c=.o)
 
 SHARED_SRC	=	$(SHARED_FOLDER)/print_help.c	\
 				$(SHARED_FOLDER)/port_handler.c \
-				$(SHARED_FOLDER)/ip_handler.c
+				$(SHARED_FOLDER)/ip_handler.c	\
+				$(SHARED_FOLDER)/fixed_array_split.c
 
 SERVER_SRC	=	$(ADD_FUNCTION)/add_user_to_struct.c				\
 				$(GET_FUNCTION)/get_user_from_struct.c				\
@@ -52,7 +53,11 @@ SERVER_SRC	=	$(ADD_FUNCTION)/add_user_to_struct.c				\
 				$(OTHER_FUNCTION)/is_channel_in_team.c				\
 				$(OTHER_FUNCTION)/is_thread_in_channel.c
 
-CLIENT_SRC	=
+CLIENT_SRC	=	$(CLIENT_FOLDER)/client_init.c	\
+				$(CLIENT_FOLDER)/client_loop.c	\
+				$(CLIENT_FOLDER)/client_printf.c	\
+				$(CLIENT_FOLDER)/client_commands.c	\
+				$(CLIENT_FOLDER)/client_events.c
 
 SHARED_OBJ	=	$(SHARED_SRC:.c=.o)
 SERVER_OBJ	=	$(SERVER_SRC:.c=.o)
