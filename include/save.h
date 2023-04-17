@@ -12,4 +12,4 @@
 #include "loader.h"
 
 FILE *open_file(const char *path, const char *mode);
-void write_global(FILE *fp);
+unsigned int write_global(void);

@@ -38,6 +38,7 @@ typedef struct user_s {
 
 typedef struct team_uuid_s {
     char uuid[UUID_LENGTH + 1];
+    TAILQ_ENTRY(team_uuid_s) entries;
 } team_uuid_t;
 
 typedef struct team_s {
@@ -69,6 +70,7 @@ typedef struct personal_discussion_s {
     char user_uuid[UUID_LENGTH + 1];
     char uuid[UUID_LENGTH + 1];
     TAILQ_HEAD(message_list_s, message_s) messages;
+    TAILQ_ENTRY(personal_discussion_s) entries;
 } personal_discussion_t;
 
 typedef struct message_s {

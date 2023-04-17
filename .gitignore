@@ -1,6 +1,7 @@
 *.a
 *.o
 *.so
+*.gc*
 
 !/libs/myteams/libmyteams.so
 

@@ -7,14 +7,24 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 
 FILE *open_file(const char *path, const char *mode)
 {
-    FILE *fp = fopen(path, mode);
+    FILE *fd = NULL;
 
-    if (fp == NULL) {
-        perror("Error opening file");
-        exit(EXIT_FAILURE);
+    if (path == NULL || mode == NULL) {
+        perror("Error the path or the mode is NULL");
+        return NULL;
     }
-    return fp;
+    if (access(path, F_OK) == -1) {
+        perror("Error the file doesn't exist");
+        return NULL;
+    }
+    fd = fopen(path, mode);
+    if (fd == NULL) {
+        perror("Error opening file");
+        return NULL;
+    }
+    return fd;
 }
