@@ -10,14 +10,30 @@
 #include "data.h"
 #include "client.h"
 
+/**
+ * @brief Main loop of the client
+ * @param client The client
+ * @return 0 on success, 84 on error
+*/
 int client_loop(client_t *client);
 
+// Typedef for function pointers
 typedef struct command_s {
     char *name;
     int (*func)(client_t *client, char **args);
 } command_t;
 
+/**
+ * @brief Handle the events received from the server
+ * @param client The client
+ * @return 0 on success, errno on error
+*/
 int client_handle_event(client_t *client);
+/**
+ * @brief Handle the commands entered by the user
+ * @param client The client
+ * @return 0 on success, errno on error
+*/
 int client_handle_command(client_t *client);
 
 int help_command(client_t *client, char **args);

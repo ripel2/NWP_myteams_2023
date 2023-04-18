@@ -15,14 +15,24 @@
 #include <unistd.h>
 #include <errno.h>
 
+static const command_t COMMANDS[] = {
+    {"/help", &help_command},
+    {"/login", &login_command},
+    {"/logout", &logout_command},
+    {NULL, NULL}
+};
+
 static int client_process_command_line(client_t *client, char *line)
 {
     char *args[5] = {NULL};
 
-    (void)client;
     split_string_fixed_array(line, args, 5);
-    for (size_t c = 0; c < 5; c++)
-        printf("args[%zu] = %s\n", c, args[c]);
+    for (command_t *c = (command_t *)COMMANDS; c->name != NULL; c++) {
+        if (strcmp(args[0], c->name) == 0) {
+            return c->func(client, args);
+        }
+    }
+    printf("Unknown command: %s, try /help\n", args[0]);
     return 0;
 }
 
