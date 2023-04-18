@@ -27,12 +27,14 @@ static int client_process_command_line(client_t *client, char *line)
     char *args[5] = {NULL};
 
     split_string_fixed_array(line, args, 5);
+    if (args[0] == NULL)
+        return 0;
     for (command_t *c = (command_t *)COMMANDS; c->name != NULL; c++) {
         if (strcmp(args[0], c->name) == 0) {
             return c->func(client, args);
         }
     }
-    printf("Unknown command: %s, try /help\n", args[0]);
+    printf("Unknown command: \"%s\", try /help\n", args[0]);
     return 0;
 }
 
