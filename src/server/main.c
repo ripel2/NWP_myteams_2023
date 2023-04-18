@@ -23,6 +23,6 @@ int main(int ac, char **av)
     TAILQ_INIT(&global->users);
     print_help_if_needed(ac, av);
     is_port_valid(av[1]);
-    write_global();
+    write_global_struct();
     return SUCCESS;
 }

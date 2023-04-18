@@ -12,7 +12,7 @@
 #include "save.h"
 #include "data_struct_functions.h"
 
-unsigned int write_global(void)
+unsigned int write_global_struct(void)
 {
     FILE *fd = NULL;
 
