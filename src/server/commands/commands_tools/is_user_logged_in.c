@@ -36,7 +36,8 @@ bool is_user_already_logged_in(server_t *server, server_client_t *client)
 
     TAILQ_FOREACH(tmp_user, &global->users, entries) {
         if (tmp_user && tmp_user->is_logged == true) {
-            return_value = check_in_clients_fd(server, client, tmp_user->socket_fd);
+            return_value = check_in_clients_fd(server,
+            client, tmp_user->socket_fd);
         }
     }
     return return_value;
