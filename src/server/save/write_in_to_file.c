@@ -20,6 +20,7 @@ unsigned int write_global(void)
     if (fd == NULL)
         return ERROR;
     write_users(fd);
+    write_teams(fd);
     fclose(fd);
     return SUCCESS;
 }

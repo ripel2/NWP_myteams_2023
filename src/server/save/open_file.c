@@ -18,8 +18,12 @@ FILE *open_file(const char *path, const char *mode)
         return NULL;
     }
     if (access(path, F_OK) == -1) {
-        perror("Error the file doesn't exist");
-        return NULL;
+        fd = fopen(path, "w");
+        if (fd == NULL) {
+            perror("Error creating file");
+            return NULL;
+        }
+        fclose(fd);
     }
     fd = fopen(path, mode);
     if (fd == NULL) {

@@ -1,0 +1,38 @@
+/*
+** EPITECH PROJECT, 2023
+** write_in_to_file
+** File description:
+** This file contains the write_in_to_file function
+*/
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <sys/queue.h>
+#include "data.h"
+#include "save.h"
+#include "data_struct_functions.h"
+
+int count_replies(thread_t *thread)
+{
+    reply_t *reply = NULL;
+    int nb_replies = 0;
+
+    for (reply = TAILQ_FIRST(&thread->replies); reply != NULL;
+        reply = TAILQ_NEXT(reply, entries)) {
+        nb_replies++;
+    }
+    return nb_replies;
+}
+
+void write_replies(FILE *fd, thread_t *thread)
+{
+    reply_t *reply = NULL;
+    int nb_replies = count_replies(thread);
+
+    fwrite(&nb_replies, sizeof(int), 1, fd);
+    for (reply = TAILQ_FIRST(&thread->replies); reply != NULL;
+        reply = TAILQ_NEXT(reply, entries)) {
+        fwrite(reply->user_data, sizeof(data_t), 1, fd);
+        fwrite(reply->reply_data, sizeof(data_t), 1, fd);
+    }
+}

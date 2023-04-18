@@ -41,5 +41,6 @@ Test(open_file, error_file)
     cr_redirect_stderr();
     FILE *fp = open_file("tests/save/tests_files/error_file.my_teams", "r");
 
-    cr_assert_null(fp);
+    cr_assert_not_null(fp);
+    fclose(fp);
 }
