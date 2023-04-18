@@ -19,3 +19,4 @@ void write_teams(FILE *fd);
 void write_channels(FILE *fd, team_t *team);
 void write_replies(FILE *fd, thread_t *thread);
 void write_threads(FILE *fd, channel_t *channel);
+unsigned int load_global_struct(void);

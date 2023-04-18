@@ -42,6 +42,7 @@ Test(add_user_to_struct2, multiple_user_without_teams, .init=init_global)
     FILE *fd = open_file("my_teams.db", "r");
     cr_assert_not_null(fd);
     fread(&nb_users, sizeof(int), 1, fd);
+    sleep(0.1);
     cr_assert_eq(nb_users, 3);
     for (int i = 0; i < 3; i++) {
         data_t *data = malloc(sizeof(data_t));
@@ -62,6 +63,7 @@ Test(add_user_to_struct2, multiple_user_without_teams, .init=init_global)
             cr_assert_str_eq(uuid, "NULL");
         }
         fread(&nb_personal_discussion, sizeof(int), 1, fd);
+        sleep(0.1);
         cr_assert_eq(nb_personal_discussion, 0);
         for (int j = 0; j < nb_personal_discussion; j++) {
             data_t *data2 = malloc(sizeof(data_t));
@@ -138,6 +140,7 @@ Test(add_user_to_struct2, multiple_user_with_team, .init=init_global)
             cr_assert_str_eq(uuid, "NULL");
         }
         fread(&nb_personal_discussion, sizeof(int), 1, fd);
+        sleep(0.3);
         if (i == 0)
             cr_assert_eq(nb_personal_discussion, 2);
         else
@@ -212,6 +215,7 @@ Test(add_user_to_struct2, multiple_user_with_simple_team, .init=init_global)
     FILE *fd = open_file("my_teams.db", "r");
     cr_assert_not_null(fd);
     fread(&nb_users, sizeof(int), 1, fd);
+    sleep(0.2);
     cr_assert_eq(nb_users, 3);
     for (int i = 0; i < 3; i++) {
         data_t *data = malloc(sizeof(data_t));
@@ -271,12 +275,14 @@ Test(add_user_to_struct2, multiple_user_with_simple_team, .init=init_global)
     for (int i = 0; i < 3; i++) {
         data_t *data = malloc(sizeof(data_t));
         fread(data, sizeof(data_t), 1, fd);
+        sleep(0.1);
         cr_assert_str_eq(data->name, teams_names[i]);
         cr_assert_str_eq(data->description, "Description1");
         cr_assert_str_eq(data->body, "NULL");
         cr_assert_str_eq(data->uuid, teams_uuids[i]);
         int nb_channels = 0;
         fread(&nb_channels, sizeof(int), 1, fd);
+        sleep(0.1);
         cr_assert_eq(nb_channels, 0);
     }
     fclose(fd);

@@ -90,7 +90,8 @@ TESTS_SRC	=	tests/add_functions/add_team_to_struct/basic_tests.c		\
 				tests/other_functions/is_thread_in_channel/basic_tests.c	\
 				tests/save/open_file.c										\
 				tests/save/write.c											\
-				tests/save/read.c
+				tests/save/read.c											\
+				tests/other_functions/split_array.c
 
 TESTS_OBJ	=	$(TESTS_SRC:.c=.o)
 
