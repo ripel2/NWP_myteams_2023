@@ -6,21 +6,23 @@
 */
 
 #include "client.h"
+#include "shared.h"
 #include "client_functions.h"
 #include "logging_client.h"
 
 static int logout_parse_answer_and_debug(client_t *client, char *answer)
 {
-    char uuid[UUID_LENGTH + 1] = {0};
+    char *answer_args[7] = {NULL};
 
-    if (sscanf(answer, "221 %36s Logged out", uuid) == 1) {
-        client_event_logged_out(uuid, client->username);
+    puts(answer);
+    split_string_fixed_array(answer, answer_args, 7);
+    if (strcmp(answer_args[0], "221") == 0) {
+        client_event_logged_out(answer_args[1], client->username);
         memset(client->uuid, 0, UUID_LENGTH + 1);
         memset(client->username, 0, MAX_NAME_LENGTH + 1);
     } else if (strncmp(answer, "530", 3) == 0) {
         client_error_unauthorized();
     }
-    puts(answer);
     return 0;
 }
 

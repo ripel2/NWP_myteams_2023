@@ -6,20 +6,25 @@
 */
 
 #include "client.h"
+#include "shared.h"
 #include "client_functions.h"
 #include "logging_client.h"
 
 static int login_parse_answer_and_debug(client_t *client,
 char *answer, char **args)
 {
-    char uuid[UUID_LENGTH + 1] = {0};
+    char *answer_args[7] = {NULL};
 
-    if (args[1] != NULL && sscanf(answer, "230 %36s Logged in", uuid) == 1) {
-        client_event_logged_in(uuid, args[1]);
-        strcpy(client->uuid, uuid);
-        strcpy(client->username, args[1]);
-    }
     puts(answer);
+    split_string_fixed_array(answer, answer_args, 7);
+    if (answer_args[0] == NULL || answer_args[1] == NULL || args[1] == NULL ||
+    strcmp(answer_args[0], "230") != 0)
+        return 0;
+    string_strip_delim(&answer_args[1], '"');
+    string_strip_delim(&args[1], '"');
+    client_event_logged_in(answer_args[1], args[1]);
+    strcpy(client->uuid, answer_args[1]);
+    strcpy(client->username, args[1]);
     return 0;
 }
 
