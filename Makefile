@@ -19,6 +19,7 @@ ADD_FUNCTION	=   $(SERVER_FOLDER)/handle_database/add_functions
 GET_FUNCTION	=   $(SERVER_FOLDER)/handle_database/get_functions
 OTHER_FUNCTION 	=   $(SERVER_FOLDER)/handle_database/other_functions
 SAVE_FUNCTION   =   $(SERVER_FOLDER)/save
+READ_FUNCTION   =   $(SERVER_FOLDER)/read
 
 SERVER_NAME	=   myteams_server
 CLIENT_NAME	=   myteams_cli
@@ -54,14 +55,15 @@ SERVER_SRC	=	$(ADD_FUNCTION)/add_user_to_struct.c				\
 				$(OTHER_FUNCTION)/is_channel_in_team.c				\
 				$(OTHER_FUNCTION)/is_thread_in_channel.c			\
 				$(SAVE_FUNCTION)/write_in_to_file.c					\
-				$(SAVE_FUNCTION)/open_file.c						\
+				$(SERVER_FOLDER)/open_file.c						\
 				$(SAVE_FUNCTION)/write_users.c						\
 				$(SAVE_FUNCTION)/write_teams_uuids.c				\
 				$(SAVE_FUNCTION)/write_personal_discussion.c		\
 				$(SAVE_FUNCTION)/write_teams.c						\
 				$(SAVE_FUNCTION)/write_channels.c					\
 				$(SAVE_FUNCTION)/write_threads.c					\
-				$(SAVE_FUNCTION)/write_replies.c
+				$(SAVE_FUNCTION)/write_replies.c					\
+				$(READ_FUNCTION)/read_users.c
 
 CLIENT_SRC	=
 
@@ -87,7 +89,8 @@ TESTS_SRC	=	tests/add_functions/add_team_to_struct/basic_tests.c		\
 				tests/other_functions/is_channel_in_team/basic_tests.c		\
 				tests/other_functions/is_thread_in_channel/basic_tests.c	\
 				tests/save/open_file.c										\
-				tests/save/add_user_to_struct.c
+				tests/save/write.c											\
+				tests/save/read.c
 
 TESTS_OBJ	=	$(TESTS_SRC:.c=.o)
 
