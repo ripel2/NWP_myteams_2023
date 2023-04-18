@@ -13,7 +13,7 @@
 
 static reply_t *seek_in_threads(const char *uuid, thread_t *thread)
 {
-    reply_t *reply;
+    reply_t *reply = NULL;
 
     TAILQ_FOREACH(reply, &thread->replies, entries) {
         if (reply && strcmp(reply->reply_data->uuid, uuid) == 0) {
@@ -25,8 +25,8 @@ static reply_t *seek_in_threads(const char *uuid, thread_t *thread)
 
 static reply_t *seek_in_channels(const char *uuid, channel_t *channel)
 {
-    reply_t *reply;
-    thread_t *thread;
+    reply_t *reply = NULL;
+    thread_t *thread = NULL;
 
     TAILQ_FOREACH(thread, &channel->threads, entries) {
         reply = seek_in_threads(uuid, thread);

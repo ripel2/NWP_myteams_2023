@@ -20,7 +20,7 @@ Test(get_channel_from_struct, basic_test, .init=redirect_all_stderr)
 {
     global = malloc(sizeof(global_t));
     
-    team_t *team;
+    team_t *team ;
     channel_t *channel;
     channel_t *channel_got;
     data_t *channel_data;
