@@ -20,7 +20,7 @@ FILE *open_file(const char *path, const char *mode)
     if (access(path, F_OK) == -1) {
         fd = fopen(path, "w");
         if (fd == NULL) {
-            perror("Error creating file");
+            perror("Error creating the file");
             return NULL;
         }
         fclose(fd);
