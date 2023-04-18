@@ -16,16 +16,12 @@
 
 void handle_help(server_t *server, server_client_t *client, char **args)
 {
-    server_client_write_string(server, client, "Command: ");
-    server_client_write_string(server, client, args[0]);
-    server_client_write_string(server, client, "\n");
-    server_client_write_string(server, client, "Arguments: ");
     if (args[1] == NULL) {
-        server_client_write_string(server, client, "No arguments given\n");
-        return;
-    }
-    for (int i = 1; args[i]; i++) {
-        server_client_write_string(server, client, args[i]);
-        server_client_write_string(server, client, " ");
+        server_client_write_string(server, client, "214 myTeams commands: \n\t"
+        "help\n\tlogin\n\tlogout\n\tusers\n\tuser\n\tsend\n\tmessages\n\tsubsc"
+        "ribe\n\tsubscribed\n\tunsubscribe\n\tuse"
+        "\n\tcreate\n\tlist\n\tinfo\n");
+    } else {
+        server_client_write_string(server, client, "501 Syntax error in parameters or arguments.\n");
     }
 }
