@@ -42,10 +42,36 @@ server_client_t *client, char **args)
     return false;
 }
 
+static void create_user(server_t *server, server_client_t *client,
+char **args, char *user_uuid)
+{
+    data_t *user_data;
+
+    user_data = init_data(args[1], "NULL", "NULL", user_uuid);
+    add_user_to_struct(user_data);
+    get_user_from_struct(user_uuid)->is_logged = true;
+    get_user_from_struct(user_uuid)->socket_fd = client->fd;
+    server_client_write_string(server, client, "230 ");
+    server_client_write_string(server, client, user_uuid);
+    server_client_write_string(server, client, " logged in\n");
+}
+
+static void login_user(server_t *server, server_client_t *client,
+char **args, char *user_uuid)
+{
+    user_t *user;
+
+    user = get_user_from_struct_by_username(args[1]);
+    user->is_logged = true;
+    user->socket_fd = client->fd;
+    server_client_write_string(server, client, "230 ");
+    server_client_write_string(server, client, user_uuid);
+    server_client_write_string(server, client, " logged in\n");
+}
+
 void handle_login(server_t *server, server_client_t *client, char **args)
 {
     char user_uuid[37];
-    data_t *user_data;
     user_t *user;
 
     if (handle_error_in_args(server, client, args))
@@ -53,21 +79,14 @@ void handle_login(server_t *server, server_client_t *client, char **args)
     generate_uuid(user_uuid);
     user = get_user_from_struct_by_username(args[1]);
     if (user == NULL) {
-        user_data = init_data(args[1], "NULL", "NULL", user_uuid);
-        add_user_to_struct(user_data);
-        get_user_from_struct(user_uuid)->is_logged = true;
-        get_user_from_struct(user_uuid)->socket_fd = client->fd;
-        server_client_write_string(server, client, "230 ");
-        server_client_write_string(server, client, user_uuid);
-        server_client_write_string(server, client, " logged in\n");
+        create_user(server, client, args, user_uuid);
         return;
-    } else if (user != NULL && user->is_logged == false) {
-        user->is_logged = true;
-        user->socket_fd = client->fd;
-        server_client_write_string(server, client, "230 ");
-        server_client_write_string(server, client, user_uuid);
-        server_client_write_string(server, client, " logged in\n");
-    } else if (user != NULL && user->is_logged == true) {
+    }
+    if (user != NULL && user->is_logged == false) {
+        login_user(server, client, args, user_uuid);
+        return;
+    }
+    if (user != NULL && user->is_logged == true) {
         server_client_write_string(server, client, "431 Already logged in\n");
         return;
     }
