@@ -22,10 +22,25 @@ static const command_t COMMANDS[] = {
     {NULL, NULL}
 };
 
+static bool command_has_syntax_error(char *line)
+{
+    size_t quote_count = 0;
+
+    for (size_t i = 0; line[i] != '\0'; i++) {
+        if (line[i] == '"')
+            quote_count++;
+    }
+    return quote_count % 2 != 0;
+}
+
 static int client_process_command_line(client_t *client, char *line)
 {
     char *args[5] = {NULL};
 
+    if (command_has_syntax_error(line)) {
+        puts("Syntax error: missing quote");
+        return 0;
+    }
     split_string_fixed_array(line, args, 5);
     if (args[0] == NULL)
         return 0;
@@ -35,6 +50,7 @@ static int client_process_command_line(client_t *client, char *line)
         }
     }
     printf("Unknown command: \"%s\", try /help\n", args[0]);
+    fflush(stdout);
     return 0;
 }
 
