@@ -31,7 +31,8 @@ CLIENT_MAIN_OBJ	=	$(CLIENT_MAIN:.c=.o)
 
 SHARED_SRC	=	$(SHARED_FOLDER)/print_help.c	\
 				$(SHARED_FOLDER)/port_handler.c \
-				$(SHARED_FOLDER)/ip_handler.c
+				$(SHARED_FOLDER)/ip_handler.c	\
+				$(SHARED_FOLDER)/fixed_array_split.c
 
 SERVER_SRC	=	$(ADD_FUNCTION)/add_user_to_struct.c				\
 				$(GET_FUNCTION)/get_user_from_struct.c				\
@@ -97,8 +98,10 @@ TESTS_SRC	=	tests/add_functions/add_team_to_struct/basic_tests.c		\
 TESTS_OBJ	=	$(TESTS_SRC:.c=.o)
 
 CFLAGS	=	-Wall -Wextra -Wshadow -Wpedantic -Werror
-CFLAGS	+=	-I./include -I./libs/mynet/include
+CFLAGS	+=	-I./include -I./libs/mynet/include -I./libs/myteams
 CFLAGS	+=	-luuid -L./libs/mynet -lmynetserver
+CFLAGS	+=	-L./libs/myteams -lmyteams -Wl,-rpath=./libs/myteams
+CFLAGS	+=	-I./libs/myteams
 GCC	=	gcc
 
 SERVER_LIB	=	./libs/mynet/libmynetserver.a
