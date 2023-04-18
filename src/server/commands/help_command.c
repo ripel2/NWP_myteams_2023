@@ -22,6 +22,7 @@ void handle_help(server_t *server, server_client_t *client, char **args)
         "ribe\n\tsubscribed\n\tunsubscribe\n\tuse"
         "\n\tcreate\n\tlist\n\tinfo\n");
     } else {
-        server_client_write_string(server, client, "501 Syntax error in parameters or arguments.\n");
+        server_client_write_string(server, client,
+        "501 Syntax error in parameters or arguments.\n");
     }
 }
