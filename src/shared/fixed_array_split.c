@@ -6,7 +6,7 @@
 */
 
 #include "shared.h"
-
+#include <stddef.h>
 #include <string.h>
 
 bool is_delimiter(char c, const char *delim)

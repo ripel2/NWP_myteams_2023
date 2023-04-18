@@ -45,54 +45,16 @@ static int line_safe_strncmp(char *str1, const char *str2, size_t n)
     return strncmp(str1, str2, n);
 }
 
-static int get_nb_args(char *str, char *delim)
-{
-    int nb_args = 0;
-    char *token = NULL;
-    char *tmp = strdup(str);
-
-    token = strtok(tmp, delim);
-    for (int i = 0; token != NULL; i++) {
-        token = strtok(NULL, delim);
-        nb_args++;
-    }
-    free(tmp);
-    return nb_args;
-}
-
-static char **split_line(char *str, char *delim)
-{
-    char **command_parsed = NULL;
-    char *token = NULL;
-
-    if (str == NULL)
-        return NULL;
-    command_parsed = malloc(sizeof(char *) * (get_nb_args(str, delim) + 1));
-    token = strtok(str, delim);
-    for (int i = 0; token != NULL; i++) {
-        command_parsed[i] = strdup(token);
-        command_parsed[i + 1] = NULL;
-        token = strtok(NULL, delim);
-    }
-    return command_parsed;
-}
-
-static void free_array(char **array)
-{
-    for (int i = 0; array[i] != NULL; i++)
-        free(array[i]);
-    free(array);
-}
-
 void teams_handle_client_commands(server_t *server, server_client_t *client)
 {
     line_t *line = server_client_pop_line(client);
-    char **command_parsed = NULL;
+    char *command_parsed[7] = {NULL};
     bool found = false;
 
     if (line == NULL)
         return;
-    command_parsed = split_line(line->buf, " ");
+
+    split_string_fixed_array(line->buf, command_parsed, 7);
     if (command_parsed == NULL)
         return;
     for (int i = 0; COMMAND_NAME[i] != 0; i++) {
@@ -105,5 +67,4 @@ void teams_handle_client_commands(server_t *server, server_client_t *client)
     }
     if (!found)
         server_client_write_string(server, client, "500 Unknown command\n");
-    free_array(command_parsed);
 }
