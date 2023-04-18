@@ -17,8 +17,7 @@ int count_replies(thread_t *thread)
     reply_t *reply = NULL;
     int nb_replies = 0;
 
-    for (reply = TAILQ_FIRST(&thread->replies); reply != NULL;
-        reply = TAILQ_NEXT(reply, entries)) {
+    TAILQ_FOREACH(reply, &thread->replies, entries) {
         nb_replies++;
     }
     return nb_replies;
@@ -30,8 +29,7 @@ void write_replies(FILE *fd, thread_t *thread)
     int nb_replies = count_replies(thread);
 
     fwrite(&nb_replies, sizeof(int), 1, fd);
-    for (reply = TAILQ_FIRST(&thread->replies); reply != NULL;
-        reply = TAILQ_NEXT(reply, entries)) {
+    TAILQ_FOREACH(reply, &thread->replies, entries) {
         fwrite(reply->user_data, sizeof(data_t), 1, fd);
         fwrite(reply->reply_data, sizeof(data_t), 1, fd);
     }

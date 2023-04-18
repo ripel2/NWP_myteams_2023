@@ -38,7 +38,7 @@ Test(add_user_to_struct2, multiple_user_without_teams, .init=init_global)
     }
     remove("my_teams.db");
     sleep(0.5);
-    write_global();
+    write_global_struct();
     FILE *fd = open_file("my_teams.db", "r");
     cr_assert_not_null(fd);
     fread(&nb_users, sizeof(int), 1, fd);
@@ -113,7 +113,7 @@ Test(add_user_to_struct2, multiple_user_with_team, .init=init_global)
     add_message_to_struct(user->user_data, init_data("NULL", "NULL", "zizi", discussion_uuid), init_data("Message2", "Test2", "Ouloulou", message_uuid));
     remove("my_teams.db");
     sleep(0.5);
-    write_global();
+    write_global_struct();
     FILE *fd = open_file("my_teams.db", "r");
     cr_assert_not_null(fd);
     fread(&nb_users, sizeof(int), 1, fd);
@@ -208,7 +208,7 @@ Test(add_user_to_struct2, multiple_user_with_simple_team, .init=init_global)
     add_message_to_struct(user->user_data, init_data("NULL", "NULL", "zizi", discussion_uuid), init_data("Message2", "Test2", "Ouloulou", message_uuid));
     remove("my_teams.db");
     sleep(0.5);
-    write_global();
+    write_global_struct();
     FILE *fd = open_file("my_teams.db", "r");
     cr_assert_not_null(fd);
     fread(&nb_users, sizeof(int), 1, fd);

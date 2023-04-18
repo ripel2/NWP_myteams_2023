@@ -17,8 +17,7 @@ int count_teams(void)
     team_t *team = NULL;
     int nb_teams = 0;
 
-    for (team = TAILQ_FIRST(&global->teams); team != NULL;
-        team = TAILQ_NEXT(team, entries)) {
+    TAILQ_FOREACH(team, &global->teams, entries) {
         nb_teams++;
     }
     return nb_teams;
@@ -30,8 +29,7 @@ void write_teams(FILE *fd)
     int nb_teams = count_teams();
 
     fwrite(&nb_teams, sizeof(int), 1, fd);
-    for (team = TAILQ_FIRST(&global->teams); team != NULL;
-        team = TAILQ_NEXT(team, entries)) {
+    TAILQ_FOREACH(team, &global->teams, entries) {
         fwrite(team->team_data, sizeof(data_t), 1, fd);
         write_channels(fd, team);
     }

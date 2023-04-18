@@ -44,9 +44,7 @@ int count_personal_discussion(user_t *user)
     personal_discussion_t *personal_discussion = NULL;
     int nb_personal_discussion = 0;
 
-    for (personal_discussion = TAILQ_FIRST(&user->discussions);
-        personal_discussion != NULL;
-        personal_discussion = TAILQ_NEXT(personal_discussion, entries)) {
+    TAILQ_FOREACH(personal_discussion, &user->discussions, entries) {
         nb_personal_discussion++;
     }
     return nb_personal_discussion;
@@ -58,9 +56,7 @@ void write_personal_discussion(FILE *fd, user_t *user)
     int nb_personal_discussion = count_personal_discussion(user);
 
     fwrite(&nb_personal_discussion, sizeof(int), 1, fd);
-    for (personal_discussion = TAILQ_FIRST(&user->discussions);
-        personal_discussion != NULL;
-        personal_discussion = TAILQ_NEXT(personal_discussion, entries)) {
+    TAILQ_FOREACH(personal_discussion, &user->discussions, entries) {
         fwrite(personal_discussion->user_data, sizeof(data_t), 1, fd);
         fwrite(&personal_discussion->uuid, sizeof(char), (UUID_LENGTH + 1), fd);
         write_messages(fd, personal_discussion);

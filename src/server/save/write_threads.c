@@ -17,8 +17,7 @@ int count_threads(channel_t *channel)
     thread_t *thread = NULL;
     int nb_threads = 0;
 
-    for (thread = TAILQ_FIRST(&channel->threads); thread != NULL;
-        thread = TAILQ_NEXT(thread, entries)) {
+    TAILQ_FOREACH(thread, &channel->threads, entries) {
         nb_threads++;
     }
     return nb_threads;
@@ -30,8 +29,7 @@ void write_threads(FILE *fd, channel_t *channel)
     int nb_threads = count_threads(channel);
 
     fwrite(&nb_threads, sizeof(int), 1, fd);
-    for (thread = TAILQ_FIRST(&channel->threads); thread != NULL;
-        thread = TAILQ_NEXT(thread, entries)) {
+    TAILQ_FOREACH(thread, &channel->threads, entries) {
         fwrite(thread->user_data, sizeof(data_t), 1, fd);
         fwrite(thread->thread_data, sizeof(data_t), 1, fd);
         write_replies(fd, thread);
