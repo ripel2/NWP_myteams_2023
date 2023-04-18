@@ -16,6 +16,7 @@ SHARED_FOLDER	=	./src/shared
 SERVER_FOLDER	=	./src/server
 CLIENT_FOLDER	=	./src/client
 COMMANDS		=   $(SERVER_FOLDER)/commands
+COMMANDS_TOOLS	=   $(SERVER_FOLDER)/commands/commands_tools
 ADD_FUNCTION	=   $(SERVER_FOLDER)/handle_database/add_functions
 GET_FUNCTION	=   $(SERVER_FOLDER)/handle_database/get_functions
 OTHER_FUNCTION =    $(SERVER_FOLDER)/handle_database/other_functions
@@ -68,7 +69,8 @@ SERVER_SRC	=	$(ADD_FUNCTION)/add_user_to_struct.c				\
 				$(COMMANDS)/unsubscribe_command.c					\
 				$(COMMANDS)/use_command.c							\
 				$(COMMANDS)/user_command.c							\
-				$(COMMANDS)/users_command.c
+				$(COMMANDS)/users_command.c							\
+				$(COMMANDS_TOOLS)/is_user_logged_in.c
 
 
 CLIENT_SRC	=

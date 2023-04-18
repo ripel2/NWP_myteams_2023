@@ -10,6 +10,7 @@
 #include <string.h>
 #include "shared.h"
 #include "data_struct_functions.h"
+#include "teams_commands.h"
 #include "teams_server.h"
 #include "data.h"
 #include "server.h"
@@ -82,7 +83,8 @@ void handle_login(server_t *server, server_client_t *client, char **args)
     char user_uuid[37];
     user_t *user;
 
-    if (handle_error_in_args(server, client, args))
+    if (handle_error_in_args(server, client, args) ||
+    is_user_already_logged_in(server, client))
         return;
     generate_uuid(user_uuid);
     user = get_user_from_struct_by_username(args[1]);
