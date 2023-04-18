@@ -26,18 +26,6 @@ static user_t *get_user_from_struct_by_username(const char *username)
     return user;
 }
 
-static user_t *get_user_from_struct_by_fd(int fd)
-{
-    user_t *user;
-
-    TAILQ_FOREACH(user, &global->users, entries) {
-        if (user && user->socket_fd == fd) {
-            return user;
-        }
-    }
-    return user;
-}
-
 static bool handle_error_in_args(server_t *server,
 server_client_t *client, char **args)
 {
@@ -64,7 +52,7 @@ void handle_login(server_t *server, server_client_t *client, char **args)
         return;
     generate_uuid(user_uuid);
     user = get_user_from_struct_by_username(args[1]);
-    if (user == NULL || user->is_logged == false) {
+    if (user == NULL) {
         user_data = init_data(args[1], "NULL", "NULL", user_uuid);
         add_user_to_struct(user_data);
         get_user_from_struct(user_uuid)->is_logged = true;
@@ -73,6 +61,12 @@ void handle_login(server_t *server, server_client_t *client, char **args)
         server_client_write_string(server, client, user_uuid);
         server_client_write_string(server, client, " logged in\n");
         return;
+    } else if (user != NULL && user->is_logged == false) {
+        user->is_logged = true;
+        user->socket_fd = client->fd;
+        server_client_write_string(server, client, "230 ");
+        server_client_write_string(server, client, user_uuid);
+        server_client_write_string(server, client, " logged in\n");
     } else if (user != NULL && user->is_logged == true) {
         server_client_write_string(server, client, "431 Already logged in\n");
         return;
