@@ -27,7 +27,7 @@ FILE *open_file(const char *path, const char *mode)
     }
     fd = fopen(path, mode);
     if (fd == NULL) {
-        perror("Error opening file");
+        perror("Error opening the file");
         return NULL;
     }
     return fd;
