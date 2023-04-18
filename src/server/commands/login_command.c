@@ -26,6 +26,18 @@ static user_t *get_user_from_struct_by_username(const char *username)
     return user;
 }
 
+static user_t *get_user_from_struct_by_fd(int fd)
+{
+    user_t *user;
+
+    TAILQ_FOREACH(user, &global->users, entries) {
+        if (user && user->socket_fd == fd) {
+            return user;
+        }
+    }
+    return user;
+}
+
 static bool handle_error_in_args(server_t *server,
 server_client_t *client, char **args)
 {
@@ -56,6 +68,7 @@ void handle_login(server_t *server, server_client_t *client, char **args)
         user_data = init_data(args[1], "NULL", "NULL", user_uuid);
         add_user_to_struct(user_data);
         get_user_from_struct(user_uuid)->is_logged = true;
+        get_user_from_struct(user_uuid)->socket_fd = client->fd;
         server_client_write_string(server, client, "230 ");
         server_client_write_string(server, client, user_uuid);
         server_client_write_string(server, client, " logged in\n");
