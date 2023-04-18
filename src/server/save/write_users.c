@@ -12,10 +12,10 @@
 #include "save.h"
 #include "data_struct_functions.h"
 
-int count_users(void)
+static unsigned int count_users(void)
 {
     user_t *user = NULL;
-    int nb_users = 0;
+    unsigned int nb_users = 0;
 
     TAILQ_FOREACH(user, &global->users, entries) {
         nb_users++;
@@ -26,9 +26,9 @@ int count_users(void)
 void write_users(FILE *fd)
 {
     user_t *user = NULL;
-    int nb_users = count_users();
+    unsigned int nb_users = count_users();
 
-    fwrite(&nb_users, sizeof(int), 1, fd);
+    fwrite(&nb_users, sizeof(unsigned int), 1, fd);
     TAILQ_FOREACH(user, &global->users, entries) {
         fwrite(user->user_data, sizeof(data_t), 1, fd);
         fwrite(&user->is_logged, sizeof(bool), 1, fd);

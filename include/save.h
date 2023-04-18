@@ -13,7 +13,6 @@
 FILE *open_file(const char *path, const char *mode);
 unsigned int write_global_struct(void);
 void write_users(FILE *fd);
-int count_team_uuids(user_t *user);
 void write_team_uuids(FILE *fd, user_t *user);
 void write_personal_discussion(FILE *fd, user_t *user);
 void write_teams(FILE *fd);

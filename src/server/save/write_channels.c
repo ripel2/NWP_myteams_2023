@@ -12,10 +12,10 @@
 #include "save.h"
 #include "data_struct_functions.h"
 
-int count_channels(team_t *team)
+static unsigned int count_channels(team_t *team)
 {
     channel_t *channel = NULL;
-    int nb_channels = 0;
+    unsigned int nb_channels = 0;
 
     TAILQ_FOREACH(channel, &team->channels, entries) {
         nb_channels++;
@@ -26,9 +26,9 @@ int count_channels(team_t *team)
 void write_channels(FILE *fd, team_t *team)
 {
     channel_t *channel = NULL;
-    int nb_channels = count_channels(team);
+    unsigned int nb_channels = count_channels(team);
 
-    fwrite(&nb_channels, sizeof(int), 1, fd);
+    fwrite(&nb_channels, sizeof(unsigned int), 1, fd);
     TAILQ_FOREACH(channel, &team->channels, entries) {
         fwrite(channel->channel_data, sizeof(data_t), 1, fd);
         write_threads(fd, channel);

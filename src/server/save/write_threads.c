@@ -12,10 +12,10 @@
 #include "save.h"
 #include "data_struct_functions.h"
 
-int count_threads(channel_t *channel)
+static unsigned int count_threads(channel_t *channel)
 {
     thread_t *thread = NULL;
-    int nb_threads = 0;
+    unsigned int nb_threads = 0;
 
     TAILQ_FOREACH(thread, &channel->threads, entries) {
         nb_threads++;
@@ -26,9 +26,9 @@ int count_threads(channel_t *channel)
 void write_threads(FILE *fd, channel_t *channel)
 {
     thread_t *thread = NULL;
-    int nb_threads = count_threads(channel);
+    unsigned int nb_threads = count_threads(channel);
 
-    fwrite(&nb_threads, sizeof(int), 1, fd);
+    fwrite(&nb_threads, sizeof(unsigned int), 1, fd);
     TAILQ_FOREACH(thread, &channel->threads, entries) {
         fwrite(thread->user_data, sizeof(data_t), 1, fd);
         fwrite(thread->thread_data, sizeof(data_t), 1, fd);
