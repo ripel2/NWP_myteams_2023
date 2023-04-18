@@ -20,10 +20,10 @@ Test(add_user_to_team, basic_test, .init=redirect_all_stderr)
 {
     global = malloc(sizeof(global_t));
     
-    user_t *user;
-    team_uuid_t *team_uuid;
-    data_t *user_data;
-    data_t *team_data;
+    user_t *user = NULL;
+    team_uuid_t *team_uuid = NULL;
+    data_t *user_data = NULL;
+    data_t *team_data = NULL;
     char uuid[37];
 
     uuid[0] = '\0';
@@ -50,10 +50,10 @@ Test(add_user_to_team, multiple_team, .init=redirect_all_stderr)
 {
     global = malloc(sizeof(global_t));
     
-    user_t *user;
-    team_uuid_t *team_uuid;
-    data_t *user_data;
-    data_t *team_data;
+    user_t *user = NULL;
+    team_uuid_t *team_uuid = NULL;
+    data_t *user_data = NULL;
+    data_t *team_data = NULL;
     char uuid[37] = "00000000-0000-0000-0000-000000000000";
     char team_uuids[3][37] = {"00000000-0000-0000-0000-000000000000",
         "00000000-0000-0000-0000-000000000001", "00000000-0000-0000-0000-000000000002"};
@@ -87,10 +87,10 @@ Test(add_user_to_team, bad_team_uuid, .init=redirect_all_stderr)
 {
     global = malloc(sizeof(global_t));
     
-    user_t *user;
-    team_uuid_t *team_uuid;
-    data_t *user_data;
-    data_t *team_data;
+    user_t *user = NULL;
+    team_uuid_t *team_uuid = NULL;
+    data_t *user_data = NULL;
+    data_t *team_data = NULL;
     char uuid[37];
 
     uuid[0] = '\0';

@@ -36,9 +36,9 @@ static reply_t *seek_in_channels(const char *uuid, channel_t *channel)
 
 reply_t *get_reply_from_struct(const char *uuid)
 {
-    team_t *team;
-    channel_t *channel;
-    reply_t *reply;
+    team_t *team = NULL;
+    channel_t *channel = NULL;
+    reply_t *reply = NULL;
 
     TAILQ_FOREACH(team, &global->teams, entries) {
         TAILQ_FOREACH(channel, &team->channels, entries) {
