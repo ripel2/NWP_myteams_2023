@@ -19,6 +19,7 @@ static const command_t COMMANDS[] = {
     {"/help", &help_command},
     {"/login", &login_command},
     {"/logout", &logout_command},
+    {"/users", &users_command},
     {NULL, NULL}
 };
 
