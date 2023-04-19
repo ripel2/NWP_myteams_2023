@@ -75,7 +75,8 @@ SERVER_SRC	=	$(ADD_FUNCTION)/add_user_to_struct.c				\
 				$(COMMANDS_TOOLS)/is_user_logged_in.c				\
 				$(COMMANDS_TOOLS)/remove_bad_char.c					\
 				$(COMMANDS_TOOLS)/get_user_logged_in.c				\
-				$(COMMANDS_TOOLS)/get_user_from_struct_by_fd.c \
+				$(COMMANDS_TOOLS)/get_user_from_struct_by_fd.c 		\
+				$(COMMANDS_TOOLS)/send_event_to_user.c				\
 				$(SAVE_FUNCTION)/write_in_to_file.c					\
 				$(SERVER_FOLDER)/open_file.c						\
 				$(SAVE_FUNCTION)/write_users.c						\
