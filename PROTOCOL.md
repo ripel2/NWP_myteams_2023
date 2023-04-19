@@ -138,16 +138,16 @@ The message will end with a `200 OK` response.
 
 A user will be represented by the following format:
 ```
-<uuid> <username>
+<uuid> <username> <is_logged_in>
 ```
 
 Example of a `USERS` command:
 ```
 IN  >>> USERS
 OUT <<< 150 3
-OUT <<< 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f user1
-OUT <<< 2e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f user2
-OUT <<< 3e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f user3
+OUT <<< 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f user1 1
+OUT <<< 2e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f user2 0
+OUT <<< 3e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f user3 1
 OUT <<< 200 OK
 ```
 
