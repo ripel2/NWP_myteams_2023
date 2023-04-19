@@ -103,7 +103,6 @@ static user_t *get_user_logged_in(server_client_t *client)
 
 void handle_send(server_t *server, server_client_t *client, char **args)
 {
-    
     if (get_user_logged_in(client) == NULL) {
         server_client_write_string(server, client, "530 Not logged in\n");
         return;
@@ -112,6 +111,8 @@ void handle_send(server_t *server, server_client_t *client, char **args)
         server_client_write_string(server, client, "432 Invalid arguments\n");
         return;
     }
+    string_strip_delim(&args[1], '"');
+    string_strip_delim(&args[2], '"');
     remove_bad_char(args[1]);
     remove_bad_char(args[2]);
     if (get_user_from_struct(args[1]) == NULL) {
