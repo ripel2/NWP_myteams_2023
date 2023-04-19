@@ -38,6 +38,7 @@ char *user_to_send_uuid)
     add_personnal_discussion_to_struct(new_uuid,
     current_user->user_data->uuid,
     get_user_from_struct(user_to_send_uuid)->user_data);
+    generate_uuid(new_uuid);
     add_personnal_discussion_to_struct(new_uuid,
     user_to_send_uuid, current_user->user_data);
 }
@@ -46,23 +47,23 @@ static void add_message_to_both_users(user_t *current_user,
 char *user_to_send_uuid, char *message)
 {
     personal_discussion_t *tmp_discussion = NULL;
+    data_t *discussion_data = NULL;
     data_t *message_data = init_data("", "", message, "");
+    user_t *user_to_send = get_user_from_struct(user_to_send_uuid);
 
     TAILQ_FOREACH(tmp_discussion, &current_user->discussions, entries) {
         if (strcmp(tmp_discussion->user_data->uuid, user_to_send_uuid) == 0) {
+            discussion_data = init_data("", "", "", tmp_discussion->uuid);
             add_message_to_struct(current_user->user_data,
-            init_data("", "", "", tmp_discussion->uuid), message_data);
-            break;
+            discussion_data, message_data);
         }
     }
-    TAILQ_FOREACH(tmp_discussion,
-    &get_user_from_struct(user_to_send_uuid)->discussions, entries) {
+    TAILQ_FOREACH(tmp_discussion, &user_to_send->discussions, entries) {
         if (strcmp(tmp_discussion->user_data->uuid,
         current_user->user_data->uuid) == 0) {
-            add_message_to_struct(get_user_from_struct(user_to_send_uuid)->
-            user_data, init_data("", "", "", tmp_discussion->uuid),
-            message_data);
-            break;
+            discussion_data = init_data("", "", "", tmp_discussion->uuid);
+            add_message_to_struct(current_user->user_data,
+            discussion_data, message_data);
         }
     }
 }
