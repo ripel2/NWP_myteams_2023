@@ -14,20 +14,87 @@
 #include "data.h"
 #include "server.h"
 
-void handle_send(server_t *server, server_client_t *client, char **args)
+static user_t *get_user_from_struct_by_fd(int fd)
 {
-    (void)server;
-    (void)client;
-    server_client_write_string(server, client, "Command: ");
-    server_client_write_string(server, client, args[0]);
-    server_client_write_string(server, client, "\n");
-    server_client_write_string(server, client, "Arguments: ");
-    if (args[1] == NULL) {
-        server_client_write_string(server, client, "No arguments given\n");
+    user_t *tmp_user;
+
+    TAILQ_FOREACH(tmp_user, &global->users, entries) {
+        if (tmp_user && tmp_user->socket_fd == fd) {
+            return tmp_user;
+        }
+    }
+    return NULL;
+}
+
+static bool check_if_user_need_discussion(user_t *current_user, char *user_to_send_uuid)
+{
+    personal_discussion_t *tmp_discussion = NULL;
+
+    TAILQ_FOREACH(tmp_discussion, &current_user->discussions, entries) {
+        if (strcmp(tmp_discussion->user_data->uuid, user_to_send_uuid) == 0) {
+            return false;
+        }
+    }
+    return true;
+}
+
+static void create_new_discussion(user_t *current_user, char *user_to_send_uuid)
+{
+    char new_uuid[37];
+
+    generate_uuid(new_uuid);
+    add_personnal_discussion_to_struct(new_uuid, current_user->user_data->uuid, get_user_from_struct(user_to_send_uuid)->user_data);
+    add_personnal_discussion_to_struct(new_uuid, user_to_send_uuid, current_user->user_data);
+}
+
+static void add_message_to_both_users(user_t *current_user, char *user_to_send_uuid, char *message)
+{
+    personal_discussion_t *tmp_discussion = NULL;
+    data_t *discussion_uuid = NULL;
+    data_t *message_data = init_data("", "", message, "");
+
+    TAILQ_FOREACH(tmp_discussion, &current_user->discussions, entries) {
+        if (strcmp(tmp_discussion->user_data->uuid, user_to_send_uuid) == 0) {
+            discussion_uuid = init_data("", "", "", tmp_discussion->uuid);
+            add_message_to_struct(current_user->user_data, discussion_uuid, message_data);
+            break;
+        }
+    }
+    TAILQ_FOREACH(tmp_discussion, &get_user_from_struct(user_to_send_uuid)->discussions, entries) {
+        if (strcmp(tmp_discussion->user_data->uuid, current_user->user_data->uuid) == 0) {
+            discussion_uuid = init_data("", "", "", tmp_discussion->uuid);
+            add_message_to_struct(get_user_from_struct(user_to_send_uuid)->user_data, discussion_uuid, message_data);
+            break;
+        }
+    }
+}
+
+static void send_message_to_user(server_t *server, server_client_t *client,
+char *user_to_send_uuid, char *message)
+{
+    user_t *current_user = NULL;
+
+    current_user = get_user_from_struct_by_fd(client->fd);
+    if (current_user == NULL || current_user->is_logged == false) {
+        server_client_write_string(server, client, "530 Not logged in\n");
         return;
     }
-    for (int i = 1; args[i]; i++) {
-        server_client_write_string(server, client, args[i]);
-        server_client_write_string(server, client, " ");
+    if (check_if_user_need_discussion(current_user, user_to_send_uuid) == true) {
+        create_new_discussion(current_user, user_to_send_uuid);
     }
+    add_message_to_both_users(current_user, user_to_send_uuid, message);
+    server_client_write_string(server, client, "200 OK\n");
+}
+
+void handle_send(server_t *server, server_client_t *client, char **args)
+{
+    if (args[1] == NULL || args[2] == NULL || args[3] != NULL) {
+        server_client_write_string(server, client, "432 Invalid arguments\n");
+        return;
+    }
+    if (get_user_from_struct(args[1]) == NULL) {
+        server_client_write_string(server, client, "430 User doesn't exist\n");
+        return;
+    }
+    send_message_to_user(server, client, args[1], args[2]);
 }
