@@ -15,7 +15,7 @@
 #include "data.h"
 #include "server.h"
 
-static bool is_a_uuid(char *str)
+bool is_a_uuid(char *str)
 {
     if (strlen(str) != 36)
         return false;
