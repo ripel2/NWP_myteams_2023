@@ -14,20 +14,46 @@
 #include "data.h"
 #include "server.h"
 
+char *itoa(int number)
+{
+    char *str = malloc(sizeof(char) * 10);
+    int i = 0;
+
+    if (str == NULL)
+        return NULL;
+    if (number == 0) {
+        str[0] = '0';
+        str[1] = '\0';
+        return (str);
+    }
+    while (number > 0) {
+        str[i] = number % 10 + '0';
+        number /= 10;
+        i++;
+    }
+    str[i] = '\0';
+    return (str);
+}
+
 void handle_users(server_t *server, server_client_t *client, char **args)
 {
+    user_t *user = NULL;
+    int nb_users = 0;
+
     (void)server;
     (void)client;
-    server_client_write_string(server, client, "Command: ");
-    server_client_write_string(server, client, args[0]);
+    (void)args;
+    server_client_write_string(server, client, "150 ");
+    TAILQ_FOREACH(user, &global->users, entries) {
+        nb_users++;
+    }
+    server_client_write_string(server, client, itoa(nb_users));
     server_client_write_string(server, client, "\n");
-    server_client_write_string(server, client, "Arguments: ");
-    if (args[1] == NULL) {
-        server_client_write_string(server, client, "No arguments given\n");
-        return;
-    }
-    for (int i = 1; args[i]; i++) {
-        server_client_write_string(server, client, args[i]);
+    TAILQ_FOREACH(user, &global->users, entries) {
+        server_client_write_string(server, client, user->user_data->uuid);
         server_client_write_string(server, client, " ");
+        server_client_write_string(server, client, user->user_data->name);
+        server_client_write_string(server, client, "\n");
     }
+    server_client_write_string(server, client, "200 OK\n");
 }
