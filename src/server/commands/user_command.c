@@ -11,23 +11,40 @@
 #include "shared.h"
 #include "data_struct_functions.h"
 #include "teams_server.h"
+#include "teams_commands.h"
 #include "data.h"
 #include "server.h"
 
+bool is_a_uuid(char *str)
+{
+    if (strlen(str) != 36)
+        return false;
+    if (str[8] != '-' || str[13] != '-'
+    || str[18] != '-' || str[23] != '-')
+        return false;
+    return true;
+}
+
 void handle_user(server_t *server, server_client_t *client, char **args)
 {
-    (void)server;
-    (void)client;
-    server_client_write_string(server, client, "Command: ");
-    server_client_write_string(server, client, args[0]);
-    server_client_write_string(server, client, "\n");
-    server_client_write_string(server, client, "Arguments: ");
+    user_t *user = NULL;
+
     if (args[1] == NULL) {
-        server_client_write_string(server, client, "No arguments given\n");
+        server_client_printf(server, client, "501 Invalid arguments\n");
         return;
     }
-    for (int i = 1; args[i]; i++) {
-        server_client_write_string(server, client, args[i]);
-        server_client_write_string(server, client, " ");
+    remove_bad_char(args[1]);
+    string_strip_delim(&args[1], '"');
+    if (is_a_uuid(args[1]) == false) {
+        server_client_printf(server, client, "550 Bad UUID\n");
+        return;
     }
+    user = get_user_from_struct(args[1]);
+    if (user == NULL) {
+        server_client_printf(server, client, "430 User doesn't exist\n");
+        return;
+    }
+    server_client_printf(server, client, "150 %s %s %c\n",
+    user->user_data->uuid, user->user_data->name,
+    (user->is_logged ? '1' : '0'));
 }

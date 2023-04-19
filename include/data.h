@@ -30,6 +30,7 @@ typedef struct data_s {
 
 typedef struct user_s {
     data_t *user_data;
+    int socket_fd;
     bool is_logged;
     TAILQ_HEAD(team_uuid_list_s, team_uuid_s) team_uuids;
     TAILQ_HEAD(discussion_list_s, personal_discussion_s) discussions;

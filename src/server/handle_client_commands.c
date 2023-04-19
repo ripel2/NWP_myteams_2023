@@ -45,56 +45,44 @@ static int line_safe_strncmp(char *str1, const char *str2, size_t n)
     return strncmp(str1, str2, n);
 }
 
-static int get_nb_args(char *str, char *delim)
+static bool user_state_is_valid(int fd_tmp, server_t *server)
 {
-    int nb_args = 0;
-    char *token = NULL;
-    char *tmp = strdup(str);
+    server_client_t *client_tmp = NULL;
+    bool found = false;
 
-    token = strtok(tmp, delim);
-    for (int i = 0; token != NULL; i++) {
-        token = strtok(NULL, delim);
-        nb_args++;
+    TAILQ_FOREACH(client_tmp, &server->clients, entries) {
+        if (fd_tmp == client_tmp->fd) {
+            found = true;
+            break;
+        }
     }
-    free(tmp);
-    return nb_args;
+    return found;
 }
 
-static char **split_line(char *str, char *delim)
+static void remove_all_disconnected_user(server_t *server)
 {
-    char **command_parsed = NULL;
-    char *token = NULL;
+    user_t *user = NULL;
 
-    if (str == NULL)
-        return NULL;
-    command_parsed = malloc(sizeof(char *) * (get_nb_args(str, delim) + 1));
-    token = strtok(str, delim);
-    for (int i = 0; token != NULL; i++) {
-        command_parsed[i] = strdup(token);
-        command_parsed[i + 1] = NULL;
-        token = strtok(NULL, delim);
+    TAILQ_FOREACH(user, &global->users, entries) {
+        if (user == NULL)
+            continue;
+        if (!user_state_is_valid(user->socket_fd, server)) {
+            user->is_logged = false;
+            user->socket_fd = -1;
+        }
     }
-    return command_parsed;
-}
-
-static void free_array(char **array)
-{
-    for (int i = 0; array[i] != NULL; i++)
-        free(array[i]);
-    free(array);
 }
 
 void teams_handle_client_commands(server_t *server, server_client_t *client)
 {
     line_t *line = server_client_pop_line(client);
-    char **command_parsed = NULL;
+    char *command_parsed[7] = {NULL};
     bool found = false;
 
+    remove_all_disconnected_user(server);
     if (line == NULL)
         return;
-    command_parsed = split_line(line->buf, " ");
-    if (command_parsed == NULL)
-        return;
+    split_string_fixed_array(line->buf, command_parsed, 7);
     for (int i = 0; COMMAND_NAME[i] != 0; i++) {
         if (line_safe_strncmp(command_parsed[0], COMMAND_NAME[i],
         strlen(COMMAND_NAME[i])) == 0) {
@@ -105,5 +93,4 @@ void teams_handle_client_commands(server_t *server, server_client_t *client)
     }
     if (!found)
         server_client_write_string(server, client, "500 Unknown command\n");
-    free_array(command_parsed);
 }
