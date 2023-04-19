@@ -18,7 +18,7 @@
 
 static user_t *get_user_from_struct_by_fd(int fd)
 {
-    user_t *tmp_user;
+    user_t *tmp_user = NULL;
 
     TAILQ_FOREACH(tmp_user, &global->users, entries) {
         if (tmp_user && tmp_user->socket_fd == fd) {

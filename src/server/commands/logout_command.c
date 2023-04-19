@@ -17,7 +17,7 @@
 
 static user_t *get_user_logged_in(server_client_t *client)
 {
-    user_t *user;
+    user_t *user = NULL;
 
     TAILQ_FOREACH(user, &global->users, entries) {
         if (user && user->is_logged == true && user->socket_fd == client->fd) {
