@@ -15,16 +15,14 @@
 #include "data.h"
 #include "server.h"
 
-static void display_user(server_t *server, server_client_t *client,
-user_t *user)
+static bool is_a_uuid(char *str)
 {
-    server_client_write_string(server, client, "150 ");
-    server_client_write_string(server, client, user->user_data->uuid);
-    server_client_write_string(server, client, " ");
-    server_client_write_string(server, client, user->user_data->name);
-    server_client_write_string(server, client, " ");
-    server_client_write_string(server, client, (user->is_logged ? "1" : "0"));
-    server_client_write_string(server, client, "\n");
+    if (strlen(str) != 36)
+        return false;
+    if (str[8] != '-' || str[13] != '-'
+    || str[18] != '-' || str[23] != '-')
+        return false;
+    return true;
 }
 
 void handle_user(server_t *server, server_client_t *client, char **args)
@@ -32,15 +30,21 @@ void handle_user(server_t *server, server_client_t *client, char **args)
     user_t *user = NULL;
 
     if (args[1] == NULL) {
-        server_client_write_string(server, client, "501 Invalid arguments\n");
+        server_client_printf(server, client, "501 Invalid arguments\n");
         return;
     }
     remove_bad_char(args[1]);
     string_strip_delim(&args[1], '"');
-    user = get_user_from_struct(args[1]);
-    if (user == NULL) {
-        server_client_write_string(server, client, "430 User doesn't exist\n");
+    if (is_a_uuid(args[1]) == false) {
+        server_client_printf(server, client, "550 Bad UUID\n");
         return;
     }
-    display_user(server, client, user);
+    user = get_user_from_struct(args[1]);
+    if (user == NULL) {
+        server_client_printf(server, client, "430 User doesn't exist\n");
+        return;
+    }
+    server_client_printf(server, client, "150 %s %s %c\n",
+    user->user_data->uuid, user->user_data->name,
+    (user->is_logged ? '1' : '0'));
 }
