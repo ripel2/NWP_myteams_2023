@@ -26,9 +26,11 @@ The arguments can be empty strings. In this case, the command can have two space
 Examples of valid commands:
 <br>`COMMAND\n` Command with no arguments
 <br>`COMMAND arg1\n` Command with one argument
-<br>`COMMAND arg1 arg2\n` Command with two arguments
+<br>`COMMAND "arg 1" "arg 2"\n` Command with two arguments that has spaces in them
 <br>`COMMAND  \n` Command with an empty argument
 <br>`COMMAND arg1  \n` Command with an argument and an empty argument
+<br>
+In the client specification, the arguments should always be surrounded by double quotes (`"`), but it is not mandatory in the server. Of course, when the data has spaces in it, there should be double quotes.
 
 ## 3. Data transfer
 
@@ -37,6 +39,7 @@ In this section, we describe the data transfer between the client and the server
 ### 3.1. Response format
 
 A response is a string of characters that ends with a newline character (`\n`). The response always starts with a three-digit number.
+Arguments after the reply code can be surrounded by double quotes (`"`) if necessary.
 
 ### 3.2. Response codes
 
@@ -73,6 +76,7 @@ Here is a list of all the response codes that can be sent by the server:
 | 230 | Success | User logged in, proceed | When the user logs in using the "login" command |
 | 430 | Error | Ressource doesn't exist | When the user tries to interact with a ressource (team, channel, user, etc.) that doesn't exist |
 | 431 | Error | Cannot perform action | When the user tries to perform an action that they are not allowed to do |
+| 451 | Error | Already exists | When the user tries to create a ressource that already exists |
 | 500 | Server error | Syntax error, command unrecognized | When the user sends a command that doesn't exist |
 | 501 | Server error | Syntax error in parameters or arguments | When the user sends a command with invalid arguments |
 | 502 | Server error | Command not implemented | When the user sends a command that is specified in the protocol but not implemented |
@@ -102,9 +106,9 @@ Here is the list of all the service commands available:
 | USE (CHANNEL) | channel_uuid | Sets the command context to the given channel | `USE <uuid>\n` | 110 OK<br>430 Channel doesn't exist or doesn't belong to team<br>530 Not logged in<br>550 Bad uuid |
 | USE (THREAD) | thread_uuid | Sets the command context to the given thread | `USE <uuid>\n` | 110 OK<br>430 Thread doesn't exist or doesn't belong to channel<br>530 Not logged in<br>550 Bad uuid |
 | CREATE (TEAM) | team_name description | Create a new team | `CREATE <name> <description>\n` | 150 `<uuid>`<br>530 Not logged in<br>550 Name or description too long |
-| CREATE (CHANNEL) | channel_name channel_description | Create a new channel | `CREATE <name> <description>\n` | 350 Waiting for data<br>150 `<uuid>`<br>530 Not logged in<br>550 Name or description too long |
-| CREATE (THREAD) | thread_title thread | Create a new thread | `CREATE <title> <message>\n` | 150 `<uuid>`<br>530 Not logged in<br>550 Title or message too long |
-| CREATE (COMMENT) | comment_body | Create a new comment | `CREATE <body>\n` | 150 `<uuid>`<br>530 Not logged in<br>550 Body too long |
+| CREATE (CHANNEL) | channel_name channel_description | Create a new channel | `CREATE <name> <description>\n` | 150 `<uuid>`<br>530 Not logged in<br>550 Name or description too long<br>451 Already exists |
+| CREATE (THREAD) | thread_title thread | Create a new thread | `CREATE <title> <message>\n` | 150 `<uuid>`<br>530 Not logged in<br>550 Title or message too long<br>451 Already exists |
+| CREATE (COMMENT) | comment_body | Create a new comment | `CREATE <body>\n` | 150 `<uuid>`<br>530 Not logged in<br>550 Body too long<br>451 Already exists |
 | LIST | None | Get the list of all the teams, channels and threads, depending on the context | `LIST\n` | 150 ...<br>530 Not logged in |
 | INFO | None | Get details about the user, the team, channel and thread, depending on the context | `INFO\n` | 150 ...<br>530 Not logged in |
 
