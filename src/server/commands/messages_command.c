@@ -71,6 +71,7 @@ user_t *user_to_seek
 , server_t *server, server_client_t *client)
 {
     if (get_discussion_between_user(current_user, user_to_seek) == NULL) {
+        server_client_printf(server, client, "150 0\n");
         server_client_write_string(server, client, "200 OK\n");
         return;
     }
