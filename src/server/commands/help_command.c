@@ -17,10 +17,9 @@
 void handle_help(server_t *server, server_client_t *client, char **args)
 {
     if (args[1] == NULL) {
-        server_client_write_string(server, client, "214 myTeams commands: \n\t"
-        "help\n\tlogin\n\tlogout\n\tusers\n\tuser\n\tsend\n\tmessages\n\tsubsc"
-        "ribe\n\tsubscribed\n\tunsubscribe\n\tuse"
-        "\n\tcreate\n\tlist\n\tinfo\n");
+        server_client_write_string(server, client, "214 214 HELP LOGIN "
+        "LOGOUT USERS USER SEND MESSAGES SUBSCRIBE SUBSCRIBED UNSUBSCRIBE"
+        " USETEAM USECHANNEL USETHREAD CREATE LIST INFO\n");
     } else {
         server_client_write_string(server, client,
         "501 Syntax error in parameters or arguments.\n");
