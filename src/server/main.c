@@ -11,6 +11,7 @@
 #include "shared.h"
 #include "data_struct_functions.h"
 #include "data.h"
+#include "save.h"
 
 global_t *global;
 
