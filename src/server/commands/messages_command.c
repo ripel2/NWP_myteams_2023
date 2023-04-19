@@ -97,9 +97,13 @@ void handle_messages(server_t *server, server_client_t *client, char **args)
     }
     string_strip_delim(&args[1], '"');
     remove_bad_char(args[1]);
+    if (is_a_uuid(args[1]) == false) {
+        server_client_write_string(server, client, "431 Invalid UUID\n");
+        return;
+    }
     user_to_seek = get_user_from_struct(args[1]);
     if (user_to_seek == NULL) {
-        server_client_write_string(server, client, "430 User doesn't exist\n");
+        server_client_write_string(server, client, "550 Bad uuid\n");
         return;
     }
     list_all_message_between_user(current_user, user_to_seek, server, client);
