@@ -35,3 +35,4 @@ bool is_user_already_logged_in(server_t *server, server_client_t *client);
 char *remove_bad_char(char *str);
 user_t *get_user_logged_in(server_client_t *client);
 user_t *get_user_from_struct_by_fd(int fd);
+void send_event_to_user(server_t *server, user_t *user_seeked, char *str);
