@@ -32,7 +32,7 @@ void handle_user(server_t *server, server_client_t *client, char **args)
     user_t *user = NULL;
 
     if (args[1] == NULL) {
-        server_client_write_string(server, client, "No arguments given\n");
+        server_client_write_string(server, client, "501 Invalid arguments\n");
         return;
     }
     remove_bad_char(args[1]);
