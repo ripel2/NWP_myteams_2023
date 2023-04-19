@@ -17,7 +17,9 @@ SERVER_FOLDER	=	./src/server
 CLIENT_FOLDER	=	./src/client
 ADD_FUNCTION	=   $(SERVER_FOLDER)/handle_database/add_functions
 GET_FUNCTION	=   $(SERVER_FOLDER)/handle_database/get_functions
-OTHER_FUNCTION =    $(SERVER_FOLDER)/handle_database/other_functions
+OTHER_FUNCTION 	=   $(SERVER_FOLDER)/handle_database/other_functions
+SAVE_FUNCTION   =   $(SERVER_FOLDER)/save
+READ_FUNCTION   =   $(SERVER_FOLDER)/read
 
 SERVER_NAME	=   myteams_server
 CLIENT_NAME	=   myteams_cli
@@ -52,7 +54,24 @@ SERVER_SRC	=	$(ADD_FUNCTION)/add_user_to_struct.c				\
 				$(ADD_FUNCTION)/add_user_to_team.c					\
 				$(OTHER_FUNCTION)/remove_user_from_team.c			\
 				$(OTHER_FUNCTION)/is_channel_in_team.c				\
-				$(OTHER_FUNCTION)/is_thread_in_channel.c
+				$(OTHER_FUNCTION)/is_thread_in_channel.c			\
+				$(SAVE_FUNCTION)/write_in_to_file.c					\
+				$(SERVER_FOLDER)/open_file.c						\
+				$(SAVE_FUNCTION)/write_users.c						\
+				$(SAVE_FUNCTION)/write_teams_uuids.c				\
+				$(SAVE_FUNCTION)/write_personal_discussion.c		\
+				$(SAVE_FUNCTION)/write_teams.c						\
+				$(SAVE_FUNCTION)/write_channels.c					\
+				$(SAVE_FUNCTION)/write_threads.c					\
+				$(SAVE_FUNCTION)/write_replies.c					\
+				$(READ_FUNCTION)/read_users.c						\
+				$(READ_FUNCTION)/read_channels.c					\
+				$(READ_FUNCTION)/read_threads.c						\
+				$(READ_FUNCTION)/read_replies.c						\
+				$(READ_FUNCTION)/read_teams.c						\
+				$(READ_FUNCTION)/read_personal_discussion.c			\
+				$(READ_FUNCTION)/load_struct_from_file.c			\
+				$(READ_FUNCTION)/read_messages.c
 
 CLIENT_SRC	=	$(CLIENT_FOLDER)/client_init.c	\
 				$(CLIENT_FOLDER)/client_loop.c	\
@@ -95,6 +114,9 @@ TESTS_SRC	=	tests/add_functions/add_team_to_struct/basic_tests.c		\
 				tests/client_functions/tests_buffer_managment.c	\
 				tests/client_functions/tests_client_printf.c	\
 				tests/client_functions/tests_client_events.c	\
+				tests/save/open_file.c										\
+				tests/save/write.c											\
+				tests/save/read.c											\
 				tests/other_functions/split_array.c
 
 TESTS_OBJ	=	$(TESTS_SRC:.c=.o)

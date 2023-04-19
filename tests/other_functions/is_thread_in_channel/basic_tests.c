@@ -20,10 +20,10 @@ Test(is_thread_in_channel, true_case, .init=redirect_all_stderr)
 {
     global = malloc(sizeof(global_t));
     
-    data_t *thread_data;
-    data_t *user_data;
-    data_t *channel_data;
-    data_t *team_data;
+    data_t *thread_data = NULL;
+    data_t *user_data = NULL;
+    data_t *channel_data = NULL;
+    data_t *team_data = NULL;
     char team_uuid[37];
     char channel_uuid[37];
 
@@ -50,10 +50,10 @@ Test(is_thread_in_channel, false_case, .init=redirect_all_stderr)
 {
     global = malloc(sizeof(global_t));
     
-    data_t *thread_data;
-    data_t *user_data;
-    data_t *channel_data;
-    data_t *team_data;
+    data_t *thread_data = NULL;
+    data_t *user_data = NULL;
+    data_t *channel_data = NULL;
+    data_t *team_data = NULL;
     char team_uuid[37];
     char channel_uuid[37];
 

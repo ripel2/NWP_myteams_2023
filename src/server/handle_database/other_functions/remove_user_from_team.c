@@ -14,7 +14,7 @@
 int remove_user_from_team(const char *team_uuid, const char *user_uuid)
 {
     user_t *user = get_user_from_struct(user_uuid);
-    team_uuid_t *team_uuid_list;
+    team_uuid_t *team_uuid_list = NULL;
 
     if (user == NULL || get_team_from_struct(team_uuid) == NULL)
         return (84);

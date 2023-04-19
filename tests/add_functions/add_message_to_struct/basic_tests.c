@@ -20,11 +20,11 @@ Test(add_message_to_struct, basic_test, .init=redirect_all_stderr)
 {
     global = malloc(sizeof(global_t));
     
-    personal_discussion_t *discussion;
+    personal_discussion_t *discussion = NULL;
     message_t *message;
-    user_t *user;
-    data_t *user_data;
-    data_t *message_data;
+    user_t *user = NULL;
+    data_t *user_data = NULL;
+    data_t *message_data = NULL;
     char uuid[37];
 
     uuid[0] = '\0';
@@ -54,15 +54,15 @@ Test(add_message_to_struct, multiple_message, .init=redirect_all_stderr)
 {
     global = malloc(sizeof(global_t));
     
-    user_t *user;
-    personal_discussion_t *discussion;
+    user_t *user = NULL;
+    personal_discussion_t *discussion = NULL;
     message_t *message;
-    data_t *user_data1;
-    data_t *user_data2;
-    data_t *user_data3;
-    data_t *message_data1;
-    data_t *message_data2;
-    data_t *message_data3;
+    data_t *user_data1 = NULL;
+    data_t *user_data2 = NULL;
+    data_t *user_data3 = NULL;
+    data_t *message_data1 = NULL;
+    data_t *message_data2 = NULL;
+    data_t *message_data3 = NULL;
     char *username[3] = {"Lucas", "Louis", "Andréas"};
     int idx = 0;
     char *uuid[3] = {"00000000-0000-0000-0000-000000000000",
@@ -106,11 +106,11 @@ Test(add_message_to_struct, no_discussion, .init=redirect_all_stderr)
 {
     global = malloc(sizeof(global_t));
     
-    personal_discussion_t *discussion;
+    personal_discussion_t *discussion = NULL;
     message_t *message;
-    user_t *user;
-    data_t *user_data;
-    data_t *message_data;
+    user_t *user = NULL;
+    data_t *user_data = NULL;
+    data_t *message_data = NULL;
     char uuid[37];
 
     uuid[0] = '\0';

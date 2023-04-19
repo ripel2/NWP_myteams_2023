@@ -20,11 +20,11 @@ Test(get_channel_from_struct, basic_test, .init=redirect_all_stderr)
 {
     global = malloc(sizeof(global_t));
     
-    team_t *team;
-    channel_t *channel;
-    channel_t *channel_got;
-    data_t *channel_data;
-    data_t *team_data;
+    team_t *team = NULL;
+    channel_t *channel = NULL;
+    channel_t *channel_got = NULL;
+    data_t *channel_data = NULL;
+    data_t *team_data = NULL;
     char team_uuid[37];
     char channel_uuid[37];
 
@@ -56,13 +56,13 @@ Test(get_channel_from_struct, multiple_channel, .init=redirect_all_stderr)
 {
     global = malloc(sizeof(global_t));
     
-    team_t *team;
-    channel_t *channel;
-    channel_t *channel_got;
-    data_t *channel_data1;
-    data_t *channel_data2;
-    data_t *channel_data3;
-    data_t *team_data;
+    team_t *team = NULL;
+    channel_t *channel = NULL;
+    channel_t *channel_got = NULL;
+    data_t *channel_data1 = NULL;
+    data_t *channel_data2 = NULL;
+    data_t *channel_data3 = NULL;
+    data_t *team_data = NULL;
     char *channel_uuid[3] = {"00000000-0000-0000-0000-000000000000",
         "00000000-0000-0000-0000-000000000001",
         "00000000-0000-0000-0000-000000000002"};
@@ -98,12 +98,12 @@ Test(get_channel_from_struct, multiple_channel_with_same_name, .init=redirect_al
 {
     global = malloc(sizeof(global_t));
     
-    team_t *team;
-    channel_t *channel;
-    channel_t *channel_got;
-    data_t *channel_data1;
-    data_t *channel_data2;
-    data_t *team_data;
+    team_t *team = NULL;
+    channel_t *channel = NULL;
+    channel_t *channel_got = NULL;
+    data_t *channel_data1 = NULL;
+    data_t *channel_data2 = NULL;
+    data_t *team_data = NULL;
     char last_uuid[37] = "00000000-0000-0000-0000-000000000000";
     char channel_uuid[2][37];
     char team_uuid[37] = "00000000-0000-0000-0000-000000000000";
@@ -141,9 +141,9 @@ Test(get_channel_from_struct, bad_uuid, .init=redirect_all_stderr)
 {
     global = malloc(sizeof(global_t));
     
-    channel_t *channel_got;
-    data_t *channel_data;
-    data_t *team_data;
+    channel_t *channel_got = NULL;
+    data_t *channel_data = NULL;
+    data_t *team_data = NULL;
     char channel_uuid[37] = "00000000-0000-0000-0000-000000000000";
     char team_uuid[37] = "00000000-0000-0000-0000-000000000000";
 
