@@ -50,6 +50,7 @@ char **args, char *user_uuid)
     data_t *user_data;
     char user_uuid_with_quotes[40] = {0};
 
+    string_strip_delim(&args[1], '"');
     strcat(user_uuid_with_quotes, "\"");
     strcat(user_uuid_with_quotes, user_uuid);
     strcat(user_uuid_with_quotes, "\"");
