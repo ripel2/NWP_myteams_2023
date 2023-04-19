@@ -40,8 +40,6 @@ void handle_users(server_t *server, server_client_t *client, char **args)
     user_t *user = NULL;
     int nb_users = 0;
 
-    (void)server;
-    (void)client;
     (void)args;
     server_client_write_string(server, client, "150 ");
     TAILQ_FOREACH(user, &global->users, entries) {
