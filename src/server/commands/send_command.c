@@ -10,6 +10,7 @@
 #include <string.h>
 #include "shared.h"
 #include "data_struct_functions.h"
+#include "logging_server.h"
 #include "teams_commands.h"
 #include "teams_server.h"
 #include "data.h"
@@ -85,6 +86,7 @@ char *user_to_send_uuid, char *message)
     }
     add_message_to_both_users(current_user, user_to_send_uuid, message);
     server_client_write_string(server, client, "200 OK\n");
+    server_event_private_message_sended(current_user->user_data->uuid, user_to_send_uuid, message);
 }
 
 static user_t *get_user_logged_in(server_client_t *client)
@@ -111,6 +113,7 @@ void handle_send(server_t *server, server_client_t *client, char **args)
         return;
     }
     remove_bad_char(args[1]);
+    remove_bad_char(args[2]);
     if (get_user_from_struct(args[1]) == NULL) {
         server_client_write_string(server, client, "430 User doesn't exist\n");
         return;
