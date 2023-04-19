@@ -9,25 +9,50 @@
 #include <unistd.h>
 #include <string.h>
 #include "shared.h"
+#include "logging_server.h"
 #include "data_struct_functions.h"
 #include "teams_server.h"
 #include "data.h"
 #include "server.h"
 
+static user_t *get_user_logged_in(server_client_t *client)
+{
+    user_t *user;
+
+    TAILQ_FOREACH(user, &global->users, entries) {
+        if (user && user->is_logged == true && user->socket_fd == client->fd) {
+            return user;
+        }
+    }
+    return user;
+}
+
+static void set_user_uuid_quotes(char *user_uuid_with_quotes, user_t *user)
+{
+    strcat(user_uuid_with_quotes, "\"");
+    strcat(user_uuid_with_quotes, user->user_data->uuid);
+    strcat(user_uuid_with_quotes, "\"");
+}
+
 void handle_logout(server_t *server, server_client_t *client, char **args)
 {
-    (void)server;
-    (void)client;
-    server_client_write_string(server, client, "Command: ");
-    server_client_write_string(server, client, args[0]);
-    server_client_write_string(server, client, "\n");
-    server_client_write_string(server, client, "Arguments: ");
-    if (args[1] == NULL) {
-        server_client_write_string(server, client, "No arguments given\n");
+    user_t *user = NULL;
+    char user_uuid_with_quotes[40] = {0};
+
+    if (args[1] != NULL) {
+        server_client_write_string(server, client, "501 Too many arguments\n");
         return;
     }
-    for (int i = 1; args[i]; i++) {
-        server_client_write_string(server, client, args[i]);
-        server_client_write_string(server, client, " ");
+    user = get_user_logged_in(client);
+    if (user == NULL) {
+        server_client_write_string(server, client, "530 Not logged in\n");
+        return;
     }
+    user->is_logged = false;
+    user->socket_fd = -1;
+    set_user_uuid_quotes(user_uuid_with_quotes, user);
+    server_client_write_string(server, client, "221 ");
+    server_client_write_string(server, client, user_uuid_with_quotes);
+    server_client_write_string(server, client, " logged out\n");
+    server_event_user_logged_out(user->user_data->uuid);
 }

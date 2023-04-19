@@ -53,10 +53,6 @@ char **args, char *user_uuid)
     strcat(user_uuid_with_quotes, "\"");
     strcat(user_uuid_with_quotes, user_uuid);
     strcat(user_uuid_with_quotes, "\"");
-    for (size_t i = 0; i < strlen(args[1]); i++) {
-        if (args[1][i] == '\n' || args[1][i] == '\r')
-            args[1][i] = '\0';
-    }
     server_event_user_created(user_uuid, args[1]);
     user_data = init_data(args[1], "NULL", "NULL", user_uuid);
     add_user_to_struct(user_data);
@@ -94,6 +90,11 @@ void handle_login(server_t *server, server_client_t *client, char **args)
     if (handle_error_in_args(server, client, args) ||
     is_user_already_logged_in(server, client))
         return;
+    
+    for (size_t i = 0; i < strlen(args[1]); i++) {
+        if (args[1][i] == '\n' || args[1][i] == '\r')
+            args[1][i] = '\0';
+    }
     generate_uuid(user_uuid);
     user = get_user_from_struct_by_username(args[1]);
     if (user == NULL) {
