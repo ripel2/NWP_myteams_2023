@@ -14,27 +14,6 @@
 #include "data.h"
 #include "server.h"
 
-static char *itoa(int number)
-{
-    char *str = malloc(sizeof(char) * 10);
-    int i = 0;
-
-    if (str == NULL)
-        return NULL;
-    if (number == 0) {
-        str[0] = '0';
-        str[1] = '\0';
-        return (str);
-    }
-    while (number > 0) {
-        str[i] = number % 10 + '0';
-        number /= 10;
-        i++;
-    }
-    str[i] = '\0';
-    return (str);
-}
-
 void handle_users(server_t *server, server_client_t *client, char **args)
 {
     user_t *user = NULL;
@@ -44,17 +23,14 @@ void handle_users(server_t *server, server_client_t *client, char **args)
         server_client_write_string(server, client, "501 Too many arguments\n");
         return;
     }
-    server_client_write_string(server, client, "150 ");
     TAILQ_FOREACH(user, &global->users, entries) {
         nb_users++;
     }
-    server_client_write_string(server, client, itoa(nb_users));
-    server_client_write_string(server, client, "\n");
+    server_client_printf(server, client, "150 %d\n", nb_users);
     TAILQ_FOREACH(user, &global->users, entries) {
-        server_client_write_string(server, client, user->user_data->uuid);
-        server_client_write_string(server, client, " ");
-        server_client_write_string(server, client, user->user_data->name);
-        server_client_write_string(server, client, "\n");
+        server_client_printf(server, client, "%s %s %c\n",
+        user->user_data->uuid, user->user_data->name,
+        (user->is_logged) ? '1' : '0');
     }
     server_client_write_string(server, client, "200 OK\n");
 }
