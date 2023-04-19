@@ -64,6 +64,7 @@ CLIENT_SRC	=	$(CLIENT_FOLDER)/client_init.c	\
 				$(CLIENT_FOLDER)/commands/login_command.c	\
 				$(CLIENT_FOLDER)/commands/logout_command.c	\
 				$(CLIENT_FOLDER)/commands/users_command.c	\
+				$(CLIENT_FOLDER)/commands/user_command.c	\
 
 SHARED_OBJ	=	$(SHARED_SRC:.c=.o)
 SERVER_OBJ	=	$(SERVER_SRC:.c=.o)
