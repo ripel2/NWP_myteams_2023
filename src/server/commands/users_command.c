@@ -14,7 +14,7 @@
 #include "data.h"
 #include "server.h"
 
-char *itoa(int number)
+static char *itoa(int number)
 {
     char *str = malloc(sizeof(char) * 10);
     int i = 0;
@@ -40,7 +40,10 @@ void handle_users(server_t *server, server_client_t *client, char **args)
     user_t *user = NULL;
     int nb_users = 0;
 
-    (void)args;
+    if (args[1] != NULL) {
+        server_client_write_string(server, client, "Error: Too many arguments\n");
+        return;
+    }
     server_client_write_string(server, client, "150 ");
     TAILQ_FOREACH(user, &global->users, entries) {
         nb_users++;
