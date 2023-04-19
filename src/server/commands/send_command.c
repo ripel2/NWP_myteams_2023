@@ -10,6 +10,7 @@
 #include <string.h>
 #include "shared.h"
 #include "data_struct_functions.h"
+#include "teams_commands.h"
 #include "teams_server.h"
 #include "data.h"
 #include "server.h"
@@ -86,12 +87,30 @@ char *user_to_send_uuid, char *message)
     server_client_write_string(server, client, "200 OK\n");
 }
 
+static user_t *get_user_logged_in(server_client_t *client)
+{
+    user_t *user;
+
+    TAILQ_FOREACH(user, &global->users, entries) {
+        if (user && user->is_logged == true && user->socket_fd == client->fd) {
+            return user;
+        }
+    }
+    return user;
+}
+
 void handle_send(server_t *server, server_client_t *client, char **args)
 {
+    
+    if (get_user_logged_in(client) == NULL) {
+        server_client_write_string(server, client, "530 Not logged in\n");
+        return;
+    }
     if (args[1] == NULL || args[2] == NULL || args[3] != NULL) {
         server_client_write_string(server, client, "432 Invalid arguments\n");
         return;
     }
+    remove_bad_char(args[1]);
     if (get_user_from_struct(args[1]) == NULL) {
         server_client_write_string(server, client, "430 User doesn't exist\n");
         return;

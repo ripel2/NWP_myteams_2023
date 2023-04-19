@@ -90,11 +90,7 @@ void handle_login(server_t *server, server_client_t *client, char **args)
     if (handle_error_in_args(server, client, args) ||
     is_user_already_logged_in(server, client))
         return;
-    
-    for (size_t i = 0; i < strlen(args[1]); i++) {
-        if (args[1][i] == '\n' || args[1][i] == '\r')
-            args[1][i] = '\0';
-    }
+    remove_bad_char(args[1]);    
     generate_uuid(user_uuid);
     user = get_user_from_struct_by_username(args[1]);
     if (user == NULL) {
