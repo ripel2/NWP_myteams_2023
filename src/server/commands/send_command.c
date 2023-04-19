@@ -65,7 +65,7 @@ static void add_message_to_both_users(user_t *current_user, char *user_to_send_u
     TAILQ_FOREACH(tmp_discussion, &get_user_from_struct(user_to_send_uuid)->discussions, entries) {
         if (strcmp(tmp_discussion->user_data->uuid, current_user->user_data->uuid) == 0) {
             discussion_uuid = init_data("", "", "", tmp_discussion->uuid);
-            add_message_to_struct(get_user_from_struct(user_to_send_uuid)->user_data, discussion_uuid, message_data);
+            add_message_to_struct(current_user->user_data, discussion_uuid, message_data);
             break;
         }
     }
