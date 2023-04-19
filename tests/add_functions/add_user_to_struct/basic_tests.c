@@ -20,8 +20,8 @@ Test(add_user_to_struct, basic_test, .init=redirect_all_stderr)
 {
     global = malloc(sizeof(global_t));
     
-    user_t *user;
-    data_t *user_data;
+    user_t *user = NULL;
+    data_t *user_data = NULL;
     char uuid[37];
 
     uuid[0] = '\0';
@@ -42,10 +42,10 @@ Test(add_user_to_struct, multiple_user, .init=redirect_all_stderr)
 {
     global = malloc(sizeof(global_t));
     
-    user_t *user;
-    data_t *user_data1;
-    data_t *user_data2;
-    data_t *user_data3;
+    user_t *user = NULL;
+    data_t *user_data1 = NULL;
+    data_t *user_data2 = NULL;
+    data_t *user_data3 = NULL;
     char *username[3] = {"Lucas", "Louis", "Andréas"};
     int idx = 0;
     char *uuid[3] = {"00000000-0000-0000-0000-000000000000",
@@ -73,9 +73,9 @@ Test(add_user_to_struct, multiple_user_with_same_name, .init=redirect_all_stderr
 {
     global = malloc(sizeof(global_t));
     
-    user_t *user;
-    data_t *user_data1;
-    data_t *user_data2;
+    user_t *user = NULL;
+    data_t *user_data1 = NULL;
+    data_t *user_data2 = NULL;
     char *username[2] = {"Lucas", "Lucas"};
     char last_uuid[37] = "00000000-0000-0000-0000-000000000000";
     int idx = 0;

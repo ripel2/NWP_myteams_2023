@@ -15,16 +15,6 @@
 #include "data.h"
 #include "server.h"
 
-bool is_a_uuid(char *str)
-{
-    if (strlen(str) != 36)
-        return false;
-    if (str[8] != '-' || str[13] != '-'
-    || str[18] != '-' || str[23] != '-')
-        return false;
-    return true;
-}
-
 void handle_user(server_t *server, server_client_t *client, char **args)
 {
     user_t *user = NULL;

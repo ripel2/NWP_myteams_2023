@@ -13,7 +13,7 @@
 
 user_t *get_user_from_struct(const char *uuid)
 {
-    user_t *user;
+    user_t *user = NULL;
 
     TAILQ_FOREACH(user, &global->users, entries) {
         if (user && strcmp(user->user_data->uuid, uuid) == 0) {

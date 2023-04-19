@@ -16,9 +16,9 @@
 #include "teams_commands.h"
 
 const char *COMMAND_NAME[] = {
-    "/help", "/login", "/logout", "/users", "/user", "/send", "/messages",
-    "/subscribe", "/subscribed", "/unsubscribe", "/use", "/create", "/list",
-    "/info", 0
+    "HELP", "LOGIN", "LOGOUT", "USERS", "USER", "SEND", "MESSAGES",
+    "SUBSCRIBE", "SUBSCRIBED", "UNSUBSCRIBE", "USE", "CREATE", "LIST",
+    "INFO", 0
 };
 
 void (*teams_commands[])() = {
