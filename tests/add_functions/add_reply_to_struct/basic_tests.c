@@ -20,15 +20,15 @@ Test(add_reply_to_struct, basic_test, .init=redirect_all_stderr)
 {
     global = malloc(sizeof(global_t));
     
-    team_t *team;
-    channel_t *channel;
-    thread_t *thread;
-    reply_t *reply;
-    data_t *channel_data;
-    data_t *team_data;
-    data_t *user_data;
-    data_t *thread_data;
-    data_t *reply_data;
+    team_t *team = NULL;
+    channel_t *channel = NULL;
+    thread_t *thread = NULL;
+    reply_t *reply = NULL;
+    data_t *channel_data = NULL;
+    data_t *team_data = NULL;
+    data_t *user_data = NULL;
+    data_t *thread_data = NULL;
+    data_t *reply_data = NULL;
     char channel_uuid[37];
     char team_uuid[37];
     char thread_uuid[37];
@@ -75,17 +75,17 @@ Test(add_reply_to_struct, multiple_thread, .init=redirect_all_stderr)
 {
     global = malloc(sizeof(global_t));
     
-    team_t *team;
-    channel_t *channel;
-    thread_t *thread;
-    reply_t *reply;
-    data_t *channel_data;
-    data_t *user_data;
-    data_t *thread_data;
-    data_t *reply_data1;
-    data_t *reply_data2;
-    data_t *reply_data3;
-    data_t *team_data;
+    team_t *team = NULL;
+    channel_t *channel = NULL;
+    thread_t *thread = NULL;
+    reply_t *reply = NULL;
+    data_t *channel_data = NULL;
+    data_t *user_data = NULL;
+    data_t *thread_data = NULL;
+    data_t *reply_data1 = NULL;
+    data_t *reply_data2 = NULL;
+    data_t *reply_data3 = NULL;
+    data_t *team_data = NULL;
 
     char *name[3] = {"Andréas", "Louis", "Nugo"};
     int idx = 0;
@@ -138,17 +138,17 @@ Test(add_reply_to_struct, multiple_reply_with_same_name, .init=redirect_all_stde
 {
     global = malloc(sizeof(global_t));
     
-    team_t *team;
-    channel_t *channel;
-    thread_t *thread;
-    reply_t *reply;
-    data_t *channel_data;
-    data_t *user_data;
-    data_t *thread_data;
-    data_t *reply_data1;
-    data_t *reply_data2;
-    data_t *reply_data3;
-    data_t *team_data;
+    team_t *team = NULL;
+    channel_t *channel = NULL;
+    thread_t *thread = NULL;
+    reply_t *reply = NULL;
+    data_t *channel_data = NULL;
+    data_t *user_data = NULL;
+    data_t *thread_data = NULL;
+    data_t *reply_data1 = NULL;
+    data_t *reply_data2 = NULL;
+    data_t *reply_data3 = NULL;
+    data_t *team_data = NULL;
 
     char *name[3] = {"Andréas", "Andréas", "Andréas"};
     int idx = 0;

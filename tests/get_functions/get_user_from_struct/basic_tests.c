@@ -20,9 +20,9 @@ Test(get_user_from_struct, basic_test, .init=redirect_all_stderr)
 {
     global = malloc(sizeof(global_t));
     
-    data_t *user_data;
-    user_t *user;
-    user_t *user_got;
+    data_t *user_data = NULL;
+    user_t *user = NULL;
+    user_t *user_got = NULL;
     char uuid[37];
 
     uuid[0] = '\0';
@@ -46,11 +46,11 @@ Test(get_user_from_struct, multiple_user, .init=redirect_all_stderr)
 {
     global = malloc(sizeof(global_t));
     
-    data_t *user_data1;
-    data_t *user_data2;
-    data_t *user_data3;
-    user_t *user;
-    user_t *user_got;
+    data_t *user_data1 = NULL;
+    data_t *user_data2 = NULL;
+    data_t *user_data3 = NULL;
+    user_t *user = NULL;
+    user_t *user_got = NULL;
     char *uuid[3] = {"00000000-0000-0000-0000-000000000000",
         "00000000-0000-0000-0000-000000000001",
         "00000000-0000-0000-0000-000000000002"};
@@ -78,10 +78,10 @@ Test(get_user_from_struct, multiple_user_with_same_name, .init=redirect_all_stde
 {
     global = malloc(sizeof(global_t));
     
-    data_t *user_data1;
-    data_t *user_data2;
-    user_t *user;
-    user_t *user_got;
+    data_t *user_data1 = NULL;
+    data_t *user_data2 = NULL;
+    user_t *user = NULL;
+    user_t *user_got = NULL;
     char last_uuid[37] = "00000000-0000-0000-0000-000000000000";
     char uuid[2][37];
 
@@ -115,9 +115,9 @@ Test(get_user_from_struct, bad_uuid, .init=redirect_all_stderr)
 {
     global = malloc(sizeof(global_t));
     
-    data_t *user_data1;
-    data_t *user_data2;
-    user_t *user_got;
+    data_t *user_data1 = NULL;
+    data_t *user_data2 = NULL;
+    user_t *user_got = NULL;
     char *uuid[2] = {"00000000-0000-0000-0000-000000000001",
         "00000000-0000-0000-0000-000000000002"};
 

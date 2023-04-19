@@ -13,8 +13,8 @@
 
 personal_discussion_t *get_personnal_discussion_from_struct(const char *uuid)
 {
-    user_t *user;
-    personal_discussion_t *discussion;
+    user_t *user = NULL;
+    personal_discussion_t *discussion = NULL;
 
     TAILQ_FOREACH(user, &global->users, entries) {
         TAILQ_FOREACH(discussion, &user->discussions, entries) {
