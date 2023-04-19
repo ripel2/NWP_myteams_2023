@@ -16,6 +16,7 @@ SHARED_FOLDER	=	./src/shared
 SERVER_FOLDER	=	./src/server
 CLIENT_FOLDER	=	./src/client
 COMMANDS		=   $(SERVER_FOLDER)/commands
+COMMANDS_TOOLS	=   $(SERVER_FOLDER)/commands/commands_tools
 ADD_FUNCTION	=   $(SERVER_FOLDER)/handle_database/add_functions
 GET_FUNCTION	=   $(SERVER_FOLDER)/handle_database/get_functions
 OTHER_FUNCTION =    $(SERVER_FOLDER)/handle_database/other_functions
@@ -31,7 +32,8 @@ CLIENT_MAIN_OBJ	=	$(CLIENT_MAIN:.c=.o)
 
 SHARED_SRC	=	$(SHARED_FOLDER)/print_help.c	\
 				$(SHARED_FOLDER)/port_handler.c \
-				$(SHARED_FOLDER)/ip_handler.c
+				$(SHARED_FOLDER)/ip_handler.c	\
+				$(SHARED_FOLDER)/fixed_array_split.c
 
 SERVER_SRC	=	$(ADD_FUNCTION)/add_user_to_struct.c				\
 				$(GET_FUNCTION)/get_user_from_struct.c				\
@@ -67,7 +69,9 @@ SERVER_SRC	=	$(ADD_FUNCTION)/add_user_to_struct.c				\
 				$(COMMANDS)/unsubscribe_command.c					\
 				$(COMMANDS)/use_command.c							\
 				$(COMMANDS)/user_command.c							\
-				$(COMMANDS)/users_command.c
+				$(COMMANDS)/users_command.c							\
+				$(COMMANDS_TOOLS)/is_user_logged_in.c				\
+				$(COMMANDS_TOOLS)/remove_bad_char.c
 
 
 CLIENT_SRC	=
@@ -92,13 +96,16 @@ TESTS_SRC	=	tests/add_functions/add_team_to_struct/basic_tests.c		\
 				tests/get_functions/get_discussion_from_struct/basic_tests.c\
 				tests/other_functions/remove_user_from_team/basic_tests.c	\
 				tests/other_functions/is_channel_in_team/basic_tests.c		\
-				tests/other_functions/is_thread_in_channel/basic_tests.c
+				tests/other_functions/is_thread_in_channel/basic_tests.c	\
+				tests/other_functions/split_array.c
 
 TESTS_OBJ	=	$(TESTS_SRC:.c=.o)
 
 CFLAGS	=	-Wall -Wextra -Wshadow -Wpedantic -Werror
-CFLAGS	+=	-I./include -I./libs/mynet/include
+CFLAGS	+=	-I./include -I./libs/mynet/include -I./libs/myteams
 CFLAGS	+=	-luuid -L./libs/mynet -lmynetserver
+CFLAGS	+=	-L./libs/myteams -lmyteams -Wl,-rpath=./libs/myteams
+CFLAGS	+=	-I./libs/myteams
 GCC	=	gcc
 
 SERVER_LIB	=	./libs/mynet/libmynetserver.a
