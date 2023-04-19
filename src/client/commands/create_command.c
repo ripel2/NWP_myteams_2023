@@ -74,10 +74,11 @@ int create_command(client_t *client, char **args)
     client_printf(client, "CREATE %s %s\n",
     args[1] != NULL ? args[1] : "",
     args[2] != NULL ? args[2] : "");
-    ret = client_read_in_buffer(client);
-    if (ret != 0)
-        return ret;
-    if (client_flush_line(client, line))
-        create_parse_answer_and_debug(client, line, args);
+    do {
+        ret = client_read_in_buffer(client);
+        if (ret != 0)
+            return ret;
+    } while (!client_flush_line(client, line));
+    create_parse_answer_and_debug(client, line, args);
     return 0;
 }

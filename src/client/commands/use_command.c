@@ -57,9 +57,11 @@ int use_command(client_t *client, char **args)
     strcat(command, "\n");
     client_printf(client, "%s", command);
     ret = client_read_in_buffer(client);
-    if (ret != 0)
-        return ret;
-    if (client_flush_line(client, line))
-        use_parse_answer_and_debug(client, line, args);
+    do {
+        ret = client_read_in_buffer(client);
+        if (ret != 0)
+            return ret;
+    } while (!client_flush_line(client, line));
+    use_parse_answer_and_debug(client, line, args);
     return 0;
 }

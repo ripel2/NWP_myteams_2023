@@ -78,10 +78,11 @@ int info_command(client_t *client, char **args)
     char line[32768] = {0};
 
     client_printf(client, "INFO\n");
-    ret = client_read_in_buffer(client);
-    if (ret != 0)
-        return ret;
-    if (client_flush_line(client, line))
-        info_parse_answer_and_debug(client, line, args);
+    do {
+        ret = client_read_in_buffer(client);
+        if (ret != 0)
+            return ret;
+    } while (!client_flush_line(client, line));
+    info_parse_answer_and_debug(client, line, args);
     return 0;
 }

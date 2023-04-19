@@ -34,10 +34,11 @@ int login_command(client_t *client, char **args)
     char line[32768] = {0};
 
     client_printf(client, "LOGIN %s\n", args[1] != NULL ? args[1] : "");
-    ret = client_read_in_buffer(client);
-    if (ret != 0)
-        return ret;
-    if (client_flush_line(client, line))
-        login_parse_answer_and_debug(client, line, args);
+    do {
+        ret = client_read_in_buffer(client);
+        if (ret != 0)
+            return ret;
+    } while (!client_flush_line(client, line));
+    login_parse_answer_and_debug(client, line, args);
     return 0;
 }

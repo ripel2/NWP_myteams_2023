@@ -33,10 +33,11 @@ int unsubscribe_command(client_t *client, char **args)
 
     client_printf(client, "unsubscribe %s\n",
     args[1] != NULL ? args[1] : "");
-    ret = client_read_in_buffer(client);
-    if (ret != 0)
-        return ret;
-    if (client_flush_line(client, line))
-        unsubscribe_parse_answer_and_debug(client, line, args);
+    do {
+        ret = client_read_in_buffer(client);
+        if (ret != 0)
+            return ret;
+    } while (!client_flush_line(client, line));
+    unsubscribe_parse_answer_and_debug(client, line, args);
     return 0;
 }
