@@ -41,7 +41,7 @@ void handle_users(server_t *server, server_client_t *client, char **args)
     int nb_users = 0;
 
     if (args[1] != NULL) {
-        server_client_write_string(server, client, "Error: Too many arguments\n");
+        server_client_write_string(server, client, "Error: Too many args\n");
         return;
     }
     server_client_write_string(server, client, "150 ");
