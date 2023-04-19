@@ -24,7 +24,7 @@ reply_t *get_reply_from_struct(const char *uuid);
 int add_personnal_discussion_to_struct(char *discussion_uuid,
 char *current_user_uuid, data_t *user_data);
 personal_discussion_t *get_personnal_discussion_from_struct(const char *uuid);
-int add_message_to_struct(data_t *sender_uuid, data_t *receiver_uuid,
+int add_message_to_struct(data_t *sender_uuid, data_t *discussion_uuid,
 data_t *message);
 int add_user_to_team(const char *team_uuid, const char *user_uuid);
 int remove_user_from_team(const char *team_uuid, const char *user_uuid);
