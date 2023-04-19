@@ -67,6 +67,7 @@ CLIENT_SRC	=	$(CLIENT_FOLDER)/client_init.c	\
 				$(CLIENT_FOLDER)/commands/user_command.c	\
 				$(CLIENT_FOLDER)/commands/use_command.c	\
 				$(CLIENT_FOLDER)/commands/send_command.c	\
+				$(CLIENT_FOLDER)/commands/create_command.c	\
 				$(CLIENT_FOLDER)/commands/subscribe_command.c	\
 				$(CLIENT_FOLDER)/commands/unsubscribe_command.c	\
 

@@ -47,6 +47,9 @@ typedef struct client_s {
     size_t buffer_cur;
     char uuid[UUID_LENGTH + 1];
     char username[MAX_NAME_LENGTH + 1];
+    char use_team_uuid[UUID_LENGTH + 1];
+    char use_channel_uuid[UUID_LENGTH + 1];
+    char use_thread_uuid[UUID_LENGTH + 1];
 } client_t;
 
 /**
