@@ -16,19 +16,8 @@
 #include "data.h"
 #include "server.h"
 
-static user_t *get_user_from_struct_by_fd(int fd)
-{
-    user_t *tmp_user = NULL;
-
-    TAILQ_FOREACH(tmp_user, &global->users, entries) {
-        if (tmp_user && tmp_user->socket_fd == fd) {
-            return tmp_user;
-        }
-    }
-    return NULL;
-}
-
-static bool check_if_user_need_discussion(user_t *current_user, char *user_to_send_uuid)
+static bool check_if_user_need_discussion(user_t *current_user,
+char *user_to_send_uuid)
 {
     personal_discussion_t *tmp_discussion = NULL;
 
@@ -40,32 +29,39 @@ static bool check_if_user_need_discussion(user_t *current_user, char *user_to_se
     return true;
 }
 
-static void create_new_discussion(user_t *current_user, char *user_to_send_uuid)
+static void create_new_discussion(user_t *current_user,
+char *user_to_send_uuid)
 {
     char new_uuid[37];
 
     generate_uuid(new_uuid);
-    add_personnal_discussion_to_struct(new_uuid, current_user->user_data->uuid, get_user_from_struct(user_to_send_uuid)->user_data);
-    add_personnal_discussion_to_struct(new_uuid, user_to_send_uuid, current_user->user_data);
+    add_personnal_discussion_to_struct(new_uuid,
+    current_user->user_data->uuid,
+    get_user_from_struct(user_to_send_uuid)->user_data);
+    add_personnal_discussion_to_struct(new_uuid,
+    user_to_send_uuid, current_user->user_data);
 }
 
-static void add_message_to_both_users(user_t *current_user, char *user_to_send_uuid, char *message)
+static void add_message_to_both_users(user_t *current_user,
+char *user_to_send_uuid, char *message)
 {
     personal_discussion_t *tmp_discussion = NULL;
-    data_t *discussion_uuid = NULL;
     data_t *message_data = init_data("", "", message, "");
 
     TAILQ_FOREACH(tmp_discussion, &current_user->discussions, entries) {
         if (strcmp(tmp_discussion->user_data->uuid, user_to_send_uuid) == 0) {
-            discussion_uuid = init_data("", "", "", tmp_discussion->uuid);
-            add_message_to_struct(current_user->user_data, discussion_uuid, message_data);
+            add_message_to_struct(current_user->user_data,
+            init_data("", "", "", tmp_discussion->uuid), message_data);
             break;
         }
     }
-    TAILQ_FOREACH(tmp_discussion, &get_user_from_struct(user_to_send_uuid)->discussions, entries) {
-        if (strcmp(tmp_discussion->user_data->uuid, current_user->user_data->uuid) == 0) {
-            discussion_uuid = init_data("", "", "", tmp_discussion->uuid);
-            add_message_to_struct(get_user_from_struct(user_to_send_uuid)->user_data, discussion_uuid, message_data);
+    TAILQ_FOREACH(tmp_discussion,
+    &get_user_from_struct(user_to_send_uuid)->discussions, entries) {
+        if (strcmp(tmp_discussion->user_data->uuid,
+        current_user->user_data->uuid) == 0) {
+            add_message_to_struct(get_user_from_struct(user_to_send_uuid)->
+            user_data, init_data("", "", "", tmp_discussion->uuid),
+            message_data);
             break;
         }
     }
@@ -81,24 +77,14 @@ char *user_to_send_uuid, char *message)
         server_client_write_string(server, client, "530 Not logged in\n");
         return;
     }
-    if (check_if_user_need_discussion(current_user, user_to_send_uuid) == true) {
+    if (check_if_user_need_discussion(current_user, user_to_send_uuid)
+    == true) {
         create_new_discussion(current_user, user_to_send_uuid);
     }
     add_message_to_both_users(current_user, user_to_send_uuid, message);
     server_client_write_string(server, client, "200 OK\n");
-    server_event_private_message_sended(current_user->user_data->uuid, user_to_send_uuid, message);
-}
-
-static user_t *get_user_logged_in(server_client_t *client)
-{
-    user_t *user;
-
-    TAILQ_FOREACH(user, &global->users, entries) {
-        if (user && user->is_logged == true && user->socket_fd == client->fd) {
-            return user;
-        }
-    }
-    return user;
+    server_event_private_message_sended(current_user->user_data->uuid,
+    user_to_send_uuid, message);
 }
 
 void handle_send(server_t *server, server_client_t *client, char **args)

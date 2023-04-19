@@ -71,7 +71,9 @@ SERVER_SRC	=	$(ADD_FUNCTION)/add_user_to_struct.c				\
 				$(COMMANDS)/user_command.c							\
 				$(COMMANDS)/users_command.c							\
 				$(COMMANDS_TOOLS)/is_user_logged_in.c				\
-				$(COMMANDS_TOOLS)/remove_bad_char.c
+				$(COMMANDS_TOOLS)/remove_bad_char.c					\
+				$(COMMANDS_TOOLS)/get_user_logged_in.c				\
+				$(COMMANDS_TOOLS)/get_user_from_struct_by_fd.c
 
 
 CLIENT_SRC	=
