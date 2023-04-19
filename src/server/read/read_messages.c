@@ -21,6 +21,9 @@ void read_messages(FILE *fd, user_t *user)
         message = malloc(sizeof(message_t));
         message->user_data = malloc(sizeof(data_t));
         message->message_data = malloc(sizeof(data_t));
+        if (message == NULL || message->user_data == NULL
+        || message->message_data == NULL)
+            return;
         fread(message->user_data, sizeof(data_t), 1, fd);
         fread(message->message_data, sizeof(data_t), 1, fd);
         add_message_to_struct(user->user_data,

@@ -22,6 +22,9 @@ void read_replies(FILE *fd, thread_t *thread)
         reply = malloc(sizeof(reply_t));
         reply->user_data = malloc(sizeof(data_t));
         reply->reply_data = malloc(sizeof(data_t));
+        if (reply == NULL || reply->user_data == NULL
+        || reply->reply_data == NULL)
+            return;
         fread(reply->user_data, sizeof(data_t), 1, fd);
         fread(reply->reply_data, sizeof(data_t), 1, fd);
         add_reply_to_struct(thread->thread_data->uuid,

@@ -21,6 +21,9 @@ void read_threads(FILE *fd, channel_t *channel)
         thread = malloc(sizeof(thread_t));
         thread->user_data = malloc(sizeof(data_t));
         thread->thread_data = malloc(sizeof(data_t));
+        if (thread == NULL || thread->user_data == NULL ||
+        thread->thread_data == NULL)
+            return;
         fread(thread->user_data, sizeof(data_t), 1, fd);
         fread(thread->thread_data, sizeof(data_t), 1, fd);
         add_thread_to_struct(channel->channel_data->uuid,

@@ -20,7 +20,11 @@ void read_channels(FILE *fd, team_t *team)
     fread(&nb_channels, sizeof(unsigned int), 1, fd);
     for (unsigned int i = 0; i < nb_channels; i++) {
         channel = malloc(sizeof(channel_t));
+        if (channel == NULL)
+            return;
         channel->channel_data = malloc(sizeof(data_t));
+        if (channel->channel_data == NULL)
+            return;
         fread(channel->channel_data, sizeof(data_t), 1, fd);
         add_channel_to_struct(team->team_data->uuid, channel->channel_data);
         read_threads(fd, channel);

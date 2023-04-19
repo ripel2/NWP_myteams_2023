@@ -20,6 +20,8 @@ void read_teams(FILE *fd)
     for (unsigned int i = 0; i < nb_teams; i++) {
         team = malloc(sizeof(team_t));
         team->team_data = malloc(sizeof(data_t));
+        if (team == NULL || team->team_data == NULL)
+            return;
         fread(team->team_data, sizeof(data_t), 1, fd);
         add_team_to_struct(team->team_data);
         read_channels(fd, team);

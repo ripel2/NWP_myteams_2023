@@ -19,8 +19,9 @@ void read_team_uuids(FILE *fd)
     fread(&nb_team_uuids, sizeof(unsigned int), 1, fd);
     for (unsigned int i = 0; i < nb_team_uuids; i++) {
         uuid = malloc(sizeof(char) * UUID_LENGTH + 1);
+        if (uuid == NULL)
+            return;
         fread(uuid, sizeof(char) * UUID_LENGTH + 1, 1, fd);
-        printf("uuid: %s", uuid);
         free(uuid);
     }
 }
@@ -34,6 +35,8 @@ void read_users(FILE *fd)
     for (unsigned int i = 0; i < nb_users; i++) {
         user = malloc(sizeof(user_t));
         user->user_data = malloc(sizeof(data_t));
+        if (user == NULL || user->user_data == NULL)
+            return;
         fread(user->user_data, sizeof(data_t), 1, fd);
         fread(&user->is_logged, sizeof(bool), 1, fd);
         add_user_to_struct(init_data(user->user_data->name,
