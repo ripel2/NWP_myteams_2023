@@ -37,3 +37,4 @@ user_t *get_user_logged_in(server_client_t *client);
 user_t *get_user_from_struct_by_fd(int fd);
 void send_event_to_user(server_t *server, user_t *user_seeked, char *str);
 bool is_a_uuid(char *str);
+int count_nb_messages(user_t *current_user, user_t *user_to_seek);
