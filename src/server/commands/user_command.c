@@ -15,12 +15,24 @@
 #include "data.h"
 #include "server.h"
 
+static void display_user(server_t *server, server_client_t *client,
+user_t *user)
+{
+    server_client_write_string(server, client, "150 ");
+    server_client_write_string(server, client, user->user_data->uuid);
+    server_client_write_string(server, client, " ");
+    server_client_write_string(server, client, user->user_data->name);
+    server_client_write_string(server, client, " ");
+    server_client_write_string(server, client, (user->is_logged ? "1" : "0"));
+    server_client_write_string(server, client, "\n");
+}
+
 void handle_user(server_t *server, server_client_t *client, char **args)
 {
-    (void)server;
-    (void)client;
     user_t *user = NULL;
 
+    (void)server;
+    (void)client;
     if (args[1] == NULL) {
         server_client_write_string(server, client, "No arguments given\n");
         return;
@@ -32,11 +44,5 @@ void handle_user(server_t *server, server_client_t *client, char **args)
         server_client_write_string(server, client, "430 User doesn't exist\n");
         return;
     }
-    server_client_write_string(server, client, "150 ");
-    server_client_write_string(server, client, user->user_data->uuid);
-    server_client_write_string(server, client, " ");
-    server_client_write_string(server, client, user->user_data->name);
-    server_client_write_string(server, client, " ");
-    server_client_write_string(server, client, (user->is_logged ? "1" : "0"));
-    server_client_write_string(server, client, "\n");
+    display_user(server, client, user);
 }
