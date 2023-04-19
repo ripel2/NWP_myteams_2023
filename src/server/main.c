@@ -13,6 +13,7 @@
 #include "data.h"
 #include "server.h"
 #include "teams_server.h"
+#include "save.h"
 
 global_t *global;
 

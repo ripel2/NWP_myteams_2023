@@ -18,7 +18,7 @@
 
 static user_t *get_user_from_struct_by_username(const char *username)
 {
-    user_t *user;
+    user_t *user = NULL;
 
     TAILQ_FOREACH(user, &global->users, entries) {
         if (user && strcmp(user->user_data->name, username) == 0) {
@@ -47,7 +47,7 @@ server_client_t *client, char **args)
 static void create_user(server_t *server, server_client_t *client,
 char **args, char *user_uuid)
 {
-    data_t *user_data;
+    data_t *user_data = NULL;
     char user_uuid_with_quotes[40] = {0};
 
     string_strip_delim(&args[1], '"');
@@ -68,7 +68,7 @@ char **args, char *user_uuid)
 static void login_user(server_t *server, server_client_t *client,
 char **args, char *user_uuid)
 {
-    user_t *user;
+    user_t *user = NULL;
     char user_uuid_with_quotes[40] = {0};
 
     strcat(user_uuid_with_quotes, "\"");
@@ -86,7 +86,7 @@ char **args, char *user_uuid)
 void handle_login(server_t *server, server_client_t *client, char **args)
 {
     char user_uuid[37];
-    user_t *user;
+    user_t *user = NULL;
 
     if (handle_error_in_args(server, client, args) ||
     is_user_already_logged_in(server, client))

@@ -12,20 +12,9 @@
 #include "logging_server.h"
 #include "data_struct_functions.h"
 #include "teams_server.h"
+#include "teams_commands.h"
 #include "data.h"
 #include "server.h"
-
-static user_t *get_user_logged_in(server_client_t *client)
-{
-    user_t *user;
-
-    TAILQ_FOREACH(user, &global->users, entries) {
-        if (user && user->is_logged == true && user->socket_fd == client->fd) {
-            return user;
-        }
-    }
-    return user;
-}
 
 static void set_user_uuid_quotes(char *user_uuid_with_quotes, user_t *user)
 {
