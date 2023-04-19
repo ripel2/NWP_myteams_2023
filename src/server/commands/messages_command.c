@@ -53,6 +53,19 @@ user_t *user_to_seek, server_t *server, server_client_t *client)
     }
 }
 
+static int count_nb_messages(user_t *current_user, user_t *user_to_seek)
+{
+    personal_discussion_t *discussion =
+    get_discussion_between_user(current_user, user_to_seek);
+    int nb_messages = 0;
+    message_t *message = NULL;
+
+    TAILQ_FOREACH(message, &discussion->messages, entries) {
+        nb_messages++;
+    }
+    return nb_messages;
+}
+
 static void list_all_message_between_user(user_t *current_user,
 user_t *user_to_seek
 , server_t *server, server_client_t *client)
@@ -61,7 +74,8 @@ user_t *user_to_seek
         server_client_write_string(server, client, "200 OK\n");
         return;
     }
-    //display number
+    server_client_printf(server, client, "150 %i\n",
+    count_nb_messages(current_user, user_to_seek));
     display_all_message_between_user(current_user, user_to_seek, server,
     client);
     server_client_write_string(server, client, "200 OK\n");
