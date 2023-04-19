@@ -119,6 +119,7 @@ Test(add_user_to_struct2, multiple_user_with_team, .init=init_global)
     FILE *fd = open_file("my_teams.db", "r");
     cr_assert_not_null(fd);
     fread(&nb_users, sizeof(int), 1, fd);
+    sleep(0.2);
     cr_assert_eq(nb_users, 3);
     for (int i = 0; i < 3; i++) {
         data_t *data = malloc(sizeof(data_t));

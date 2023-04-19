@@ -29,8 +29,7 @@ static void init_global(void)
     global = malloc(sizeof(global_t));
     TAILQ_INIT(&global->users);
     TAILQ_INIT(&global->teams);
-    // redirect_all_std();
-    (void)redirect_all_std;
+    redirect_all_std();
 }
 
 Test(read, read_simple, .init=init_global)
@@ -51,8 +50,6 @@ Test(read, read_simple, .init=init_global)
         add_team_to_struct(init_data(teams_names[i], "Description1", "NULL", teams_uuids[i]));
         add_user_to_team(uuids[i], teams_uuids[i]);
     }
-    team_t *team2 = get_team_from_struct(teams_uuids[0]);
-    printf("GFHJKL GHJKL%s", team2->team_data->name);
     write_global_struct();
     if (global)
         free(global);
@@ -77,10 +74,22 @@ Test(read, read_simple, .init=init_global)
     cr_assert_str_eq(user3->user_data->uuid, uuids[2]);
     cr_assert_eq(user3->is_logged, false);
     team_t *team1 = get_team_from_struct(teams_uuids[0]);
-    printf("%s", team1->team_data->name);
+    cr_assert_not_null(team1);
+    cr_assert_str_eq(team1->team_data->name, teams_names[0]);
+    cr_assert_str_eq(team1->team_data->description, "Description1");
+    cr_assert_str_eq(team1->team_data->uuid, teams_uuids[0]);
+    team_t *team2 = get_team_from_struct(teams_uuids[1]);
+    cr_assert_not_null(team2);
+    cr_assert_str_eq(team2->team_data->name, teams_names[1]);
+    cr_assert_str_eq(team2->team_data->description, "Description1");
+    cr_assert_str_eq(team2->team_data->uuid, teams_uuids[1]);
+    team_t *team3 = get_team_from_struct(teams_uuids[2]);
+    cr_assert_not_null(team3);
+    cr_assert_str_eq(team3->team_data->name, teams_names[2]);
+    cr_assert_str_eq(team3->team_data->description, "Description1");
+    cr_assert_str_eq(team3->team_data->uuid, teams_uuids[2]);
     for (int i = 0; i < 3; i++) {
         free(uuids[i]);
         free(teams_uuids[i]);
     }
-    (void)user1;
 }

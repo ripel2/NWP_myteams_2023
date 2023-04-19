@@ -63,7 +63,14 @@ SERVER_SRC	=	$(ADD_FUNCTION)/add_user_to_struct.c				\
 				$(SAVE_FUNCTION)/write_channels.c					\
 				$(SAVE_FUNCTION)/write_threads.c					\
 				$(SAVE_FUNCTION)/write_replies.c					\
-				$(READ_FUNCTION)/read_users.c
+				$(READ_FUNCTION)/read_users.c						\
+				$(READ_FUNCTION)/read_channels.c					\
+				$(READ_FUNCTION)/read_threads.c						\
+				$(READ_FUNCTION)/read_replies.c						\
+				$(READ_FUNCTION)/read_teams.c						\
+				$(READ_FUNCTION)/read_personal_discussion.c			\
+				$(READ_FUNCTION)/load_struct_from_file.c			\
+				$(READ_FUNCTION)/read_messages.c
 
 CLIENT_SRC	=
 

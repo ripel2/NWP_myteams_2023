@@ -12,7 +12,13 @@
 #include <stdio.h>
 #include "save.h"
 
-Test(open_file, ok_open_read)
+static void redirect_all_std(void)
+{
+    cr_redirect_stdout();
+    cr_redirect_stderr();
+}
+
+Test(open_file, ok_open_read, .init=redirect_all_std)
 {
     FILE *fp = open_file("tests/save/tests_files/ok_open_read.my_teams", "r");
 
@@ -20,7 +26,7 @@ Test(open_file, ok_open_read)
     fclose(fp);
 }
 
-Test(open_file, ok_open_write)
+Test(open_file, ok_open_write, .init=redirect_all_std)
 {
     FILE *fp = open_file("tests/save/tests_files/ok_open_write.my_teams", "w");
 
@@ -28,7 +34,7 @@ Test(open_file, ok_open_write)
     fclose(fp);
 }
 
-Test(open_file, error_parameter)
+Test(open_file, error_parameters, .init=redirect_all_std)
 {
     cr_redirect_stderr();
     FILE *fp = open_file(NULL, NULL);
@@ -36,7 +42,7 @@ Test(open_file, error_parameter)
     cr_assert_null(fp);
 }
 
-Test(open_file, error_file)
+Test(open_file, error_file, .init=redirect_all_std)
 {
     cr_redirect_stderr();
     FILE *fp = open_file("tests/save/tests_files/error_file.my_teams", "r");
