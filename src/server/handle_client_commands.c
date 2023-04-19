@@ -83,8 +83,6 @@ void teams_handle_client_commands(server_t *server, server_client_t *client)
     if (line == NULL)
         return;
     split_string_fixed_array(line->buf, command_parsed, 7);
-    if (command_parsed == NULL)
-        return;
     for (int i = 0; COMMAND_NAME[i] != 0; i++) {
         if (line_safe_strncmp(command_parsed[0], COMMAND_NAME[i],
         strlen(COMMAND_NAME[i])) == 0) {
