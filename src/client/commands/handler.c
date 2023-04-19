@@ -22,6 +22,8 @@ static const command_t COMMANDS[] = {
     {"/users", &users_command},
     {"/user", &user_command},
     {"/send", &send_command},
+    {"/subscribe", &subscribe_command},
+    {"/unsubscribe", &unsubscribe_command},
     {NULL, NULL}
 };
 
