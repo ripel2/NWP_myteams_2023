@@ -20,13 +20,13 @@ Test(add_thread_to_struct, basic_test, .init=redirect_all_stderr)
 {
     global = malloc(sizeof(global_t));
     
-    team_t *team;
-    channel_t *channel;
-    thread_t *thread;
-    data_t *channel_data;
-    data_t *team_data;
-    data_t *user_data;
-    data_t *thread_data;
+    team_t *team = NULL;
+    channel_t *channel = NULL;
+    thread_t *thread = NULL;
+    data_t *channel_data = NULL;
+    data_t *team_data = NULL;
+    data_t *user_data = NULL;
+    data_t *thread_data = NULL;
     char channel_uuid[37];
     char team_uuid[37];
 
@@ -61,15 +61,15 @@ Test(add_thread_to_struct, multiple_thread, .init=redirect_all_stderr)
 {
     global = malloc(sizeof(global_t));
     
-    team_t *team;
-    channel_t *channel;
-    thread_t *thread;
-    data_t *channel_data;
-    data_t *user_data;
-    data_t *thread_data1;
-    data_t *thread_data2;
-    data_t *thread_data3;
-    data_t *team_data;
+    team_t *team = NULL;
+    channel_t *channel = NULL;
+    thread_t *thread = NULL;
+    data_t *channel_data = NULL;
+    data_t *user_data = NULL;
+    data_t *thread_data1 = NULL;
+    data_t *thread_data2 = NULL;
+    data_t *thread_data3 = NULL;
+    data_t *team_data = NULL;
 
     char *name[3] = {"Andréas", "Louis", "Nugo"};
     int idx = 0;
@@ -112,14 +112,14 @@ Test(add_thread_to_struct, multiple_thread_with_same_name, .init=redirect_all_st
 {
     global = malloc(sizeof(global_t));
     
-    thread_t *thread;
-    team_t *team;
-    channel_t *channel;
-    data_t *Andréas_channel_data;
-    data_t *Lucas_team_data;
-    data_t *user_data;
-    data_t *thread_data1;
-    data_t *thread_data2;
+    thread_t *thread = NULL;
+    team_t *team = NULL;
+    channel_t *channel = NULL;
+    data_t *Andréas_channel_data = NULL;
+    data_t *Lucas_team_data = NULL;
+    data_t *user_data = NULL;
+    data_t *thread_data1 = NULL;
+    data_t *thread_data2 = NULL;
     char last_thread_uuid[37] = "00000000-0000-0000-0000-000000000000";
     int idx = 0;
     char channel_uuid[37] = {"00000000-0000-0000-0000-000000000001"};

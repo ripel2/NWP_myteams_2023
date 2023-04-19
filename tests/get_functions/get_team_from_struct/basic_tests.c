@@ -20,9 +20,9 @@ Test(get_team_from_struct, basic_test, .init=redirect_all_stderr)
 {
     global = malloc(sizeof(global_t));
     
-    team_t *team;
-    team_t *team_got;
-    data_t *team_data;
+    team_t *team = NULL;
+    team_t *team_got = NULL;
+    data_t *team_data = NULL;
     char uuid[37];
 
     uuid[0] = '\0';
@@ -47,11 +47,11 @@ Test(get_team_from_struct, multiple_team, .init=redirect_all_stderr)
 {
     global = malloc(sizeof(global_t));
     
-    team_t *team;
-    team_t *team_got;
-    data_t *team_data1;
-    data_t *team_data2;
-    data_t *team_data3;
+    team_t *team = NULL;
+    team_t *team_got = NULL;
+    data_t *team_data1 = NULL;
+    data_t *team_data2 = NULL;
+    data_t *team_data3 = NULL;
     char *uuid[3] = {"00000000-0000-0000-0000-000000000000",
         "00000000-0000-0000-0000-000000000001",
         "00000000-0000-0000-0000-000000000002"};
@@ -80,10 +80,10 @@ Test(get_team_from_struct, multiple_team_with_same_name, .init=redirect_all_stde
 {
     global = malloc(sizeof(global_t));
     
-    team_t *team;
-    team_t *team_got;
-    data_t *team_data1;
-    data_t *team_data2;
+    team_t *team = NULL;
+    team_t *team_got = NULL;
+    data_t *team_data1 = NULL;
+    data_t *team_data2 = NULL;
     char last_uuid[37] = "00000000-0000-0000-0000-000000000000";
     char uuid[2][37];
 
@@ -118,9 +118,9 @@ Test(get_team_from_struct, bad_uuid, .init=redirect_all_stderr)
 {
     global = malloc(sizeof(global_t));
     
-    data_t *team_data;
-    data_t *team_data2;
-    team_t *team_got;
+    data_t *team_data = NULL;
+    data_t *team_data2 = NULL;
+    team_t *team_got = NULL;
     char *uuid[2] = {"00000000-0000-0000-0000-000000000001",
         "00000000-0000-0000-0000-000000000002"};
 

@@ -20,10 +20,10 @@ Test(add_channel_to_struct, basic_test, .init=redirect_all_stderr)
 {
     global = malloc(sizeof(global_t));
     
-    team_t *team;
-    channel_t *channel;
-    data_t *channel_data;
-    data_t *team_data;
+    team_t *team = NULL;
+    channel_t *channel = NULL;
+    data_t *channel_data = NULL;
+    data_t *team_data = NULL;
     char channel_uuid[37];
     char team_uuid[37];
 
@@ -52,12 +52,12 @@ Test(add_channel_to_struct, multiple_channel, .init=redirect_all_stderr)
 {
     global = malloc(sizeof(global_t));
     
-    team_t *team;
-    channel_t *channel;
-    data_t *andreas_channel_data;
-    data_t *louis_channel_data;
-    data_t *nugo_channel_data;
-    data_t *team_data;
+    team_t *team = NULL;
+    channel_t *channel = NULL;
+    data_t *andreas_channel_data = NULL;
+    data_t *louis_channel_data = NULL;
+    data_t *nugo_channel_data = NULL;
+    data_t *team_data = NULL;
     char *name[3] = {"Andréas", "Louis", "Nugo"};
     int idx = 0;
     char team_uuid[37] = {"00000000-0000-0000-0000-000000000000"};
@@ -91,11 +91,11 @@ Test(add_channel_to_struct, multiple_channel_with_same_name, .init=redirect_all_
 {
     global = malloc(sizeof(global_t));
     
-    team_t *team;
-    channel_t *channel;
-    data_t *Andréas_channel_data;
-    data_t *Andréas_channel_data2;
-    data_t *Lucas_team_data;
+    team_t *team = NULL;
+    channel_t *channel = NULL;
+    data_t *Andréas_channel_data = NULL;
+    data_t *Andréas_channel_data2 = NULL;
+    data_t *Lucas_team_data = NULL;
     char last_channel_uuid[37] = "00000000-0000-0000-0000-000000000000";
     int idx = 0;
     char channel_uuid[2][37];

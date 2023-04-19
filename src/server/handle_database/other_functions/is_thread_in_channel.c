@@ -14,7 +14,7 @@
 bool is_thread_in_channel(const char *thread_uuid, const char *channel_uuid)
 {
     channel_t *channel = get_channel_from_struct(channel_uuid);
-    thread_t *thread;
+    thread_t *thread = NULL;
 
     if (channel == NULL || get_thread_from_struct(thread_uuid) == NULL)
         return (false);

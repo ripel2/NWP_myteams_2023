@@ -20,14 +20,14 @@ Test(get_thread_from_struct, basic_test, .init=redirect_all_stderr)
 {
     global = malloc(sizeof(global_t));
     
-    team_t *team;
-    channel_t *channel;
-    thread_t *thread;
-    thread_t *thread_got;
-    data_t *thread_data;
-    data_t *user_data;
-    data_t *channel_data;
-    data_t *team_data;
+    team_t *team = NULL;
+    channel_t *channel = NULL;
+    thread_t *thread = NULL;
+    thread_t *thread_got = NULL;
+    data_t *thread_data = NULL;
+    data_t *user_data = NULL;
+    data_t *channel_data = NULL;
+    data_t *team_data = NULL;
     char team_uuid[37];
     char channel_uuid[37];
 
@@ -65,16 +65,16 @@ Test(get_thread_from_struct, multiple_thread, .init=redirect_all_stderr)
 {
     global = malloc(sizeof(global_t));
     
-    team_t *team;
-    channel_t *channel;
-    thread_t *thread;
-    thread_t *thread_got;
-    data_t *thread_data1;
-    data_t *thread_data2;
-    data_t *thread_data3;
-    data_t *user_data;
-    data_t *channel_data;
-    data_t *team_data;
+    team_t *team = NULL;
+    channel_t *channel = NULL;
+    thread_t *thread = NULL;
+    thread_t *thread_got = NULL;
+    data_t *thread_data1 = NULL;
+    data_t *thread_data2 = NULL;
+    data_t *thread_data3 = NULL;
+    data_t *user_data = NULL;
+    data_t *channel_data = NULL;
+    data_t *team_data = NULL;
     char *channel_uuid[3] = {"00000000-0000-0000-0000-000000000000",
         "00000000-0000-0000-0000-000000000001",
         "00000000-0000-0000-0000-000000000002"};
@@ -116,16 +116,16 @@ Test(get_thread_from_struct, multiple_thread_with_same_name, .init=redirect_all_
 {
     global = malloc(sizeof(global_t));
     
-    team_t *team;
-    channel_t *channel;
-    thread_t *thread;
-    thread_t *thread_got;
-    data_t *thread_data1;
-    data_t *thread_data2;
-    data_t *thread_data3;
-    data_t *user_data;
-    data_t *channel_data;
-    data_t *team_data;
+    team_t *team = NULL;
+    channel_t *channel = NULL;
+    thread_t *thread = NULL;
+    thread_t *thread_got = NULL;
+    data_t *thread_data1 = NULL;
+    data_t *thread_data2 = NULL;
+    data_t *thread_data3 = NULL;
+    data_t *user_data = NULL;
+    data_t *channel_data = NULL;
+    data_t *team_data = NULL;
     char *thread_uuid[3] = {"00000000-0000-0000-0000-000000000000",
         "00000000-0000-0000-0000-000000000001",
         "00000000-0000-0000-0000-000000000002"};
@@ -173,9 +173,9 @@ Test(get_thread_from_struct, bad_uuid, .init=redirect_all_stderr)
 {
     global = malloc(sizeof(global_t));
     
-    thread_t *thread_got;
-    data_t *channel_data;
-    data_t *team_data;
+    thread_t *thread_got = NULL;
+    data_t *channel_data = NULL;
+    data_t *team_data = NULL;
 
     char channel_uuid[37] = "00000000-0000-0000-0000-000000000000";
     char team_uuid[37] = "00000000-0000-0000-0000-000000000000";
