@@ -19,7 +19,9 @@ COMMANDS		=   $(SERVER_FOLDER)/commands
 COMMANDS_TOOLS	=   $(SERVER_FOLDER)/commands/commands_tools
 ADD_FUNCTION	=   $(SERVER_FOLDER)/handle_database/add_functions
 GET_FUNCTION	=   $(SERVER_FOLDER)/handle_database/get_functions
-OTHER_FUNCTION =    $(SERVER_FOLDER)/handle_database/other_functions
+OTHER_FUNCTION 	=   $(SERVER_FOLDER)/handle_database/other_functions
+SAVE_FUNCTION   =   $(SERVER_FOLDER)/save
+READ_FUNCTION   =   $(SERVER_FOLDER)/read
 
 SERVER_NAME	=   myteams_server
 CLIENT_NAME	=   myteams_cli
@@ -71,8 +73,24 @@ SERVER_SRC	=	$(ADD_FUNCTION)/add_user_to_struct.c				\
 				$(COMMANDS)/user_command.c							\
 				$(COMMANDS)/users_command.c							\
 				$(COMMANDS_TOOLS)/is_user_logged_in.c				\
-				$(COMMANDS_TOOLS)/remove_bad_char.c
-
+				$(COMMANDS_TOOLS)/remove_bad_char.c					\
+				$(SAVE_FUNCTION)/write_in_to_file.c					\
+				$(SERVER_FOLDER)/open_file.c						\
+				$(SAVE_FUNCTION)/write_users.c						\
+				$(SAVE_FUNCTION)/write_teams_uuids.c				\
+				$(SAVE_FUNCTION)/write_personal_discussion.c		\
+				$(SAVE_FUNCTION)/write_teams.c						\
+				$(SAVE_FUNCTION)/write_channels.c					\
+				$(SAVE_FUNCTION)/write_threads.c					\
+				$(SAVE_FUNCTION)/write_replies.c					\
+				$(READ_FUNCTION)/read_users.c						\
+				$(READ_FUNCTION)/read_channels.c					\
+				$(READ_FUNCTION)/read_threads.c						\
+				$(READ_FUNCTION)/read_replies.c						\
+				$(READ_FUNCTION)/read_teams.c						\
+				$(READ_FUNCTION)/read_personal_discussion.c			\
+				$(READ_FUNCTION)/load_struct_from_file.c			\
+				$(READ_FUNCTION)/read_messages.c
 
 CLIENT_SRC	=
 
@@ -97,6 +115,9 @@ TESTS_SRC	=	tests/add_functions/add_team_to_struct/basic_tests.c		\
 				tests/other_functions/remove_user_from_team/basic_tests.c	\
 				tests/other_functions/is_channel_in_team/basic_tests.c		\
 				tests/other_functions/is_thread_in_channel/basic_tests.c	\
+				tests/save/open_file.c										\
+				tests/save/write.c											\
+				tests/save/read.c											\
 				tests/other_functions/split_array.c
 
 TESTS_OBJ	=	$(TESTS_SRC:.c=.o)
