@@ -27,6 +27,13 @@ static user_t *get_user_logged_in(server_client_t *client)
     return user;
 }
 
+static void set_user_uuid_quotes(char *user_uuid_with_quotes, user_t *user)
+{
+    strcat(user_uuid_with_quotes, "\"");
+    strcat(user_uuid_with_quotes, user->user_data->uuid);
+    strcat(user_uuid_with_quotes, "\"");
+}
+
 void handle_logout(server_t *server, server_client_t *client, char **args)
 {
     user_t *user = NULL;
@@ -43,9 +50,7 @@ void handle_logout(server_t *server, server_client_t *client, char **args)
     }
     user->is_logged = false;
     user->socket_fd = -1;
-    strcat(user_uuid_with_quotes, "\"");
-    strcat(user_uuid_with_quotes, user->user_data->uuid);
-    strcat(user_uuid_with_quotes, "\"");
+    set_user_uuid_quotes(user_uuid_with_quotes, user);
     server_client_write_string(server, client, "221 ");
     server_client_write_string(server, client, user_uuid_with_quotes);
     server_client_write_string(server, client, " logged out\n");
