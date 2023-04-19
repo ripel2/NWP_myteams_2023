@@ -32,3 +32,4 @@ void handle_list(server_t *server, server_client_t *client, char **args);
 void handle_info(server_t *server, server_client_t *client, char **args);
 
 bool is_user_already_logged_in(server_t *server, server_client_t *client);
+char *remove_bad_char(char *str);
