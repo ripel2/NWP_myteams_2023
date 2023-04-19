@@ -26,7 +26,7 @@ int fd_tmp)
 
 bool is_user_already_logged_in(server_t *server, server_client_t *client)
 {
-    user_t *tmp_user;
+    user_t *tmp_user = NULL;
 
     TAILQ_FOREACH(tmp_user, &global->users, entries) {
         if (tmp_user && tmp_user->is_logged == true && check_in_clients_fd(
