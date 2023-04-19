@@ -47,10 +47,10 @@ char **args, char *user_uuid)
 {
     data_t *user_data = NULL;
     char user_uuid_with_quotes[40] = {0};
+
     strcat(user_uuid_with_quotes, "\"");
     strcat(user_uuid_with_quotes, user_uuid);
     strcat(user_uuid_with_quotes, "\"");
-
     user_data = init_data(args[1], "NULL", "NULL", user_uuid);
     add_user_to_struct(user_data);
     get_user_from_struct(user_uuid)->is_logged = true;
@@ -65,10 +65,10 @@ char **args, char *user_uuid)
 {
     user_t *user = NULL;
     char user_uuid_with_quotes[40] = {0};
+
     strcat(user_uuid_with_quotes, "\"");
     strcat(user_uuid_with_quotes, user_uuid);
     strcat(user_uuid_with_quotes, "\"");
-
     user = get_user_from_struct_by_username(args[1]);
     user->is_logged = true;
     user->socket_fd = client->fd;
