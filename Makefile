@@ -35,7 +35,8 @@ CLIENT_MAIN_OBJ	=	$(CLIENT_MAIN:.c=.o)
 SHARED_SRC	=	$(SHARED_FOLDER)/print_help.c	\
 				$(SHARED_FOLDER)/port_handler.c \
 				$(SHARED_FOLDER)/ip_handler.c	\
-				$(SHARED_FOLDER)/fixed_array_split.c
+				$(SHARED_FOLDER)/fixed_array_split.c	\
+				$(SHARED_FOLDER)/str_to_time.c
 
 SERVER_SRC	=	$(ADD_FUNCTION)/add_user_to_struct.c				\
 				$(GET_FUNCTION)/get_user_from_struct.c				\
@@ -97,7 +98,22 @@ SERVER_SRC	=	$(ADD_FUNCTION)/add_user_to_struct.c				\
 				$(READ_FUNCTION)/load_struct_from_file.c			\
 				$(READ_FUNCTION)/read_messages.c
 
-CLIENT_SRC	=
+CLIENT_SRC	=	$(CLIENT_FOLDER)/client_init.c	\
+				$(CLIENT_FOLDER)/client_loop.c	\
+				$(CLIENT_FOLDER)/client_read.c	\
+				$(CLIENT_FOLDER)/client_printf.c	\
+				$(CLIENT_FOLDER)/client_events.c	\
+				$(CLIENT_FOLDER)/commands/handler.c	\
+				$(CLIENT_FOLDER)/commands/help_command.c	\
+				$(CLIENT_FOLDER)/commands/login_command.c	\
+				$(CLIENT_FOLDER)/commands/logout_command.c	\
+				$(CLIENT_FOLDER)/commands/users_command.c	\
+				$(CLIENT_FOLDER)/commands/user_command.c	\
+				$(CLIENT_FOLDER)/commands/use_command.c	\
+				$(CLIENT_FOLDER)/commands/send_command.c	\
+				$(CLIENT_FOLDER)/commands/create_command.c	\
+				$(CLIENT_FOLDER)/commands/subscribe_command.c	\
+				$(CLIENT_FOLDER)/commands/unsubscribe_command.c	\
 
 SHARED_OBJ	=	$(SHARED_SRC:.c=.o)
 SERVER_OBJ	=	$(SERVER_SRC:.c=.o)
@@ -120,6 +136,9 @@ TESTS_SRC	=	tests/add_functions/add_team_to_struct/basic_tests.c		\
 				tests/other_functions/remove_user_from_team/basic_tests.c	\
 				tests/other_functions/is_channel_in_team/basic_tests.c		\
 				tests/other_functions/is_thread_in_channel/basic_tests.c	\
+				tests/client_functions/tests_buffer_managment.c	\
+				tests/client_functions/tests_client_printf.c	\
+				tests/client_functions/tests_client_events.c	\
 				tests/save/open_file.c										\
 				tests/save/write.c											\
 				tests/save/read.c											\
