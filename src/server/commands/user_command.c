@@ -31,8 +31,6 @@ void handle_user(server_t *server, server_client_t *client, char **args)
 {
     user_t *user = NULL;
 
-    (void)server;
-    (void)client;
     if (args[1] == NULL) {
         server_client_write_string(server, client, "No arguments given\n");
         return;
