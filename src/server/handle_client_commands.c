@@ -51,7 +51,6 @@ void teams_handle_client_commands(server_t *server, server_client_t *client)
     char *command_parsed[7] = {NULL};
     bool found = false;
 
-    //remove_all_disconnected_user(server);
     if (line == NULL)
         return;
     split_string_fixed_array(line->buf, command_parsed, 7);
