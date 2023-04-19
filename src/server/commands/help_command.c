@@ -17,7 +17,7 @@
 void handle_help(server_t *server, server_client_t *client, char **args)
 {
     if (args[1] == NULL) {
-        server_client_write_string(server, client, "214 214 HELP LOGIN "
+        server_client_write_string(server, client, "214 HELP LOGIN "
         "LOGOUT USERS USER SEND MESSAGES SUBSCRIBE SUBSCRIBED UNSUBSCRIBE"
         " USETEAM USECHANNEL USETHREAD CREATE LIST INFO\n");
     } else {
