@@ -157,8 +157,10 @@ Test(add_user_to_struct2, multiple_user_with_team, .init=init_global)
             for (int k = 0; k < nb_messages; k++) {
                 data_t *data3 = malloc(sizeof(data_t));
                 data_t *data4 = malloc(sizeof(data_t));
+                time_t time;
                 fread(data3, sizeof(data_t), 1, fd);
                 fread(data4, sizeof(data_t), 1, fd);
+                fread(&time, sizeof(time_t), 1, fd);
                 if (i == 0 && j == 0) {
                     cr_assert_str_eq(data4->name, "Message1");
                     cr_assert_str_eq(data4->description, "Test1");
@@ -253,8 +255,10 @@ Test(add_user_to_struct2, multiple_user_with_simple_team, .init=init_global)
             for (int k = 0; k < nb_messages; k++) {
                 data_t *data3 = malloc(sizeof(data_t));
                 data_t *data4 = malloc(sizeof(data_t));
+                time_t time;
                 fread(data3, sizeof(data_t), 1, fd);
                 fread(data4, sizeof(data_t), 1, fd);
+                fread(&time, sizeof(time_t), 1, fd);
                 if (i == 0 && j == 0) {
                     cr_assert_str_eq(data4->name, "Message1");
                     cr_assert_str_eq(data4->description, "Test1");

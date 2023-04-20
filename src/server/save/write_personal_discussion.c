@@ -34,6 +34,7 @@ void write_messages(FILE *fd, personal_discussion_t *personal_discussion)
     TAILQ_FOREACH(message, &personal_discussion->messages, entries) {
         fwrite(message->user_data, sizeof(data_t), 1, fd);
         fwrite(message->message_data, sizeof(data_t), 1, fd);
+        fwrite(&message->creation_date, sizeof(time_t), 1, fd);
     }
 }
 
