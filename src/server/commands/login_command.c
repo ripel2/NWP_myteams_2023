@@ -49,6 +49,7 @@ char **args, char *user_uuid)
 {
     data_t *user_data = NULL;
     char user_uuid_with_quotes[40] = {0};
+    char event_msg[512];
 
     string_strip_delim(&args[1], '"');
     strcat(user_uuid_with_quotes, "\"");
@@ -63,6 +64,8 @@ char **args, char *user_uuid)
     server_client_write_string(server, client, "230 ");
     server_client_write_string(server, client, user_uuid_with_quotes);
     server_client_write_string(server, client, " logged in\n");
+    sprintf(event_msg, "client_event_logged_in %s %s\n", user_uuid, args[1]);
+    send_event_to_all_users(server, event_msg, client->fd);
 }
 
 static void login_user(server_t *server, server_client_t *client,
@@ -70,6 +73,7 @@ char **args, char *user_uuid)
 {
     user_t *user = NULL;
     char user_uuid_with_quotes[40] = {0};
+    char event_msg[512];
 
     strcat(user_uuid_with_quotes, "\"");
     strcat(user_uuid_with_quotes, user_uuid);
@@ -81,6 +85,8 @@ char **args, char *user_uuid)
     server_client_write_string(server, client, "230 ");
     server_client_write_string(server, client, user_uuid_with_quotes);
     server_client_write_string(server, client, " logged in\n");
+    sprintf(event_msg, "client_event_logged_in %s\n", user_uuid);
+    send_event_to_all_users(server, event_msg, client->fd);
 }
 
 void handle_login(server_t *server, server_client_t *client, char **args)
