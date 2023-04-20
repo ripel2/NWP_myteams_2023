@@ -38,12 +38,12 @@ user_t *user_to_seek, server_t *server, server_client_t *client)
     TAILQ_FOREACH(message, &discussion->messages, entries) {
         if (strcmp(message->user_data->uuid, user_to_seek->user_data->uuid)
         == 0) {
-            server_client_printf(server, client, "FROM %ld %s\n",
+            server_client_printf(server, client, "FROM %ld \"%s\"\n",
             message->creation_date, message->message_data->body);
         } else if (strcmp(message->user_data->uuid,
         current_user->user_data->uuid)
         == 0) {
-            server_client_printf(server, client, "TO %ld %s\n",
+            server_client_printf(server, client, "TO %ld \"%s\"\n",
             message->creation_date, message->message_data->body);
         }
     }
