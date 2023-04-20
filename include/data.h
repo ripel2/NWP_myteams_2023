@@ -21,6 +21,13 @@
 #define ERROR 84
 #define SUCCESS 0
 
+enum context {
+    NO_CONTEXT,
+    TEAMS,
+    CHANNELS,
+    THREADS
+};
+
 typedef struct data_s {
     char name[MAX_NAME_LENGTH + 1];
     char body[MAX_BODY_LENGTH + 1];
@@ -32,6 +39,7 @@ typedef struct user_s {
     data_t *user_data;
     int socket_fd;
     bool is_logged;
+    enum context user_context;
     TAILQ_HEAD(team_uuid_list_s, team_uuid_s) team_uuids;
     TAILQ_HEAD(discussion_list_s, personal_discussion_s) discussions;
     TAILQ_ENTRY(user_s) entries;

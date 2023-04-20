@@ -16,4 +16,5 @@
 void set_channel_context(server_t *server, server_client_t *client,
 char **args)
 {
+    
 }
