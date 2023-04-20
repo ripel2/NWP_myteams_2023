@@ -151,7 +151,7 @@ TESTS_OBJ	=	$(TESTS_SRC:.c=.o)
 CFLAGS	=	-Wall -Wextra -Wshadow -Wpedantic -Werror
 CFLAGS	+=	-I./include -I./libs/mynet/include -I./libs/myteams
 CFLAGS	+=	-luuid -L./libs/mynet -lmynetserver
-CFLAGS	+=	-L./libs/myteams -lmyteams -Wl,-rpath=./libs/myteams
+CFLAGS	+=	-L./libs/myteams -lmyteams
 CFLAGS	+=	-I./libs/myteams
 GCC	=	gcc
 
