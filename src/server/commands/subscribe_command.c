@@ -16,23 +16,13 @@
 #include "teams_commands.h"
 #include "logging_server.h"
 
-static bool check_in_clients_fd(server_client_t *client, int fd_tmp)
-{
-    if (fd_tmp == client->fd) {
-        return true;
-    }
-    return false;
-}
-
 static bool check_if_user_is_logged_in(server_client_t *client)
 {
     user_t *tmp_user = NULL;
 
     TAILQ_FOREACH(tmp_user, &global->users, entries) {
-        if (tmp_user && tmp_user->is_logged == true && check_in_clients_fd(
-            client, tmp_user->socket_fd)) {
+        if (tmp_user && tmp_user->is_logged == true && (fd_tmp == client->fd))
             return true;
-        }
     }
     return false;
 }
