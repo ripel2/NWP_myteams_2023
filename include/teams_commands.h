@@ -38,3 +38,11 @@ user_t *get_user_from_struct_by_fd(int fd);
 void send_event_to_user(server_t *server, user_t *user_seeked, char *str);
 bool is_a_uuid(char *str);
 int count_nb_messages(user_t *current_user, user_t *user_to_seek);
+void set_channel_context(server_t *server, server_client_t *client,
+char **args);
+void set_no_context(server_t *server, server_client_t *client,
+char **args);
+void set_teams_context(server_t *server, server_client_t *client,
+char **args);
+void set_thread_context(server_t *server, server_client_t *client,
+char **args);
