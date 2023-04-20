@@ -14,6 +14,7 @@
 #include "data.h"
 #include "server.h"
 #include "teams_commands.h"
+#include "logging_server.h"
 
 static bool check_in_clients_fd(server_client_t *client, int fd_tmp)
 {
@@ -39,12 +40,19 @@ static bool check_if_user_is_logged_in(server_client_t *client)
 static bool requirement_ok(server_t *server, server_client_t *client,
 char **args)
 {
+    team_t *team = NULL;
+
     if (args[1] == NULL || args[2] != NULL) {
         server_client_printf(server, client, "501 Invalid arguments\n");
         return false;
     }
     if (check_if_user_is_logged_in(client) == false) {
         server_client_printf(server, client, "430 User not logged in\n");
+        return false;
+    }
+    team = get_team_from_struct(args[1]);
+    if (team == NULL) {
+        server_client_printf(server, client, "430 Team doesn't exist\n");
         return false;
     }
     return true;
@@ -62,17 +70,11 @@ static bool check_uuid(server_t *server, server_client_t *client, char **args)
 void handle_subscribe(server_t *server, server_client_t *client,
 char **args)
 {
-    team_t *team = NULL;
     user_t *user = NULL;
 
     user = get_user_logged_in(client);
     if (requirement_ok(server, client, args) == false)
         return;
-    team = get_team_from_struct(args[1]);
-    if (team == NULL) {
-        server_client_printf(server, client, "430 Team doesn't exist\n");
-        return;
-    }
     remove_bad_char(args[1]);
     string_strip_delim(&args[1], '"');
     if (check_uuid(server, client, args) == false)
@@ -81,5 +83,10 @@ char **args)
         server_client_printf(server, client, "430 User doesn't exist\n");
         return;
     }
-    add_user_to_team(args[1], user->user_data->uuid);
+    if (add_user_to_team(args[1], user->user_data->uuid) == 84) {
+        server_client_printf(server, client, "500 Internal server error\n");
+        return;
+    }
+    server_event_user_subscribed(args[1], user->user_data->uuid);
+    server_client_printf(server, client, "200 Subscribed to team %s", args[1]);
 }
