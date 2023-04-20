@@ -11,6 +11,7 @@
 #include "shared.h"
 #include "data_struct_functions.h"
 #include "teams_server.h"
+#include "teams_commands.h"
 #include "data.h"
 #include "server.h"
 
@@ -19,13 +20,16 @@ void handle_users(server_t *server, server_client_t *client, char **args)
     user_t *user = NULL;
     int nb_users = 0;
 
+    if (get_user_logged_in(client) == NULL) {
+        server_client_write_string(server, client, "530 Not logged in\n");
+        return;
+    }
     if (args[1] != NULL) {
         server_client_write_string(server, client, "501 Too many arguments\n");
         return;
     }
-    TAILQ_FOREACH(user, &global->users, entries) {
+    TAILQ_FOREACH(user, &global->users, entries)
         nb_users++;
-    }
     server_client_printf(server, client, "150 %d\n", nb_users);
     TAILQ_FOREACH(user, &global->users, entries) {
         server_client_printf(server, client, "%s \"%s\" %c\n",
