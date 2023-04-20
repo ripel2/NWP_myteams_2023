@@ -24,6 +24,7 @@ int add_user_to_struct(data_t *user_data)
         return (ERROR);
     new_user->is_logged = false;
     new_user->user_data = user_data;
+    new_user->context = malloc(sizeof(context_t));
     new_user->context->user_context = NO_CONTEXT;
     TAILQ_INIT(&new_user->team_uuids);
     TAILQ_INIT(&new_user->discussions);

@@ -17,7 +17,7 @@ SERVER_FOLDER	=	./src/server
 CLIENT_FOLDER	=	./src/client
 COMMANDS		=   $(SERVER_FOLDER)/commands
 COMMANDS_TOOLS	=   $(SERVER_FOLDER)/commands/commands_tools
-CONTEXT_TOOLS   =   $(SERVER_FOLDER)/commands/context_tools
+CONTEXT_TOOLS   =   $(SERVER_FOLDER)/commands//commands_tools/context_tools
 ADD_FUNCTION	=   $(SERVER_FOLDER)/handle_database/add_functions
 GET_FUNCTION	=   $(SERVER_FOLDER)/handle_database/get_functions
 OTHER_FUNCTION 	=   $(SERVER_FOLDER)/handle_database/other_functions
@@ -81,9 +81,9 @@ SERVER_SRC	=	$(ADD_FUNCTION)/add_user_to_struct.c				\
 				$(COMMANDS_TOOLS)/is_a_uuid.c						\
 				$(COMMANDS_TOOLS)/count_nb_messages.c				\
 				$(CONTEXT_TOOLS)/set_no_context.c					\
-				$(CONTEXT_TOOLS)/set_teams_context.c				\
-				$(CONTEXT_TOOLS)/set_channels_context.c			\
-				$(CONTEXT_TOOLS)/set_threads_context.c				\
+				$(CONTEXT_TOOLS)/set_team_context.c					\
+				$(CONTEXT_TOOLS)/set_channel_context.c				\
+				$(CONTEXT_TOOLS)/set_thread_context.c				\
 				$(SAVE_FUNCTION)/write_in_to_file.c					\
 				$(SERVER_FOLDER)/open_file.c						\
 				$(SAVE_FUNCTION)/write_users.c						\

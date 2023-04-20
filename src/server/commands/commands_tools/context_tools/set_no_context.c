@@ -13,11 +13,10 @@
 #include "data.h"
 #include "server.h"
 
-void set_no_context(server_t *server, server_client_t *client,
-char **args)
+void set_no_context(server_t *server, server_client_t *client)
 {
-    user_t *user = get_user_logged_in(server, client->fd);
+    user_t *user = get_user_logged_in(client);
 
     user->context = NO_CONTEXT;
-    server_client_write_string(server, client, "110 OK");
+    server_client_write_string(server, client, "110 OK\n");
 }

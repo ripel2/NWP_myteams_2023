@@ -21,34 +21,26 @@ char **args)
     if (args[4] != NULL) {
         return true;
     }
-    if (args[1] != NULL) {
-         if (is_a_uuid(args[1]) == false) {
-            server_client_write_string(server, client, "550 Bad uuid\n");
-            return true;
-         }
+    if (args[1] != NULL && is_a_uuid(args[1]) == false) {
+        server_client_write_string(server, client, "550 Bad uuid\n");
+        return true;
     }
-    if (args[2] != NULL) {
-        if (is_a_uuid(args[2]) == false) {
-            server_client_write_string(server, client, "550 Bad uuid\n");
-            return true;
-        }
+    if (args[2] != NULL && is_a_uuid(args[2]) == false) {
+        server_client_write_string(server, client, "550 Bad uuid\n");
+        return true;
     }
-    if (args[3] != NULL) {
-        if (is_a_uuid(args[3]) == false) {
-            server_client_write_string(server, client, "550 Bad uuid\n");
-            return true;
-        }
+    if (args[3] != NULL && is_a_uuid(args[3]) == false) {
+        server_client_write_string(server, client, "550 Bad uuid\n");
+        return true;
     }
     return false;
 }
 
-void handle_use(server_t *server, server_client_t *client, char **args)
+static void set_context(server_t *server, server_client_t *client,
+char **args)
 {
-    if (handle_error_in_args(server, client, args) ||
-    is_user_already_logged_in(server, client))
-        return;
     if (args[1] == NULL) {
-        set_no_context(server, client, args);
+        set_no_context(server, client);
         return;
     }
     if (args[2] == NULL) {
@@ -63,4 +55,15 @@ void handle_use(server_t *server, server_client_t *client, char **args)
         set_thread_context(server, client, args);
         return;
     }
+}
+
+void handle_use(server_t *server, server_client_t *client, char **args)
+{
+    if (get_user_logged_in(client) == NULL) {
+        server_client_write_string(server, client, "530 Not logged in\n");
+        return;
+    }
+    if (handle_error_in_args(server, client, args))
+        return;
+    set_context(server, client, args);
 }
