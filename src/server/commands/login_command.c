@@ -69,19 +69,19 @@ char **args, char *user_uuid)
 }
 
 static void login_user(server_t *server, server_client_t *client,
-char **args, char *user_uuid)
+char **args)
 {
     user_t *user = NULL;
     char user_uuid_with_quotes[40] = {0};
     char event_msg[512];
 
-    strcat(user_uuid_with_quotes, "\"");
-    strcat(user_uuid_with_quotes, user_uuid);
-    strcat(user_uuid_with_quotes, "\"");
     user = get_user_from_struct_by_username(args[1]);
+    strcat(user_uuid_with_quotes, "\"");
+    strcat(user_uuid_with_quotes, user->user_data->uuid);
+    strcat(user_uuid_with_quotes, "\"");
     user->is_logged = true;
     user->socket_fd = client->fd;
-    server_event_user_logged_in(user_uuid);
+    server_event_user_logged_in(user->user_data->uuid);
     server_client_write_string(server, client, "230 ");
     server_client_write_string(server, client, user_uuid_with_quotes);
     server_client_write_string(server, client, " logged in\n");
@@ -99,6 +99,7 @@ void handle_login(server_t *server, server_client_t *client, char **args)
     is_user_already_logged_in(server, client))
         return;
     remove_bad_char(args[1]);
+    string_strip_delim(&args[1], '"');
     generate_uuid(user_uuid);
     user = get_user_from_struct_by_username(args[1]);
     if (user == NULL) {
@@ -106,7 +107,7 @@ void handle_login(server_t *server, server_client_t *client, char **args)
         return;
     }
     if (user != NULL && user->is_logged == false) {
-        login_user(server, client, args, user_uuid);
+        login_user(server, client, args);
         return;
     } else if (user != NULL && user->is_logged == true) {
         server_client_write_string(server, client, "431 Already logged in\n");
