@@ -21,7 +21,8 @@ static bool check_if_user_is_logged_in(server_client_t *client)
     user_t *tmp_user = NULL;
 
     TAILQ_FOREACH(tmp_user, &global->users, entries) {
-        if (tmp_user && tmp_user->is_logged == true && (fd_tmp == client->fd))
+        if (tmp_user && tmp_user->is_logged == true &&
+        (tmp_user->socket_fd == client->fd))
             return true;
     }
     return false;
