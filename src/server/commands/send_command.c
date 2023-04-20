@@ -105,7 +105,6 @@ void handle_send(server_t *server, server_client_t *client, char **args)
     }
     string_strip_delim(&args[1], '"');
     string_strip_delim(&args[2], '"');
-    remove_bad_char(args[1]);
     remove_bad_char(args[2]);
     if (get_user_from_struct(args[1]) == NULL) {
         server_client_write_string(server, client, "430 User doesn't exist\n");
