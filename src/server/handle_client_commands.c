@@ -38,13 +38,6 @@ void (*teams_commands[])() = {
     handle_info
 };
 
-static int line_safe_strncmp(char *str1, const char *str2, size_t n)
-{
-    if (str1 == NULL || strlen(str1) < n)
-        return -1;
-    return strncmp(str1, str2, n);
-}
-
 void teams_handle_client_commands(server_t *server, server_client_t *client)
 {
     line_t *line = server_client_pop_line(client);
@@ -53,10 +46,10 @@ void teams_handle_client_commands(server_t *server, server_client_t *client)
 
     if (line == NULL)
         return;
+    remove_bad_char(line->buf);
     split_string_fixed_array(line->buf, command_parsed, 7);
     for (int i = 0; COMMAND_NAME[i] != 0; i++) {
-        if (line_safe_strncmp(command_parsed[0], COMMAND_NAME[i],
-        strlen(COMMAND_NAME[i])) == 0) {
+        if (strcmp(command_parsed[0], COMMAND_NAME[i]) == 0) {
             teams_commands[i](server, client, command_parsed);
             found = true;
             break;
