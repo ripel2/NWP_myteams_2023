@@ -17,6 +17,7 @@ char **args, int use_status)
     case 0:
         client_print_user(client->uuid, client->username, 1);
         break;
+    }
 }
 
 static int info_call_debug(client_t *client, char *answer, char **args)

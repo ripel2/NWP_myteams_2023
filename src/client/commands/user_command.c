@@ -53,7 +53,8 @@ int user_command(client_t *client, char **args)
     int ret = 0;
     char line[32768] = {0};
 
-    client_printf(client, "USERS\n");
+    client_printf(client, "USER%s%s\n",
+    args[1] == NULL ? "" : " ", args[1] == NULL ? "" : args[1]);
     ret = client_read_in_buffer(client);
     do {
         ret = client_read_in_buffer(client);
