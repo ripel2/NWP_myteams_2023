@@ -17,6 +17,7 @@ static int logout_parse_answer_and_debug(client_t *client, char *answer)
     puts(answer);
     split_string_fixed_array(answer, answer_args, 7);
     if (strcmp(answer_args[0], "221") == 0) {
+        string_strip_delim(&answer_args[1], '"');
         client_event_logged_out(answer_args[1], client->username);
         memset(client->uuid, 0, UUID_LENGTH + 1);
         memset(client->username, 0, MAX_NAME_LENGTH + 1);
