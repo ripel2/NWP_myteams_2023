@@ -16,8 +16,6 @@
 
 void handle_use(server_t *server, server_client_t *client, char **args)
 {
-    (void)server;
-    (void)client;
     server_client_write_string(server, client, "Command: ");
     server_client_write_string(server, client, args[0]);
     server_client_write_string(server, client, "\n");

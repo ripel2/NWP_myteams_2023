@@ -22,6 +22,8 @@ int main(int ac, char **av)
     server_t server = {0};
 
     global = malloc(sizeof(global_t));
+    if (!global)
+        return ERROR;
     TAILQ_INIT(&global->teams);
     TAILQ_INIT(&global->users);
     if (print_help_if_needed(ac, av) == true)
