@@ -63,6 +63,18 @@ void handle_use(server_t *server, server_client_t *client, char **args)
         server_client_write_string(server, client, "530 Not logged in\n");
         return;
     }
+    if (args[1] != NULL) {
+        remove_bad_char(args[1]);
+        string_strip_delim(&args[1], '"');
+    }
+    if (args[2] != NULL) {
+        remove_bad_char(args[2]);
+        string_strip_delim(&args[2], '"');
+    }
+    if (args[3] != NULL) {
+        remove_bad_char(args[3]);
+        string_strip_delim(&args[3], '"');
+    }
     if (handle_error_in_args(server, client, args))
         return;
     set_context(server, client, args);

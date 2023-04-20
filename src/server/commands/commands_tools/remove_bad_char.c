@@ -15,5 +15,6 @@ char *remove_bad_char(char *str)
         if (str[i] == '\n' || str[i] == '\r')
             str[i] = '\0';
     }
+    
     return str;
 }
