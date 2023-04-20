@@ -108,9 +108,8 @@ void handle_login(server_t *server, server_client_t *client, char **args)
     }
     if (user != NULL && user->is_logged == false) {
         login_user(server, client, args);
-        return;
     } else if (user != NULL && user->is_logged == true) {
         server_client_write_string(server, client, "431 Already logged in\n");
-        return;
     }
+    return;
 }
