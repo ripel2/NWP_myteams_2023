@@ -364,13 +364,37 @@ OUT <<< 200 <created_uuid>
 # 4. Client events
 
 The client can receive events from the server at any time. The client should be able to handle the following events:
+ - client_event_logged_in
+ - client_event_logged_out
  - client_event_private_message_received
  - client_event_team_created
  - client_event_channel_created
  - client_event_thread_created
  - client_event_thread_reply_received
 
-## 4.1. `client_event_private_message_received`
+## 4.1. `client_event_logged_in`
+
+The `client_event_logged_in` event is sent by the server to every user logged in when a new user logs in.
+
+The server will send the `client_event_logged_in` event followed by the uuid of the user who logged in.
+
+Example of a `client_event_logged_in` event:
+```
+IN <<< client_event_logged_in 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f
+```
+
+## 4.2. `client_event_logged_out`
+
+The `client_event_logged_out` event is sent by the server to every user logged in when a user logs out.
+
+The server will send the `client_event_logged_out` event followed by the uuid of the user who logged out.
+
+Example of a `client_event_logged_out` event:
+```
+IN <<< client_event_logged_out 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f
+```
+
+## 4.3. `client_event_private_message_received`
 
 The `client_event_private_message_received` event is sent by the server to the user when a private message is received.
 Of course, it is only sent if the user is logged in.
@@ -383,7 +407,7 @@ Example of a `client_event_private_message_received` event:
 IN <<< client_event_private_message_received 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f message
 ```
 
-## 4.2. `client_event_team_created`
+## 4.4. `client_event_team_created`
 
 The `client_event_team_created` event is sent by the server to every user logged in when a new team is created.
 
@@ -395,7 +419,7 @@ Example of a `client_event_team_created` event:
 IN <<< client_event_team_created 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f team1 description
 ```
 
-## 4.3. `client_event_channel_created`
+## 4.5. `client_event_channel_created`
 
 The `client_event_channel_created` event is sent by the server when a new channel is created in a team.
 It is sent to every user that belongs to the team and is logged in.
@@ -408,7 +432,7 @@ Example of a `client_event_channel_created` event:
 IN <<< client_event_channel_created 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f channel1 description
 ```
 
-## 4.4. `client_event_thread_created`
+## 4.6. `client_event_thread_created`
 
 The `client_event_thread_created` event is sent by the server when a new thread is created in a channel.
 It is sent to every user that belongs to the channel and is logged in.
@@ -421,7 +445,7 @@ Example of a `client_event_thread_created` event:
 IN <<< client_event_thread_created 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f 1234567 title message
 ```
 
-## 4.5. `client_event_thread_reply_received`
+## 4.7. `client_event_thread_reply_received`
 
 The `client_event_thread_reply_received` event is sent by the server when a new reply is created in a thread.
 It is sent to every user that belongs to the thread and is logged in.
