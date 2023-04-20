@@ -23,16 +23,19 @@ char **args)
     }
     if (args[1] != NULL) {
          if (is_a_uuid(args[1]) == false) {
+            server_client_write_string(server, client, "550 Bad uuid\n");
             return true;
          }
     }
     if (args[2] != NULL) {
         if (is_a_uuid(args[2]) == false) {
+            server_client_write_string(server, client, "550 Bad uuid\n");
             return true;
         }
     }
     if (args[3] != NULL) {
         if (is_a_uuid(args[3]) == false) {
+            server_client_write_string(server, client, "550 Bad uuid\n");
             return true;
         }
     }

@@ -16,4 +16,8 @@
 void set_no_context(server_t *server, server_client_t *client,
 char **args)
 {
+    user_t *user = get_user_logged_in(server, client->fd);
+
+    user->context = NO_CONTEXT;
+    server_client_write_string(server, client, "110 OK");
 }
