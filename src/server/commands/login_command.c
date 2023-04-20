@@ -85,7 +85,8 @@ char **args, char *user_uuid)
     server_client_write_string(server, client, "230 ");
     server_client_write_string(server, client, user_uuid_with_quotes);
     server_client_write_string(server, client, " logged in\n");
-    sprintf(event_msg, "client_event_logged_in %s\n", user_uuid);
+    sprintf(event_msg, "client_event_logged_in %s %s\n",
+    user->user_data->uuid, user->user_data->name);
     send_event_to_all_users(server, event_msg, client->fd);
 }
 
