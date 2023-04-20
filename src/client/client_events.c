@@ -55,10 +55,12 @@ static int client_process_event_buffer(client_t *client, char *buffer)
     (void)client;
     split_string_fixed_array(buffer, args, 7);
     for (event_id = 0; event_id < 5; event_id++) {
-        if (strcmp(args[0], EVENT_STRINGS[event_id]) == 0) {
+        if (strcmp(args[0], EVENT_STRINGS[event_id]) == 0)
             break;
-        }
     }
+    for (int i = 0; i < 7; i++)
+        if (args[i] != NULL)
+            string_strip_delim(&args[i], '"');
     if (event_id == 5)
         return 0;
     client_process_event_call(event_id, args);

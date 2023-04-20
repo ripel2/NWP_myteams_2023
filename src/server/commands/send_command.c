@@ -79,15 +79,14 @@ char *user_to_send_uuid, char *message)
         server_client_write_string(server, client, "530 Not logged in\n");
         return;
     }
-    if (check_if_user_need_discussion(current_user, user_to_send_uuid)
-    == true) {
+    if (check_if_user_need_discussion(current_user, user_to_send_uuid))
         create_new_discussion(current_user, user_to_send_uuid);
-    }
+    string_strip_delim(&message, '"');
     add_message_to_both_users(current_user, user_to_send_uuid, message);
     server_client_write_string(server, client, "200 OK\n");
     server_event_private_message_sended(current_user->user_data->uuid,
     user_to_send_uuid, message);
-    sprintf(event_msg, "client_event_private_message_received %s %s\n",
+    sprintf(event_msg, "client_event_private_message_received \"%s\" \"%s\"\n",
     current_user->user_data->uuid, message);
     send_event_to_user(server, get_user_from_struct(user_to_send_uuid),
     event_msg);
