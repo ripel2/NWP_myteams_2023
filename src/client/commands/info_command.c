@@ -10,8 +10,8 @@
 #include "client_functions.h"
 #include "logging_client.h"
 
-static void info_call_debug_switch(client_t *client, char *return_uuid,
-char **args, int use_status)
+static void info_call_debug_switch(client_t *client,
+int use_status)
 {
     switch (use_status) {
     case 0:
@@ -20,7 +20,7 @@ char **args, int use_status)
     }
 }
 
-static int info_call_debug(client_t *client, char *answer, char **args)
+static int info_call_debug(client_t *client, char *answer)
 {
     char *answer_args[4] = {NULL};
     int use_status = 0;
@@ -36,7 +36,7 @@ static int info_call_debug(client_t *client, char *answer, char **args)
         return 0;
     string_strip_delim(&answer_args[1], '"');
     string_strip_delim(&answer_args[2], '"');
-    info_call_debug_switch(client, answer_args[1], args, use_status);
+    info_call_debug_switch(client, use_status);
     return 0;
 }
 
@@ -61,7 +61,7 @@ static void info_call_debug_error(client_t *client)
 }
 
 static int info_parse_answer_and_debug(client_t *client,
-char *answer, char **args)
+char *answer)
 {
     puts(answer);
     if (strncmp(answer, "530", 3) == 0)
@@ -69,7 +69,7 @@ char *answer, char **args)
     if (strncmp(answer, "430", 3) == 0)
         info_call_debug_error(client);
     if (strncmp(answer, "150", 3) == 0)
-        info_call_debug(client, answer, args);
+        info_call_debug(client, answer);
     return 0;
 }
 
@@ -84,6 +84,7 @@ int info_command(client_t *client, char **args)
         if (ret != 0)
             return ret;
     } while (!client_flush_line(client, line));
-    info_parse_answer_and_debug(client, line, args);
+    info_parse_answer_and_debug(client, line);
+    (void)(args);
     return 0;
 }
