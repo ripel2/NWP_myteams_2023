@@ -100,7 +100,8 @@ void handle_send(server_t *server, server_client_t *client, char **args)
         return;
     }
     if (args[1] == NULL || args[2] == NULL || args[3] != NULL) {
-        server_client_write_string(server, client, "432 Invalid arguments\n");
+        server_client_write_string(server, client,
+        "501 Syntax error in parameters or arguments\n");
         return;
     }
     string_strip_delim(&args[1], '"');
