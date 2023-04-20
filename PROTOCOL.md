@@ -194,18 +194,18 @@ The message will end with a `200 OK` response.
 
 A message will be represented by the following format:
 ```
-<FROM/TO> <message>
+<FROM/TO> <timestamp> <message>
 ```
 
 Example of a `MESSAGES` command:
 ```
 IN  >>> MESSAGES 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f
 OUT <<< 150 2
-OUT <<< FROM message
-OUT <<< TO message
+OUT <<< FROM 12345678 message
+OUT <<< TO 12345678 message
 OUT <<< 200 OK
 ```
-(first number is the number of lines of the message, second number is the timestamp of the message)
+(first number is the timestamp of the message)
 
 ### 3.5.6. `SUBSCRIBED`
 
@@ -257,21 +257,19 @@ Example of a `LIST` command without any context:
 ```
 IN  >>> LIST
 OUT <<< 150 2 TEAMS
-OUT <<< 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f 1234567 team1 description
-OUT <<< 2e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f 1234567 team2 description
+OUT <<< 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f team1 description
+OUT <<< 2e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f team2 description
 OUT <<< 200 OK
 ```
-(the first number is the timestamp of the team creation)
 
 Example of a `LIST` command with a team context:
 ```
 IN  >>> LIST
 OUT <<< 150 2 CHANNELS
-OUT <<< 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f 1234567 channel1 channel_description
-OUT <<< 2e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f 1234567 channel2 channel_description
+OUT <<< 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f channel1 channel_description
+OUT <<< 2e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f channel2 channel_description
 OUT <<< 200 OK
 ```
-(the first number is the timestamp of the channel creation)
 
 Example of a `LIST` command with a team and a channel context:
 ```
@@ -313,16 +311,14 @@ OUT <<< 150 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f user1
 Example of a `INFO` command with a team context:
 ```
 IN  >>> INFO
-OUT <<< 150 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f 1234567 description
+OUT <<< 150 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f description
 ```
-(first number is the timestamp of the team creation)
 
 Example of a `INFO` command with a team and a channel context:
 ```
 IN  >>> INFO
-OUT <<< 150 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f 1234567 description
+OUT <<< 150 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f description
 ```
-(first number is the timestamp of the channel creation)
 
 Example of a `INFO` command with a team, a channel and a thread context:
 ```
