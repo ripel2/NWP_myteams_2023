@@ -28,7 +28,7 @@ void handle_users(server_t *server, server_client_t *client, char **args)
     }
     server_client_printf(server, client, "150 %d\n", nb_users);
     TAILQ_FOREACH(user, &global->users, entries) {
-        server_client_printf(server, client, "%s %s %c\n",
+        server_client_printf(server, client, "%s \"%s\" %c\n",
         user->user_data->uuid, user->user_data->name,
         (user->is_logged) ? '1' : '0');
     }
