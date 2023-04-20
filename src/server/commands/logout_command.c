@@ -23,6 +23,17 @@ static void set_user_uuid_quotes(char *user_uuid_with_quotes, user_t *user)
     strcat(user_uuid_with_quotes, "\"");
 }
 
+static void send_logout_event(server_t *server, server_client_t *client
+, user_t *user)
+{
+    char event_msg[512] = {0};
+
+    server_event_user_logged_out(user->user_data->uuid);
+    sprintf(event_msg, "client_event_logged_out  %s %s\n",
+    user->user_data->uuid, user->user_data->name);
+    send_event_to_all_users(server, event_msg, client->fd);
+}
+
 void handle_logout(server_t *server, server_client_t *client, char **args)
 {
     user_t *user = NULL;
@@ -44,5 +55,5 @@ void handle_logout(server_t *server, server_client_t *client, char **args)
     server_client_write_string(server, client, user_uuid_with_quotes);
     server_client_write_string(server, client, " logged out\n");
     server_remove_client(server, client->fd);
-    server_event_user_logged_out(user->user_data->uuid);
+    send_logout_event(server, client, user);
 }
