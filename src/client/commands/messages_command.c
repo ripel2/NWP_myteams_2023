@@ -75,7 +75,10 @@ char **args)
     strncmp(answer_args[0], "530", 3) == 0) {
         client_error_unauthorized();
     }
-    return messages_command_debug_loop(client, args);
+    if (strncmp(answer_args[0], "150", 3) == 0) {
+        return messages_command_debug_loop(client, args);
+    }
+    return 0;
 }
 
 int messages_command(client_t *client, char **args)
