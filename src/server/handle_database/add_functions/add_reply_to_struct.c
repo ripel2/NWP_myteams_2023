@@ -23,6 +23,7 @@ data_t *reply_data)
         return (ERROR);
     new_reply->reply_data = reply_data;
     new_reply->user_data = user_data;
+    new_reply->creation_date = time(NULL);
     TAILQ_INSERT_TAIL(&thread_selected->replies, new_reply, entries);
     return (SUCCESS);
 }
