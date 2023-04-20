@@ -43,5 +43,6 @@ void handle_logout(server_t *server, server_client_t *client, char **args)
     server_client_write_string(server, client, "221 ");
     server_client_write_string(server, client, user_uuid_with_quotes);
     server_client_write_string(server, client, " logged out\n");
+    server_remove_client(server, client->fd);
     server_event_user_logged_out(user->user_data->uuid);
 }
