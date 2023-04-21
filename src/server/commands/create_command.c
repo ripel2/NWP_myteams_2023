@@ -13,19 +13,28 @@
 #include "teams_server.h"
 #include "data.h"
 #include "server.h"
+#include "teams_commands.h"
+
+static bool handle_base_errors(server_t *server, server_client_t *client
+, char **args, user_t *current_user)
+{
+    if (current_user == NULL) {
+        server_client_write_string(server, client, "530 Not logged in\n");
+        return true;
+    }
+    if (args[1] == NULL) {
+        server_client_write_string(server, client,
+        "501 Syntax error in parameters or arguments\n");
+        return true;
+    }
+    return false;
+}
 
 void handle_create(server_t *server, server_client_t *client, char **args)
 {
-    server_client_write_string(server, client, "Command: ");
-    server_client_write_string(server, client, args[0]);
-    server_client_write_string(server, client, "\n");
-    server_client_write_string(server, client, "Arguments: ");
-    if (args[1] == NULL) {
-        server_client_write_string(server, client, "No arguments given\n");
+    user_t *current_user = get_user_logged_in(client);
+
+    if (handle_base_errors(server, client, args, current_user))
         return;
-    }
-    for (int i = 1; args[i]; i++) {
-        server_client_write_string(server, client, args[i]);
-        server_client_write_string(server, client, " ");
-    }
+    if 
 }
