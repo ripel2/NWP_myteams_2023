@@ -23,6 +23,10 @@
         {
             "name": "match_client_stderr",
             "args": ["crunchy", "Client [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12} logged in with login PUGO"]
+        },
+        {
+            "name": "match_stderr",
+            "args": ["User [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12} logged in."]
         }
     ]
 }

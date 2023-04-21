@@ -15,11 +15,11 @@
         },
         {
             "name": "client_send_line",
-            "args": ["crunchy_1", "/login \"dragos\""]
+            "args": ["crunchy_1", "/login \"Dragos\""]
         },
         {
             "name": "client_send_line",
-            "args": ["crunchy_2", "/login \"bastien\""]
+            "args": ["crunchy_2", "/login \"Bastien\""]
         },
         {
             "name": "stop_server"
@@ -34,11 +34,15 @@
         },
         {
             "name": "match_client_stderr",
-            "args": ["crunchy_1", "Client [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12} logged in with login dragos"]
+            "args": ["crunchy_1", "Client [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12} logged in with login Dragos"]
         },
         {
             "name": "match_client_stderr",
-            "args": ["crunchy_2", "Client [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12} logged in with login bastien"]
+            "args": ["crunchy_2", "Client [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12} logged in with login Bastien"]
+        },
+        {
+            "name": "match_stderr",
+            "args": ["User [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12} logged in."]
         }
     ]
 }
