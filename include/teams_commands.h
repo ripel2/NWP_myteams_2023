@@ -45,3 +45,4 @@ void set_teams_context(server_t *server, server_client_t *client,
 char **args);
 void set_thread_context(server_t *server, server_client_t *client,
 char **args);
+void send_event_to_all_users(server_t *server, char *str, int fd_to_exclude);

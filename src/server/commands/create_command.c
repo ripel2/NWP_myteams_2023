@@ -30,11 +30,36 @@ static bool handle_base_errors(server_t *server, server_client_t *client
     return false;
 }
 
+static void create_team(server_t *server, server_client_t *client
+, char **args, user_t *current_user)
+{
+    char team_uuid[37];
+    char event_msg[512];
+
+    remove_bad_char(args[2]);
+    string_strip_delim(&args[1], '"');
+    string_strip_delim(&args[2], '"');
+    if (strlen(args[1]) > MAX_NAME_LENGTH || strlen(args[2]) > MAX_DESCRIPTION_LENGTH) {
+        server_client_write_string(server, client,
+        "550 Name or description too long\n");
+        return;
+    }
+    generate_uuid(team_uuid);
+    add_team_to_struct(init_data(args[1], args[2], "NULL", team_uuid));
+    server_client_printf(server, client, "150 \"%s\"\n", team_uuid);
+    server_event_team_created(team_uuid, args[1], args[2]);
+    sprintf(event_msg, "client_event_team_created \"%s\" \"%s\" \"%s\"", team_uuid, args[1], args[2]);
+    send_event_to_all_users(server, event_msg, client->fd);
+    add_user_to_team(current_user, team_uuid);
+}
+
 void handle_create(server_t *server, server_client_t *client, char **args)
 {
     user_t *current_user = get_user_logged_in(client);
 
     if (handle_base_errors(server, client, args, current_user))
         return;
-    if 
+    if (args[2] != NULL && current_user->context->user_context == TEAMS) {
+        create_team(server, client, args, current_user);
+    }
 }
