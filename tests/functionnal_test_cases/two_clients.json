@@ -33,16 +33,20 @@
             "args": ["crunchy_2"]
         },
         {
-            "name": "match_client_stderr",
-            "args": ["crunchy_1", "Client [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12} logged in with login Dragos"]
+            "name": "store_client_match_stderr",
+            "args": ["crunchy_1", "Client ([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}) logged in with login Dragos", "brasgauche"]
         },
         {
-            "name": "match_client_stderr",
-            "args": ["crunchy_2", "Client [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12} logged in with login Bastien"]
+            "name": "store_client_match_stderr",
+            "args": ["crunchy_2", "Client ([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}) logged in with login Bastien", "bastiaer"]
         },
         {
             "name": "match_stderr",
-            "args": ["User [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12} logged in."]
+            "args": ["User <<brasgauche>>(1) logged in."]
+        },
+        {
+            "name": "match_stderr",
+            "args": ["User <<bastiaer>>(1) logged in."]
         }
     ]
 }

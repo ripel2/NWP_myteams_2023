@@ -32,6 +32,7 @@ class CommandRunner:
         self._stderr = bytearray()
         self._stdout_lock = threading.Lock()
         self._stderr_lock = threading.Lock()
+        self.__kill_event = threading.Event()
         self._thread = threading.Thread(target=self._run)
         self._thread.start()
 
@@ -46,6 +47,8 @@ class CommandRunner:
         fcntl.fcntl(self.process.stderr.fileno(), fcntl.F_SETFL, os.O_NONBLOCK)
 
         while self.process.poll() is None:
+            if self.__kill_event.is_set():
+                break
             with self._stdout_lock:
                 with self._stderr_lock:
                     r, w, e = select.select([self.process.stdout, self.process.stderr], [], [], 0.1)
@@ -58,10 +61,18 @@ class CommandRunner:
                         if data:
                             self._stderr.extend(data)
 
+        if self.process.poll() is None and self.__kill_event.is_set():
+            self.process.kill()
+
         with self._stdout_lock:
-            with self._stderr_lock:
-                self._stdout += self.process.stdout.read()
-                self._stderr += self.process.stderr.read()
+            data = self.process.stdout.read()
+            if data:
+                self._stdout += data
+
+        with self._stderr_lock:
+            data = self.process.stderr.read()
+            if data:
+                self._stderr += data
 
     def get_stderr(self) -> list:
         with self._stderr_lock:
@@ -106,6 +117,7 @@ class CommandRunner:
             pass
 
     def kill(self):
+        self.__kill_event.set()
         try:
             self.process.kill()
         except:
@@ -131,6 +143,10 @@ class TestCase:
         "match_stderr": [str],
         "match_client_stdout": [str, str],
         "match_client_stderr": [str, str],
+        "store_match_stdout": [str, str],
+        "store_match_stderr": [str, str],
+        "store_client_match_stdout": [str, str, str],
+        "store_client_match_stderr": [str, str, str],
     }
 
     class TestFailed(Exception):
@@ -152,6 +168,7 @@ class TestCase:
                 )
         self.__server = None
         self.__clients = {}
+        self.__matches = {}
 
     def _command_is_valid(self, command: dict) -> bool:
         if "name" not in command:
@@ -310,6 +327,70 @@ class TestCase:
             )
         )
 
+    def _store_match_stdout(self, regex: str, match_name: str):
+        if self.__server is None:
+            raise Exception("Server not started")
+        stdout = self.__server.get_stdout()
+        for line in stdout:
+            if re.match(regex, line):
+                self.__matches[match_name] = re.match(regex, line)
+                return
+        raise self.TestFailed(
+            "Regex didn't match in server stdout: {}".format(regex)
+        )
+
+    def _store_match_stderr(self, regex: str, match_name: str):
+        if self.__server is None:
+            raise Exception("Server not started")
+        stderr = self.__server.get_stderr()
+        for line in stderr:
+            if re.match(regex, line):
+                self.__matches[match_name] = re.match(regex, line)
+                return
+        raise self.TestFailed(
+            "Regex didn't match in server stderr: {}".format(regex)
+        )
+
+    def _store_client_match_stdout(self, client_name: str, regex: str, match_name: str):
+        if client_name not in self.__clients:
+            raise Exception("Client {} does not exist".format(client_name))
+        stdout = self.__clients[client_name].get_stdout()
+        for line in stdout:
+            if re.match(regex, line):
+                self.__matches[match_name] = re.match(regex, line)
+                return
+        raise self.TestFailed(
+            "Regex didn't match in client {} stdout: {}".format(
+                client_name, regex
+            )
+        )
+
+    def _store_client_match_stderr(self, client_name: str, regex: str, match_name: str):
+        if client_name not in self.__clients:
+            raise Exception("Client {} does not exist".format(client_name))
+        stderr = self.__clients[client_name].get_stderr()
+        for line in stderr:
+            if re.match(regex, line):
+                self.__matches[match_name] = re.match(regex, line)
+                return
+        raise self.TestFailed(
+            "Regex didn't match in client {} stderr: {}".format(
+                client_name, regex
+            )
+        )
+
+    def _apply_matches(self, src: str) -> str:
+        regex = r"<<([a-zA-Z_]+)>>\((\d+)\)"
+        matches = re.finditer(regex, src)
+        for match_to in matches:
+            match_name = match_to.group(1)
+            match_group = match_to.group(2)
+            if match_name not in self.__matches:
+                raise Exception("No variable {}".format(match_name))
+            match_from = self.__matches[match_name]
+            src = src.replace(match_to.group(0), match_from.group(int(match_group)))
+        return src
+
     def destroy(self):
         if self.__server is not None:
             self.__server.kill()
@@ -318,30 +399,44 @@ class TestCase:
 
     def run(self, timeout=10, verbose=False):
         self.__exceptions = queue.Queue()
+        self.__thread_needs_to_die = threading.Event()
         def inner(self):
             for command in self.commands:
+                if self.__thread_needs_to_die.is_set():
+                    return
                 try:
                     command_args = []
                     if self.VALID_COMMANDS[command["name"]] is not None:
                         for arg_type in self.VALID_COMMANDS[command["name"]]:
-                            command_args.append(arg_type(command["args"].pop(0)))
+                            arg = command["args"].pop(0)
+                            arg = self._apply_matches(arg)
+                            command_args.append(arg_type(arg))
                     time.sleep(0.1069) # 1/10th of a second with some crunchy bits
+                    if self.__thread_needs_to_die.is_set():
+                        return
                     if verbose:
                         print(command["name"] + "({})".format(", ".join(map(str, command_args))))
                     getattr(self, "_{}".format(command["name"]))(*command_args)
+                    if self.__thread_needs_to_die.is_set():
+                        return
                 except Exception as e:
                     self.__exceptions.put(e)
-                    break
+                    return
 
         thread = threading.Thread(target=inner, args=(self,))
         thread.start()
         thread.join(timeout)
-        if thread.is_alive():
-            raise Exception("Timed out")
-        if not self.__exceptions.empty():
-            raise self.__exceptions.get()
-
         self.destroy()
+
+        if thread.is_alive():
+            self.__thread_needs_to_die.set()
+            raise Exception("Timed out")
+        try:
+            exception = self.__exceptions.get(False, None)
+        except queue.Empty:
+            exception = None
+        if exception:
+            raise exception
 
 
 if __name__ == "__main__":
@@ -388,6 +483,6 @@ if __name__ == "__main__":
     print("Crashed: {}".format(crashed))
     if failed > 0 or crashed > 0:
         print(KO_COLOR + "There is some crunchy bits in the project..." + RESET_COLOR)
-        exit(1)
+        os._exit(1)
     else:
         print(OK_COLOR + "The project is not crunchy" + RESET_COLOR)

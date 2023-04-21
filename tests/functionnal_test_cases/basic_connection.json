@@ -21,12 +21,12 @@
             "args": ["crunchy"]
         },
         {
-            "name": "match_client_stderr",
-            "args": ["crunchy", "Client [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12} logged in with login PUGO"]
+            "name": "store_match_stderr",
+            "args": ["User ([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}) logged in.", "user_uuid"]
         },
         {
-            "name": "match_stderr",
-            "args": ["User [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12} logged in."]
+            "name": "match_client_stderr",
+            "args": ["crunchy", "Client <<user_uuid>>(1) logged in with login PUGO"]
         }
     ]
 }
