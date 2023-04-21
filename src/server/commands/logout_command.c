@@ -51,9 +51,8 @@ void handle_logout(server_t *server, server_client_t *client, char **args)
     user->is_logged = false;
     user->socket_fd = -1;
     set_user_uuid_quotes(user_uuid_with_quotes, user);
-    server_client_write_string(server, client, "221 ");
-    server_client_write_string(server, client, user_uuid_with_quotes);
-    server_client_write_string(server, client, " logged out\n");
+    server_client_printf(server, client,
+    "221 %s logged out\n", user_uuid_with_quotes);
     server_remove_client(server, client->fd);
     send_logout_event(server, client, user);
 }

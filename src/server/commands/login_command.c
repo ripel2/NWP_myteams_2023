@@ -48,23 +48,18 @@ static void create_user(server_t *server, server_client_t *client,
 char **args, char *user_uuid)
 {
     data_t *user_data = NULL;
-    char user_uuid_with_quotes[40] = {0};
     char event_msg[512];
 
     string_strip_delim(&args[1], '"');
-    strcat(user_uuid_with_quotes, "\"");
-    strcat(user_uuid_with_quotes, user_uuid);
-    strcat(user_uuid_with_quotes, "\"");
     server_event_user_created(user_uuid, args[1]);
     user_data = init_data(args[1], "NULL", "NULL", user_uuid);
     add_user_to_struct(user_data);
     get_user_from_struct(user_uuid)->is_logged = true;
     get_user_from_struct(user_uuid)->socket_fd = client->fd;
     server_event_user_logged_in(user_uuid);
-    server_client_write_string(server, client, "230 ");
-    server_client_write_string(server, client, user_uuid_with_quotes);
-    server_client_write_string(server, client, " logged in\n");
-    sprintf(event_msg, "client_event_logged_in %s %s\n", user_uuid, args[1]);
+    server_client_printf(server, client, "230 \"%s\" logged in\n", user_uuid);
+    sprintf(event_msg, "client_event_logged_in \"%s\" \"%s\"\n", user_uuid,
+    args[1]);
     send_event_to_all_users(server, event_msg, client->fd);
 }
 
