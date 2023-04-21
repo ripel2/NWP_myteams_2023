@@ -32,5 +32,6 @@ void write_replies(FILE *fd, thread_t *thread)
     TAILQ_FOREACH(reply, &thread->replies, entries) {
         fwrite(reply->user_data, sizeof(data_t), 1, fd);
         fwrite(reply->reply_data, sizeof(data_t), 1, fd);
+        fwrite(&reply->creation_date, sizeof(time_t), 1, fd);
     }
 }

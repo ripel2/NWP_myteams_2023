@@ -26,6 +26,7 @@ void read_messages(FILE *fd, user_t *user)
             return;
         fread(message->user_data, sizeof(data_t), 1, fd);
         fread(message->message_data, sizeof(data_t), 1, fd);
+        fread(&message->creation_date, sizeof(time_t), 1, fd);
         add_message_to_struct(user->user_data,
         message->user_data, message->message_data);
     }

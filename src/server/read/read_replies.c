@@ -27,6 +27,7 @@ void read_replies(FILE *fd, thread_t *thread)
             return;
         fread(reply->user_data, sizeof(data_t), 1, fd);
         fread(reply->reply_data, sizeof(data_t), 1, fd);
+        fread(&reply->creation_date, sizeof(time_t), 1, fd);
         add_reply_to_struct(thread->thread_data->uuid,
         reply->user_data, reply->reply_data);
     }
