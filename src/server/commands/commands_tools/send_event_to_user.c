@@ -30,7 +30,7 @@ void send_event_to_all_users(server_t *server, char *str, int fd_to_exclude)
     server_client_t *client = NULL;
 
     TAILQ_FOREACH(client, &server->clients, entries) {
-        if (client->fd != fd_to_exclude)
+        if (client->fd != fd_to_exclude && get_user_logged_in(client) != NULL)
             server_client_write_string(server, client, str);
     }
 }
