@@ -1,0 +1,44 @@
+{
+    "name": "Two clients",
+    "description": "Basic connection with one server and two client",
+    "commands": [
+        {
+            "name": "start_server"
+        },
+        {
+            "name": "start_client",
+            "args": ["crunchy_1"]
+        },
+        {
+            "name": "start_client",
+            "args": ["crunchy_2"]
+        },
+        {
+            "name": "client_send_line",
+            "args": ["crunchy_1", "/login \"dragos\""]
+        },
+        {
+            "name": "client_send_line",
+            "args": ["crunchy_2", "/login \"bastien\""]
+        },
+        {
+            "name": "stop_server"
+        },
+        {
+            "name": "stop_client",
+            "args": ["crunchy_1"]
+        },
+        {
+            "name": "stop_client",
+            "args": ["crunchy_2"]
+        },
+        {
+            "name": "match_client_stderr",
+            "args": ["crunchy_1", "Client [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12} logged in with login dragos"]
+        },
+        {
+            "name": "match_client_stderr",
+            "args": ["crunchy_2", "Client [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12} logged in with login bastien"]
+        }
+    ]
+}

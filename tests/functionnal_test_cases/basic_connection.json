@@ -11,7 +11,7 @@
         },
         {
             "name": "client_send_line",
-            "args": ["crunchy", "/login \"YHCNURC\""]
+            "args": ["crunchy", "/login \"PUGO\""]
         },
         {
             "name": "stop_server"
@@ -22,7 +22,7 @@
         },
         {
             "name": "match_client_stderr",
-            "args": ["crunchy", "Client [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12} logged in with login YHCNURC"]
+            "args": ["crunchy", "Client [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12} logged in with login PUGO"]
         }
     ]
 }
