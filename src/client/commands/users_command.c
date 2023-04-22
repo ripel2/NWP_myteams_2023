@@ -63,6 +63,7 @@ static int users_parse_answer_and_debug(client_t *client, char *answer)
     if (answer_args[0] == NULL || answer_args[1] == NULL ||
     strncmp(answer_args[0], "530", 3) == 0) {
         client_error_unauthorized();
+        return 0;
     }
     return users_command_debug_loop(client);
 }

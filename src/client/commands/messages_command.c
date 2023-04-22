@@ -71,9 +71,15 @@ char **args)
 
     puts(answer);
     split_string_fixed_array(answer, answer_args, 7);
+    if (args[1] != NULL)
+        string_strip_delim(&args[1], '"');
     if (answer_args[0] == NULL || answer_args[1] == NULL ||
     strncmp(answer_args[0], "530", 3) == 0) {
         client_error_unauthorized();
+    }
+    if (answer_args[0] != NULL && (strncmp(answer_args[0], "430", 3) == 0 ||
+    strncmp(answer_args[0], "550", 3) == 0)) {
+        client_error_unknown_user(args[1] == NULL ? "" : args[1]);
     }
     if (strncmp(answer_args[0], "150", 3) == 0) {
         return messages_command_debug_loop(client, args);
