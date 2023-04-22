@@ -46,15 +46,12 @@ Test(add_user_to_struct2, multiple_user_without_teams, .init=init_global)
     cr_assert_eq(nb_users, 3);
     for (int i = 0; i < 3; i++) {
         data_t *data = malloc(sizeof(data_t));
-        bool is_logged = false;
         int nb_team_uuids = 0;
         int nb_personal_discussion = 0;
         fread(data, sizeof(data_t), 1, fd);
         cr_assert_str_eq(data->name, names[i]);
         cr_assert_str_eq(data->description, description[i]);
         cr_assert_str_eq(data->body, "NULL");
-        fread(&is_logged, sizeof(bool), 1, fd);
-        cr_assert_eq(is_logged, false);
         fread(&nb_team_uuids, sizeof(int), 1, fd);
         cr_assert_eq(nb_team_uuids, 0);
         for (int j = 0; j < nb_team_uuids; j++) {
@@ -123,7 +120,6 @@ Test(add_user_to_struct2, multiple_user_with_team, .init=init_global)
     cr_assert_eq(nb_users, 3);
     for (int i = 0; i < 3; i++) {
         data_t *data = malloc(sizeof(data_t));
-        bool is_logged = false;
         int nb_team_uuids = 0;
         int nb_personal_discussion = 0;
         int nb_messages = 0;
@@ -131,8 +127,6 @@ Test(add_user_to_struct2, multiple_user_with_team, .init=init_global)
         cr_assert_str_eq(data->name, names[i]);
         cr_assert_str_eq(data->description, description[i]);
         cr_assert_str_eq(data->body, "NULL");
-        fread(&is_logged, sizeof(bool), 1, fd);
-        cr_assert_eq(is_logged, false);
         fread(&nb_team_uuids, sizeof(int), 1, fd);
         cr_assert_eq(nb_team_uuids, 0);
         for (int j = 0; j < nb_team_uuids; j++) {
@@ -222,7 +216,6 @@ Test(add_user_to_struct2, multiple_user_with_simple_team, .init=init_global)
     cr_assert_eq(nb_users, 3);
     for (int i = 0; i < 3; i++) {
         data_t *data = malloc(sizeof(data_t));
-        bool is_logged = false;
         int nb_team_uuids = 0;
         int nb_personal_discussion = 0;
         int nb_messages = 0;
@@ -230,8 +223,6 @@ Test(add_user_to_struct2, multiple_user_with_simple_team, .init=init_global)
         cr_assert_str_eq(data->name, names[i]);
         cr_assert_str_eq(data->description, description[i]);
         cr_assert_str_eq(data->body, "NULL");
-        fread(&is_logged, sizeof(bool), 1, fd);
-        cr_assert_eq(is_logged, false);
         fread(&nb_team_uuids, sizeof(int), 1, fd);
         cr_assert_eq(nb_team_uuids, 0);
         for (int j = 0; j < nb_team_uuids; j++) {
