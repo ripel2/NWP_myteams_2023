@@ -202,11 +202,15 @@ class TestCase:
         if self.__server is None:
             raise Exception("Server not started")
         self.__server.kill()
+        try:
+            os.remove("my_teams.db")
+        except:
+            pass
 
     def _destroy_server(self):
         if self.__server is None:
             raise Exception("Server not started")
-        self.__server.kill()
+        self._stop_server()
         self.__server = None
 
     def _start_client(self, client_name: str):
@@ -328,7 +332,7 @@ class TestCase:
                 return
         raise self.TestFailed(
             "Regex didn't match in client {} stderr: {}".format(
-                client_name, regex
+                client_name, regex + '\n'.join(stderr)
             )
         )
 
