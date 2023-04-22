@@ -60,7 +60,7 @@ char **args, char *user_uuid)
     server_client_printf(server, client, "230 \"%s\" logged in\n", user_uuid);
     sprintf(event_msg, "client_event_logged_in \"%s\" \"%s\"\n", user_uuid,
     args[1]);
-    send_event_to_all_users(server, event_msg, client->fd);
+    send_event_to_all_users(server, event_msg, -1);
 }
 
 static void login_user(server_t *server, server_client_t *client,
@@ -82,7 +82,7 @@ char **args)
     server_client_write_string(server, client, " logged in\n");
     sprintf(event_msg, "client_event_logged_in %s %s\n",
     user->user_data->uuid, user->user_data->name);
-    send_event_to_all_users(server, event_msg, client->fd);
+    send_event_to_all_users(server, event_msg, -1);
 }
 
 void handle_login(server_t *server, server_client_t *client, char **args)

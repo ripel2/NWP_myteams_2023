@@ -62,7 +62,7 @@ static void client_process_event_call(int event_id, char **args)
     client_process_log_events(event_id, args);
 }
 
-static int client_process_event_buffer(client_t *client, char *buffer)
+int client_process_event_buffer(client_t *client, char *buffer)
 {
     char *args[7] = {NULL};
     int event_id = 0;
