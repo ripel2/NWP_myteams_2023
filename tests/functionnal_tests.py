@@ -259,7 +259,7 @@ class TestCase:
         stdout = self.__clients[client_name].get_stdout()
         if expected_line[-1] != '\n':
             expected_line += '\n'
-        if expected_line not in stdout:
+        if expected_line not in stdout and expected_line.strip() not in stdout:
             raise self.TestFailed(
                 "Expected line not found in client {} stdout: {}".format(
                     client_name, expected_line.strip()
@@ -272,7 +272,7 @@ class TestCase:
         if expected_line[-1] != '\n':
             expected_line += '\n'
         stderr = self.__clients[client_name].get_stderr()
-        if expected_line not in stderr:
+        if expected_line not in stderr and expected_line.strip() not in stderr:
             raise self.TestFailed(
                 "Expected line not found in client {} stderr: {}".format(
                     client_name, expected_line.strip()
@@ -386,7 +386,7 @@ class TestCase:
             match_name = match_to.group(1)
             match_group = match_to.group(2)
             if match_name not in self.__matches:
-                raise Exception("No variable {}".format(match_name))
+                raise Exception("Pattern matching in command \"{}\"\n no variable {}".format(src, match_name))
             match_from = self.__matches[match_name]
             src = src.replace(match_to.group(0), match_from.group(int(match_group)))
         return src
@@ -411,12 +411,21 @@ class TestCase:
                             arg = command["args"].pop(0)
                             arg = self._apply_matches(arg)
                             command_args.append(arg_type(arg))
+                    if self.__thread_needs_to_die.is_set():
+                        return
                     time.sleep(0.1069) # 1/10th of a second with some crunchy bits
                     if self.__thread_needs_to_die.is_set():
                         return
                     if verbose:
-                        print(command["name"] + "({})".format(", ".join(map(str, command_args))))
-                    getattr(self, "_{}".format(command["name"]))(*command_args)
+                        print(command["name"] + "({})".format(", ".join(map(str, command_args))), end=" = ")
+                    try:
+                        getattr(self, "_{}".format(command["name"]))(*command_args)
+                        if verbose:
+                            print(OK_COLOR + "OK" + RESET_COLOR)
+                    except Exception as e:
+                        if verbose:
+                            print(KO_COLOR + "KO" + RESET_COLOR)
+                        raise e
                     if self.__thread_needs_to_die.is_set():
                         return
                 except Exception as e:
