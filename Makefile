@@ -217,7 +217,7 @@ tests_run:	$(TESTS_OBJ)
 	@printf $(TEAL)"[+] Running tests"$(DEFAULT)"\n"
 	@./unit_tests && \
 	printf $(GREEN)"[+] Tests passed"$(DEFAULT)"\n" || \
-	printf $(RED)"[-] Tests failed"$(DEFAULT)"\n"
+	(printf $(RED)"[-] Tests failed"$(DEFAULT)"\n" && exit 1)
 
 debug:	CFLAGS += -g
 debug:	re
