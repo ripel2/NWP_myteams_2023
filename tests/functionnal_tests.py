@@ -75,6 +75,7 @@ class CommandRunner:
                 self._stderr += data
 
     def get_stderr(self) -> list:
+        time.sleep(0.2)
         with self._stderr_lock:
             lines = self._stderr.decode("utf-8").splitlines()
             for line in lines:
@@ -88,8 +89,12 @@ class CommandRunner:
                     print()
                     print("==================================")
                     print(colorama.Style.RESET_ALL)
-
             return lines
+
+    def get_stdout(self) -> list:
+        time.sleep(0.2)
+        with self._stdout_lock:
+            return self._stdout.decode("utf-8").splitlines()
 
     def send_stdin(self, stdin: str):
         if not self.process:

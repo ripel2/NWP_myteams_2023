@@ -1,0 +1,60 @@
+{
+    "name": "Send message",
+    "description": "Send a message between two clients",
+    "commands": [
+        {
+            "name": "start_server"
+        },
+        {
+            "name": "start_client",
+            "args": ["LEGOAT"]
+        },
+        {
+            "name": "start_client",
+            "args": ["LERAT"]
+        },
+        {
+            "name": "client_send_line",
+            "args": ["LEGOAT", "/login \"luc A E R\""]
+        },
+        {
+            "name": "client_send_line",
+            "args": ["LERAT", "/login \"Andrip Drip Dreas\""]
+        },
+        {
+            "name": "store_client_match_stderr",
+            "args": ["LEGOAT", "Client ([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}) logged in with login luc A E R", "GOATUUID"]
+        },
+        {
+            "name": "store_client_match_stderr",
+            "args": ["LERAT", "Client ([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}) logged in with login Andrip Drip Dreas", "RATUUID"]
+        },
+        {
+            "name": "client_send_line",
+            "args": ["LERAT", "/send \"<<GOATUUID>>(1)\" \"salut lucaer\""]
+        },
+        {
+            "name": "client_send_line",
+            "args": ["LEGOAT", "/send \"<<RATUUID>>(1)\" \"salut ANDRIP\""]
+        },
+        {
+            "name": "stop_server"
+        },
+        {
+            "name": "stop_client",
+            "args": ["LERAT"]
+        },
+        {
+            "name": "stop_client",
+            "args": ["LEGOAT"]
+        },
+        {
+            "name": "check_client_stderr",
+            "args": ["LEGOAT", "New private message from <<RATUUID>>(1): [salut lucaer]"]
+        },
+        {
+            "name": "check_client_stderr",
+            "args": ["LERAT", "New private message from <<GOATUUID>>(1): [salut ANDRIP]"]
+        }
+    ]
+}
