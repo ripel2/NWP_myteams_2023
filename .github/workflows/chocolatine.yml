@@ -129,6 +129,10 @@ jobs:
           make clean
         timeout-minutes: 2
 
+      - name: Install Python dependencies
+        run: |
+          pip3 install -r tests/requirements.txt
+
       - name: Start tests
         run: |
           export LD_LIBRARY_PATH=./libs/myteams
