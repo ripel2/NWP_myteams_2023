@@ -36,7 +36,9 @@ server_client_t *client, char **args)
         "501 Syntax error in parameters or arguments\n");
         return true;
     }
-    if (strlen(args[1]) - 1 > MAX_NAME_LENGTH) {
+    string_strip_delim(&args[1], '\n');
+    string_strip_delim(&args[1], '"');
+    if (strlen(args[1]) > MAX_NAME_LENGTH) {
         server_client_write_string(server, client,
         "550 Username too long\n");
         return true;
