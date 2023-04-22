@@ -8,6 +8,7 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <string.h>
+#include <signal.h>
 #include "shared.h"
 #include "data_struct_functions.h"
 #include "data.h"
@@ -16,6 +17,13 @@
 #include "save.h"
 
 global_t *global;
+
+void sigint_handler(int sig)
+{
+    (void)sig;
+    write_global_struct();
+    exit(0);
+}
 
 int main(int ac, char **av)
 {
@@ -32,6 +40,9 @@ int main(int ac, char **av)
         return ERROR;
     if (server_init(&server, atoi(av[1])) != 0)
         return ERROR;
+    if (load_global_struct() == ERROR)
+        return ERROR;
+    signal(SIGINT, sigint_handler);
     teams_server_loop(&server);
     return SUCCESS;
 }

@@ -21,7 +21,8 @@ static personal_discussion_t *get_discussion_between_user
     personal_discussion_t *discussion = NULL;
 
     TAILQ_FOREACH(discussion, &current_user->discussions, entries) {
-        if (discussion->user_data->uuid == user_to_seek->user_data->uuid) {
+        if (strcmp(discussion->user_data->uuid, user_to_seek->user_data->uuid)
+        == 0) {
             return discussion;
         }
     }
