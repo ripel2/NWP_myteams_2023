@@ -41,6 +41,8 @@ char **args)
         server_client_printf(server, client, "430 User not logged in\n");
         return false;
     }
+    remove_bad_char(args[1]);
+    string_strip_delim(&args[1], '"');
     team = get_team_from_struct(args[1]);
     if (team == NULL) {
         server_client_printf(server, client, "430 Team doesn't exist\n");
@@ -79,5 +81,5 @@ char **args)
         return;
     }
     server_event_user_subscribed(args[1], user->user_data->uuid);
-    server_client_printf(server, client, "200 Subscribed to team %s", args[1]);
+    server_client_printf(server, client, "200 Subscribed to team %s\n", args[1]);
 }
