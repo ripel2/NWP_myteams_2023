@@ -323,7 +323,7 @@ OUT <<< 150 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f name description
 Example of a `INFO` command with a team, a channel and a thread context:
 ```
 IN  >>> INFO
-OUT <<< 150 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f 1234567 name description
+OUT <<< 150 <thread_uuid> <user_uuid> 1234567 title body
 ```
 (first number is the timestamp of the thread creation)
 
