@@ -23,7 +23,7 @@ static bool handle_base_errors(server_t *server, server_client_t *client
         server_client_write_string(server, client, "530 Not logged in\n");
         return true;
     }
-    if (args[1] == NULL || args[2] == NULL) {
+    if (args[1] == NULL) {
         server_client_write_string(server, client,
         "501 Syntax error in parameters or arguments\n");
         return true;
@@ -31,28 +31,53 @@ static bool handle_base_errors(server_t *server, server_client_t *client
     return false;
 }
 
-static void create_team(server_t *server, server_client_t *client
+static bool handle_no_context_teams(server_t *server, server_client_t *client
 , char **args, user_t *current_user)
 {
-    char team_uuid[37];
-    char event_msg[512];
-    data_t *team_data = NULL;
-
-    if (strlen(args[1]) - 1 > MAX_NAME_LENGTH ||
-    strlen(args[2]) - 1 > MAX_DESCRIPTION_LENGTH) {
-        server_client_write_string(server, client,
-        "550 Name or description too long\n");
-        return;
+    if (args[2] != NULL && current_user->context->user_context == NO_CONTEXT) {
+        remove_bad_char(args[2]);
+        string_strip_delim(&args[1], '"');
+        string_strip_delim(&args[2], '"');
+        create_team(server, client, args, current_user);
+        return true;
     }
-    generate_uuid(team_uuid);
-    team_data = init_data(args[1], args[2], "NULL", team_uuid);
-    add_team_to_struct(team_data);
-    server_client_printf(server, client, "150 \"%s\"\n", team_uuid);
-    server_event_team_created(team_uuid, args[1],
-    current_user->user_data->name);
-    sprintf(event_msg, "client_event_team_created \"%s\" \"%s\" \"%s\""
-    , team_uuid, args[1], args[2]);
-    send_event_to_all_users(server, event_msg, client->fd);
+    remove_bad_char(args[1]);
+    string_strip_delim(&args[1], '"');
+    if (current_user->context->user_context != NO_CONTEXT && 
+    is_user_in_team(current_user, args[1]) == false) {
+        server_client_write_string(server, client,
+        "403 You are not in this team\n");
+        return true;
+    }
+    if (args[2] != NULL && current_user->context->user_context == TEAMS) {
+        remove_bad_char(args[2]);
+        string_strip_delim(&args[1], '"');
+        string_strip_delim(&args[2], '"');
+        create_channel(server, client, args, current_user);
+        return true;
+    }
+    return false;
+}
+
+static bool handle_create_mode(server_t *server, server_client_t *client
+, char **args, user_t *current_user)
+{
+    if (handle_no_context_teams(server, client, args, current_user))
+        return true;
+    if (args[2] != NULL && current_user->context->user_context == CHANNELS) {
+        remove_bad_char(args[2]);
+        string_strip_delim(&args[1], '"');
+        string_strip_delim(&args[2], '"');
+        create_thread(server, client, args, current_user);
+        return true;
+    }
+    if (args[2] == NULL && current_user->context->user_context == THREADS) {
+        remove_bad_char(args[1]);
+        string_strip_delim(&args[1], '"');
+        create_reply(server, client, args, current_user);
+        return true;
+    }
+    return false;
 }
 
 void handle_create(server_t *server, server_client_t *client, char **args)
@@ -61,10 +86,7 @@ void handle_create(server_t *server, server_client_t *client, char **args)
 
     if (handle_base_errors(server, client, args, current_user))
         return;
-    if (args[2] != NULL && current_user->context->user_context == NO_CONTEXT) {
-        remove_bad_char(args[2]);
-        string_strip_delim(&args[1], '"');
-        string_strip_delim(&args[2], '"');
-        create_team(server, client, args, current_user);
-    }
+    if (handle_create_mode(server, client, args, current_user) == false)
+        server_client_write_string(server, client,
+        "501 Syntax error in parameters or arguments\n");
 }

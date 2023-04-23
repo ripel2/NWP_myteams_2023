@@ -48,3 +48,11 @@ char **args);
 void send_event_to_all_users(server_t *server, char *str, int fd_to_exclude);
 bool is_user_in_team(user_t *user, char *team_uuid);
 int count_nb_teams(user_t *user);
+void create_reply(server_t *server, server_client_t *client
+, char **args, user_t *current_user);
+void create_thread(server_t *server, server_client_t *client
+, char **args, user_t *current_user);
+void create_channel(server_t *server, server_client_t *client
+, char **args, user_t *current_user);
+void create_team(server_t *server, server_client_t *client
+, char **args, user_t *current_user);
