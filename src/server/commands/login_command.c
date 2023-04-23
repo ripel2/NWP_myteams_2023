@@ -31,13 +31,13 @@ static user_t *get_user_from_struct_by_username(const char *username)
 static bool handle_error_in_args(server_t *server,
 server_client_t *client, char **args)
 {
-    if (args[1] == NULL || args[2] != NULL) {
+    string_strip_delim(&args[1], '\n');
+    string_strip_delim(&args[1], '"');
+    if (args[1] == NULL || strlen(args[1]) == 0 || args[2] != NULL) {
         server_client_write_string(server, client,
         "501 Syntax error in parameters or arguments\n");
         return true;
     }
-    string_strip_delim(&args[1], '\n');
-    string_strip_delim(&args[1], '"');
     if (strlen(args[1]) > MAX_NAME_LENGTH) {
         server_client_write_string(server, client,
         "550 Username too long\n");
