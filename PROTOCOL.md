@@ -311,19 +311,19 @@ OUT <<< 150 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f user1
 Example of a `INFO` command with a team context:
 ```
 IN  >>> INFO
-OUT <<< 150 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f description
+OUT <<< 150 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f name description
 ```
 
 Example of a `INFO` command with a team and a channel context:
 ```
 IN  >>> INFO
-OUT <<< 150 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f description
+OUT <<< 150 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f name description
 ```
 
 Example of a `INFO` command with a team, a channel and a thread context:
 ```
 IN  >>> INFO
-OUT <<< 150 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f 1234567 description
+OUT <<< 150 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f 1234567 name description
 ```
 (first number is the timestamp of the thread creation)
 
@@ -339,25 +339,25 @@ The client should send the `CREATE` command followed by the uuid of the team/cha
 
 Example of a `CREATE` command without any context:
 ```
-IN  >>> CREATE 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f description
+IN  >>> CREATE name description
 OUT <<< 200 <created_uuid>
 ```
 
 Example of a `CREATE` command with a team context:
 ```
-IN  >>> CREATE 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f description
+IN  >>> CREATE name description
 OUT <<< 200 <created_uuid>
 ```
 
 Example of a `CREATE` command with a team and a channel context:
 ```
-IN  >>> CREATE 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f description
+IN  >>> CREATE name description
 OUT <<< 200 <created_uuid>
 ```
 
 Example of a `CREATE` command with a team, a channel and a thread context:
 ```
-IN  >>> CREATE 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f message
+IN  >>> CREATE name message
 OUT <<< 200 <created_uuid>
 ```
 
