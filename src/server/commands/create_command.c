@@ -33,7 +33,6 @@ static bool handle_base_errors(server_t *server, server_client_t *client
 
 static void prepare_string(char **args)
 {
-    
         remove_bad_char(args[2]);
         string_strip_delim(&args[1], '"');
         string_strip_delim(&args[2], '"');

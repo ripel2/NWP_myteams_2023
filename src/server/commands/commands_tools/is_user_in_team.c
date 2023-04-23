@@ -17,7 +17,6 @@ bool is_user_in_team(user_t *user, char *team_uuid)
 {
     team_uuid_t *tmp_uuid_team = NULL;
 
-    
     remove_bad_char(team_uuid);
     string_strip_delim(&team_uuid, '"');
     TAILQ_FOREACH(tmp_uuid_team, &user->team_uuids, entries) {
