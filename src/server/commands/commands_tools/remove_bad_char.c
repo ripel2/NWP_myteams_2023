@@ -11,6 +11,9 @@
 
 char *remove_bad_char(char *str)
 {
+    if (str == NULL) {
+        return str;
+    }
     for (size_t i = 0; i < strlen(str); i++) {
         if (str[i] == '\n' || str[i] == '\r')
             str[i] = '\0';
