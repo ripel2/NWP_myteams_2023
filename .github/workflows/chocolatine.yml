@@ -127,7 +127,7 @@ jobs:
         run: |
           make
           make clean
-        timeout-minutes: 2
+        timeout-minutes: 1
 
       - name: Install Python dependencies
         run: |
@@ -137,7 +137,7 @@ jobs:
         run: |
           export LD_LIBRARY_PATH=./libs/myteams
           python3 tests/functionnal_tests.py
-        timeout-minutes: 2
+        timeout-minutes: 5
 
   push_to_mirror:
     name: Pushes the current repository files to a given mirror repository
