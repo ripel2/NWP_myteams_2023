@@ -76,7 +76,8 @@ static bool is_args_error(server_t *server, server_client_t *client
         server_client_write_string(server, client, "530 Not logged in\n");
         return true;
     } else if (args[1] == NULL || args[2] != NULL) {
-        server_client_write_string(server, client, "501 Syntax error in parameters or arguments\n");
+        server_client_write_string(server, client,
+        "501 Syntax error in parameters or arguments\n");
         return true;
     }
     return false;

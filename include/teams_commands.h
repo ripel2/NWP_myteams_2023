@@ -47,3 +47,4 @@ void set_thread_context(server_t *server, server_client_t *client,
 char **args);
 void send_event_to_all_users(server_t *server, char *str, int fd_to_exclude);
 bool is_user_in_team(user_t *user, char *team_uuid);
+int count_nb_teams(user_t *user);

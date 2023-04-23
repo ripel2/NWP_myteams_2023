@@ -81,6 +81,7 @@ SERVER_SRC	=	$(ADD_FUNCTION)/add_user_to_struct.c				\
 				$(COMMANDS_TOOLS)/send_event_to_user.c				\
 				$(COMMANDS_TOOLS)/is_a_uuid.c						\
 				$(COMMANDS_TOOLS)/count_nb_messages.c				\
+				$(COMMANDS_TOOLS)/count_nb_teams.c					\
 				$(CONTEXT_TOOLS)/set_no_context.c					\
 				$(CONTEXT_TOOLS)/set_team_context.c					\
 				$(CONTEXT_TOOLS)/set_channel_context.c				\

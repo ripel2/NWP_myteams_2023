@@ -81,5 +81,6 @@ char **args)
         return;
     }
     server_event_user_subscribed(args[1], user->user_data->uuid);
-    server_client_printf(server, client, "200 Subscribed to team %s\n", args[1]);
+    server_client_printf(server, client, "200 Subscribed to team %s\n"
+    , args[1]);
 }

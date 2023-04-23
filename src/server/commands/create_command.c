@@ -38,9 +38,6 @@ static void create_team(server_t *server, server_client_t *client
     char event_msg[512];
     data_t *team_data = NULL;
 
-    remove_bad_char(args[2]);
-    string_strip_delim(&args[1], '"');
-    string_strip_delim(&args[2], '"');
     if (strlen(args[1]) - 1 > MAX_NAME_LENGTH ||
     strlen(args[2]) - 1 > MAX_DESCRIPTION_LENGTH) {
         server_client_write_string(server, client,
@@ -51,8 +48,10 @@ static void create_team(server_t *server, server_client_t *client
     team_data = init_data(args[1], args[2], "NULL", team_uuid);
     add_team_to_struct(team_data);
     server_client_printf(server, client, "150 \"%s\"\n", team_uuid);
-    server_event_team_created(team_uuid, args[1], current_user->user_data->name);
-    sprintf(event_msg, "client_event_team_created \"%s\" \"%s\" \"%s\"", team_uuid, args[1], args[2]);
+    server_event_team_created(team_uuid, args[1],
+    current_user->user_data->name);
+    sprintf(event_msg, "client_event_team_created \"%s\" \"%s\" \"%s\""
+    , team_uuid, args[1], args[2]);
     send_event_to_all_users(server, event_msg, client->fd);
 }
 
@@ -63,6 +62,9 @@ void handle_create(server_t *server, server_client_t *client, char **args)
     if (handle_base_errors(server, client, args, current_user))
         return;
     if (args[2] != NULL && current_user->context->user_context == NO_CONTEXT) {
+        remove_bad_char(args[2]);
+        string_strip_delim(&args[1], '"');
+        string_strip_delim(&args[2], '"');
         create_team(server, client, args, current_user);
     }
 }

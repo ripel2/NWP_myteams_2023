@@ -15,17 +15,6 @@
 #include "data.h"
 #include "server.h"
 
-static int count_nb_teams(user_t *user)
-{
-    team_uuid_t *team_uuid = NULL;
-    int nb_teams = 0;
-
-    TAILQ_FOREACH(team_uuid, &user->team_uuids, entries) {
-        nb_teams++;
-    }
-    return nb_teams;
-}
-
 static int count_nb_users_in_team(char *team_uuid_to_seek)
 {
     team_uuid_t *team_uuid = NULL;
@@ -51,24 +40,28 @@ char *uuid)
     TAILQ_FOREACH(user, &global->users, entries) {
         TAILQ_FOREACH(team_uuid, &user->team_uuids, entries) {
             if (strcmp(uuid, team_uuid->uuid) == 0) {
-                server_client_printf(server, client, "%s %s\n", user->user_data->uuid, user->user_data->name);
+                server_client_printf(server, client,
+                "%s %s\n", user->user_data->uuid, user->user_data->name);
             }
         }
     }
 }
 
-static void handle_subscribed_with_uuid(server_t *server, server_client_t *client,
-char *uuid, user_t *user)
+static void handle_subscribed_with_uuid(server_t *server,
+server_client_t *client, char *uuid, user_t *user)
 {
     if (is_user_in_team(user, uuid) == false) {
-        server_client_write_string(server, client, "431 Cannot perform action\n");
+        server_client_write_string(server, client,
+        "431 Cannot perform action\n");
         return;
     }
-    server_client_printf(server, client, "150 %d\n", count_nb_users_in_team(uuid));
+    server_client_printf(server, client, "150 %d\n",
+    count_nb_users_in_team(uuid));
     display_users_in_team(server, client, uuid);
 }
 
-static void handle_subscribed_without_uuid(server_t *server, server_client_t *client, user_t *user)
+static void handle_subscribed_without_uuid(server_t *server,
+server_client_t *client, user_t *user)
 {
     team_uuid_t *team_uuid = NULL;
     team_t *team = NULL;
@@ -76,7 +69,9 @@ static void handle_subscribed_without_uuid(server_t *server, server_client_t *cl
     server_client_printf(server, client, "150 %d\n", count_nb_teams(user));
     TAILQ_FOREACH(team_uuid, &user->team_uuids, entries) {
         team = get_team_from_struct(team_uuid->uuid);
-        server_client_printf(server, client, "%s %s %s\n", team->team_data->uuid, team->team_data->name, team->team_data->description);
+        server_client_printf(server, client, "%s %s %s\n",
+        team->team_data->uuid, team->team_data->name,
+        team->team_data->description);
     }
     server_client_write_string(server, client, "200 OK\n");
 }
