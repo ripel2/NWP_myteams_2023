@@ -31,28 +31,30 @@ static bool handle_base_errors(server_t *server, server_client_t *client
     return false;
 }
 
+static void prepare_string(char **args)
+{
+    
+        remove_bad_char(args[2]);
+        string_strip_delim(&args[1], '"');
+        string_strip_delim(&args[2], '"');
+}
+
 static bool handle_no_context_teams(server_t *server, server_client_t *client
 , char **args, user_t *current_user)
 {
     if (args[2] != NULL && current_user->context->user_context == NO_CONTEXT) {
-        remove_bad_char(args[2]);
-        string_strip_delim(&args[1], '"');
-        string_strip_delim(&args[2], '"');
+        prepare_string(args);
         create_team(server, client, args, current_user);
         return true;
     }
-    remove_bad_char(args[1]);
-    string_strip_delim(&args[1], '"');
-    if (current_user->context->user_context != NO_CONTEXT && 
+    if (current_user->context->user_context != NO_CONTEXT &&
     is_user_in_team(current_user, args[1]) == false) {
         server_client_write_string(server, client,
         "403 You are not in this team\n");
         return true;
     }
     if (args[2] != NULL && current_user->context->user_context == TEAMS) {
-        remove_bad_char(args[2]);
-        string_strip_delim(&args[1], '"');
-        string_strip_delim(&args[2], '"');
+        prepare_string(args);
         create_channel(server, client, args, current_user);
         return true;
     }
