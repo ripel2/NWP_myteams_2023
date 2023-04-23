@@ -91,3 +91,11 @@ int client_read_in_buffer(client_t *client);
  * @return true if a line was found, false if no line was found
 */
 bool client_flush_line(client_t *client, char *line);
+
+/**
+ * @brief Handle an event from the server
+ * @param client The client structure to read from
+ * @param buffer The buffer that has a line of data
+ * @return 0 on success, the value of errno on failure
+*/
+int client_process_event_buffer(client_t *client, char *buffer);

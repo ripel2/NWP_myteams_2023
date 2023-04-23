@@ -23,10 +23,11 @@ int help_command(client_t *client, char **args)
 
     (void)args;
     client_printf(client, "HELP\n");
-    ret = client_read_in_buffer(client);
-    if (ret != 0)
-        return ret;
-    if (client_flush_line(client, line))
-        help_print_answer(line);
+    do {
+        ret = client_read_in_buffer(client);
+        if (ret != 0)
+            return ret;
+    } while (!client_flush_line(client, line));
+    help_print_answer(line);
     return 0;
 }

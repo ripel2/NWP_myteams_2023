@@ -1,0 +1,80 @@
+{
+    "name": "Users command",
+    "description": "Connect multiple users to the server, check that they exist and that their status are correct",
+    "commands": [
+        {
+            "name": "start_server"
+        },
+        {
+            "name": "start_client",
+            "args": ["axel"]
+        },
+        {
+            "name": "start_client",
+            "args": ["matheo"]
+        },
+        {
+            "name": "start_client",
+            "args": ["eckenberg"]
+        },
+        {
+            "name": "client_send_line",
+            "args": ["axel", "/login \"axel\""]
+        },
+        {
+            "name": "client_send_line",
+            "args": ["matheo", "/login \"crunchy tek math\""]
+        },
+        {
+            "name": "client_send_line",
+            "args": ["eckenberg", "/login \"l'autre axel\""]
+        },
+        {
+            "name": "client_send_line",
+            "args": ["matheo", "/logout"]
+        },
+        {
+            "name": "stop_client",
+            "args": ["matheo"]
+        },
+        {
+            "name": "client_send_line",
+            "args": ["axel", "/users"]
+        },
+        {
+            "name": "stop_server"
+        },
+        {
+            "name": "stop_client",
+            "args": ["axel"]
+        },
+        {
+            "name": "stop_client",
+            "args": ["eckenberg"]
+        },
+        {
+            "name": "store_client_match_stderr",
+            "args": ["axel", "Client ([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}) logged in with login axel", "axel_uuid"]
+        },
+        {
+            "name": "store_client_match_stderr",
+            "args": ["matheo", "Client ([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}) logged in with login crunchy tek math", "matheo_uuid"]
+        },
+        {
+            "name": "store_client_match_stderr",
+            "args": ["eckenberg", "Client ([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}) logged in with login l'autre axel", "ratio_uuid"]
+        },
+        {
+            "name": "match_client_stderr",
+            "args": ["axel", "User \"crunchy tek math\" \\(<<matheo_uuid>>(1)\\): 0"]
+        },
+        {
+            "name": "match_client_stderr",
+            "args": ["axel", "User \"axel\" \\(<<axel_uuid>>(1)\\): 1"]
+        },
+        {
+            "name": "match_client_stderr",
+            "args": ["axel", "User \"l'autre axel\" \\(<<ratio_uuid>>(1)\\): 1"]
+        }
+    ]
+}

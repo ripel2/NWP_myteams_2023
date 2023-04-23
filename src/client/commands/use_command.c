@@ -45,21 +45,21 @@ int use_command(client_t *client, char **args)
 {
     int ret = 0;
     char line[32768] = {0};
-    char command[1024] = {0};
+    char command[1024] = "USE";
 
-    strcpy(command, "USE ");
     for (size_t c = 1; c < 4; c++) {
-        if (args[c] != NULL)
-            strcat(command, args[c]);
-        if (c < 3)
+        if (args[c] != NULL) {
             strcat(command, " ");
+            strcat(command, args[c]);
+        }
     }
-    strcat(command, "\n");
-    client_printf(client, "%s", command);
+    client_printf(client, "%s\n", command);
     ret = client_read_in_buffer(client);
-    if (ret != 0)
-        return ret;
-    if (client_flush_line(client, line))
-        use_parse_answer_and_debug(client, line, args);
+    do {
+        ret = client_read_in_buffer(client);
+        if (ret != 0)
+            return ret;
+    } while (!client_flush_line(client, line));
+    use_parse_answer_and_debug(client, line, args);
     return 0;
 }

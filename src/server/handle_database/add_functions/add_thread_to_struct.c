@@ -24,6 +24,7 @@ data_t *thread_data)
         return (ERROR);
     new_thread->thread_data = thread_data;
     new_thread->user_data = user_data;
+    new_thread->creation_date = time(NULL);
     TAILQ_INIT(&new_thread->replies);
     TAILQ_INSERT_TAIL(&channel_selected->threads, new_thread, entries);
     return (SUCCESS);

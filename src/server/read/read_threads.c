@@ -26,6 +26,7 @@ void read_threads(FILE *fd, channel_t *channel)
             return;
         fread(thread->user_data, sizeof(data_t), 1, fd);
         fread(thread->thread_data, sizeof(data_t), 1, fd);
+        fread(&thread->creation_date, sizeof(time_t), 1, fd);
         add_thread_to_struct(channel->channel_data->uuid,
         thread->user_data, thread->thread_data);
         read_replies(fd, thread);

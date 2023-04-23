@@ -1,0 +1,76 @@
+{
+    "name": "Log events",
+    "description": "Check if every user received every login/logout events",
+    "commands": [
+        {
+            "name": "start_server"
+        },
+        {
+            "name": "start_client",
+            "args": ["client1"]
+        },
+        {
+            "name": "start_client",
+            "args": ["client2"]
+        },
+        {
+            "name": "client_send_line",
+            "args": ["client1", "/login \"djoumalikatou\""]
+        },
+        {
+            "name": "client_send_line",
+            "args": ["client2", "/login \"apagnan\""]
+        },
+        {
+            "name": "client_send_line",
+            "args": ["client1", "/logout"]
+        },
+        {
+            "name": "client_send_line",
+            "args": ["client2", "/logout"]
+        },
+        {
+            "name": "stop_server"
+        },
+        {
+            "name": "stop_client",
+            "args": ["client1"]
+        },
+        {
+            "name": "stop_client",
+            "args": ["client2"]
+        },
+        {
+            "name": "store_client_match_stderr",
+            "args": ["client1", "Client ([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}) logged in with login djoumalikatou", "mince"]
+        },
+        {
+            "name": "store_client_match_stderr",
+            "args": ["client1", "Client ([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}) logged in with login apagnan", "pastabox"]
+        },
+        {
+            "name": "store_client_match_stderr",
+            "args": ["client2", "Client ([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}) logged in with login apagnan", "pastabox"]
+        },
+        {
+            "name": "store_client_match_stderr",
+            "args": ["client1", "Client ([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}) logged out with login djoumalikatou", "mince"]
+        },
+        {
+            "name": "store_client_match_stderr",
+            "args": ["client2", "Client ([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}) logged out with login djoumalikatou", "mince"]
+        },
+        {
+            "name": "store_client_match_stderr",
+            "args": ["client2", "Client ([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}) logged out with login apagnan", "pastabox"]
+        },
+        {
+            "name": "match_stderr",
+            "args": ["User <<mince>>(1) logged in."]
+        },
+        {
+            "name": "match_stderr",
+            "args": ["User <<pastabox>>(1) logged in."]
+        }
+    ]
+}

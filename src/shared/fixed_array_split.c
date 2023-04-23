@@ -6,7 +6,7 @@
 */
 
 #include "shared.h"
-
+#include <stddef.h>
 #include <string.h>
 
 void string_strip_delim_start(char **str, char delim)

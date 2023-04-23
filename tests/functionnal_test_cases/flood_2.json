@@ -1,0 +1,88 @@
+{
+    "name": "Flood 2",
+    "description": "Just flood the client with random requests that may make the server crash",
+    "commands": [
+        {
+            "name": "start_server"
+        },
+        {
+            "name": "start_client",
+            "args": ["hacker"]
+        },
+        {
+            "name": "client_send_line",
+            "args": ["hacker", "/login \"hacker\""]
+        },
+        {
+            "name": "client_send_line",
+            "args": ["hacker", "/help test          "]
+        },
+        {
+            "name": "client_send_line",
+            "args": ["hacker", "/use      "]
+        },
+        {
+            "name": "client_send_line",
+            "args": ["hacker", "/use \"\""]
+        },
+        {
+            "name": "client_send_line",
+            "args": ["hacker", "/use \"\" \"\"   "]
+        },
+        {
+            "name": "client_send_line",
+            "args": ["hacker", "/use \"\" \"\" \"\""]
+        },
+        {
+            "name": "client_send_line",
+            "args": ["hacker", "/use \"\" \"\" \"\" \"\""]
+        },
+        {
+            "name": "client_send_line",
+            "args": ["hacker", "/messages \"\""]
+        },
+        {
+            "name": "client_send_line",
+            "args": ["hacker", "/create"]
+        },
+        {
+            "name": "client_send_line",
+            "args": ["hacker", "/create \"\""]
+        },
+        {
+            "name": "client_send_line",
+            "args": ["hacker", "/create \"\" \"\"  "]
+        },
+        {
+            "name": "client_send_line",
+            "args": ["hacker", "/create \"\" \"\" \"\""]
+        },
+        {
+            "name": "client_send_line",
+            "args": ["hacker", "/create \"\" \"\" \"\" \"\""]
+        },
+        {
+            "name": "client_send_line",
+            "args": ["hacker", "/messages   "]
+        },
+        {
+            "name": "client_send_line",
+            "args": ["hacker", "/messages \"\""]
+        },
+        {
+            "name": "client_send_line",
+            "args": ["hacker", "/login"]
+        },
+        {
+            "name": "client_send_line",
+            "args": ["hacker", "/login"]
+        },
+        {
+            "name": "stop_server"
+        },
+        {
+            "name": "stop_client",
+            "args": ["hacker"]
+        }
+    ]
+}

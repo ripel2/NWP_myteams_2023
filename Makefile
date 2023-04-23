@@ -15,6 +15,8 @@ TEAL	=	"\033[1;36m"
 SHARED_FOLDER	=	./src/shared
 SERVER_FOLDER	=	./src/server
 CLIENT_FOLDER	=	./src/client
+COMMANDS		=   $(SERVER_FOLDER)/commands
+COMMANDS_TOOLS	=   $(SERVER_FOLDER)/commands/commands_tools
 ADD_FUNCTION	=   $(SERVER_FOLDER)/handle_database/add_functions
 GET_FUNCTION	=   $(SERVER_FOLDER)/handle_database/get_functions
 OTHER_FUNCTION 	=   $(SERVER_FOLDER)/handle_database/other_functions
@@ -55,6 +57,29 @@ SERVER_SRC	=	$(ADD_FUNCTION)/add_user_to_struct.c				\
 				$(OTHER_FUNCTION)/remove_user_from_team.c			\
 				$(OTHER_FUNCTION)/is_channel_in_team.c				\
 				$(OTHER_FUNCTION)/is_thread_in_channel.c			\
+				$(SERVER_FOLDER)/server_loop.c						\
+				$(SERVER_FOLDER)/handle_client_commands.c			\
+				$(COMMANDS)/create_command.c						\
+				$(COMMANDS)/help_command.c							\
+				$(COMMANDS)/info_command.c							\
+				$(COMMANDS)/list_command.c							\
+				$(COMMANDS)/login_command.c							\
+				$(COMMANDS)/logout_command.c						\
+				$(COMMANDS)/messages_command.c						\
+				$(COMMANDS)/send_command.c							\
+				$(COMMANDS)/subscribe_command.c						\
+				$(COMMANDS)/subscribed_command.c					\
+				$(COMMANDS)/unsubscribe_command.c					\
+				$(COMMANDS)/use_command.c							\
+				$(COMMANDS)/user_command.c							\
+				$(COMMANDS)/users_command.c							\
+				$(COMMANDS_TOOLS)/is_user_logged_in.c				\
+				$(COMMANDS_TOOLS)/remove_bad_char.c					\
+				$(COMMANDS_TOOLS)/get_user_logged_in.c				\
+				$(COMMANDS_TOOLS)/get_user_from_struct_by_fd.c 		\
+				$(COMMANDS_TOOLS)/send_event_to_user.c				\
+				$(COMMANDS_TOOLS)/is_a_uuid.c						\
+				$(COMMANDS_TOOLS)/count_nb_messages.c				\
 				$(SAVE_FUNCTION)/write_in_to_file.c					\
 				$(SERVER_FOLDER)/open_file.c						\
 				$(SAVE_FUNCTION)/write_users.c						\
@@ -89,6 +114,8 @@ CLIENT_SRC	=	$(CLIENT_FOLDER)/client_init.c	\
 				$(CLIENT_FOLDER)/commands/create_command.c	\
 				$(CLIENT_FOLDER)/commands/subscribe_command.c	\
 				$(CLIENT_FOLDER)/commands/unsubscribe_command.c	\
+				$(CLIENT_FOLDER)/commands/messages_command.c	\
+				$(CLIENT_FOLDER)/commands/info_command.c
 
 SHARED_OBJ	=	$(SHARED_SRC:.c=.o)
 SERVER_OBJ	=	$(SERVER_SRC:.c=.o)
@@ -124,7 +151,7 @@ TESTS_OBJ	=	$(TESTS_SRC:.c=.o)
 CFLAGS	=	-Wall -Wextra -Wshadow -Wpedantic -Werror
 CFLAGS	+=	-I./include -I./libs/mynet/include -I./libs/myteams
 CFLAGS	+=	-luuid -L./libs/mynet -lmynetserver
-CFLAGS	+=	-L./libs/myteams -lmyteams -Wl,-rpath=./libs/myteams
+CFLAGS	+=	-L./libs/myteams -lmyteams
 CFLAGS	+=	-I./libs/myteams
 GCC	=	gcc
 
@@ -190,7 +217,7 @@ tests_run:	$(TESTS_OBJ)
 	@printf $(TEAL)"[+] Running tests"$(DEFAULT)"\n"
 	@./unit_tests && \
 	printf $(GREEN)"[+] Tests passed"$(DEFAULT)"\n" || \
-	printf $(RED)"[-] Tests failed"$(DEFAULT)"\n"
+	(printf $(RED)"[-] Tests failed"$(DEFAULT)"\n" && exit 1)
 
 debug:	CFLAGS += -g
 debug:	re

@@ -14,17 +14,13 @@
 
 data_t *init_data(char *name, char *description, char *body, char *uuid)
 {
-    data_t *data = malloc(sizeof(data_t));
+    data_t *data = calloc(1, sizeof(data_t));
 
     if (data == NULL)
         return NULL;
-    data->name[0] = '\0';
-    data->description[0] = '\0';
-    data->uuid[0] = '\0';
-    data->body[0] = '\0';
-    strcat(data->name, name);
-    strcat(data->description, description);
-    strcat(data->uuid, uuid);
-    strcat(data->body, body);
+    strcpy(data->name, name);
+    strcpy(data->description, description);
+    strcpy(data->uuid, uuid);
+    strcpy(data->body, body);
     return data;
 }

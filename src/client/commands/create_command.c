@@ -35,10 +35,10 @@ char **args, int use_status)
 
 static int create_call_debug(client_t *client, char *answer, char **args)
 {
-    char *answer_args[4] = {NULL};
+    char *answer_args[7] = {NULL};
     int use_status = 0;
 
-    split_string_fixed_array(answer, answer_args, 4);
+    split_string_fixed_array(answer, answer_args, 7);
     if (answer_args[1] == NULL)
         return 0;
     string_strip_delim(&answer_args[1], '"');
@@ -74,10 +74,11 @@ int create_command(client_t *client, char **args)
     client_printf(client, "CREATE %s %s\n",
     args[1] != NULL ? args[1] : "",
     args[2] != NULL ? args[2] : "");
-    ret = client_read_in_buffer(client);
-    if (ret != 0)
-        return ret;
-    if (client_flush_line(client, line))
-        create_parse_answer_and_debug(client, line, args);
+    do {
+        ret = client_read_in_buffer(client);
+        if (ret != 0)
+            return ret;
+    } while (!client_flush_line(client, line));
+    create_parse_answer_and_debug(client, line, args);
     return 0;
 }

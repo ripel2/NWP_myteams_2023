@@ -1,0 +1,40 @@
+{
+    "name": "Users command",
+    "description": "Connect a user to the server and check that the user is logged in",
+    "commands": [
+        {
+            "name": "start_server"
+        },
+        {
+            "name": "start_client",
+            "args": ["apagnan"]
+        },
+        {
+            "name": "client_send_line",
+            "args": ["apagnan", "/login \"lucas\""]
+        },
+        {
+            "name": "client_send_line",
+            "args": ["apagnan", "/users"]
+        },
+        {
+            "name": "stop_server"
+        },
+        {
+            "name": "stop_client",
+            "args": ["apagnan"]
+        },
+        {
+            "name": "store_match_stderr",
+            "args": ["User ([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}) logged in.", "user_uuid"]
+        },
+        {
+            "name": "match_client_stderr",
+            "args": ["apagnan", "Client <<user_uuid>>(1) logged in with login lucas"]
+        },
+        {
+            "name": "match_client_stderr",
+            "args": ["apagnan", "User \"lucas\" \\(<<user_uuid>>(1)\\): 1"]
+        }
+    ]
+}

@@ -95,8 +95,8 @@ jobs:
         if: env.FAIL_TASK == 'true'
         run: exit 1
 
-  run_tests:
-    name: Run the program tests (using rule make tests_run)
+  run_unit_tests:
+    name: Run the program unit tests (using rule make tests_run)
     runs-on: ubuntu-latest
     needs: [check_program_compilation]
     container: epitechcontent/epitest-docker:latest
@@ -106,15 +106,44 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Starts tests
-        run: make tests_run
+      - name: Start tests
+        run: |
+          export LD_LIBRARY_PATH=./libs/myteams
+          make tests_run
+        timeout-minutes: 2
+
+  run_functionnal_tests:
+    name: Run the program functionnal tests (using the Python script)
+    runs-on: ubuntu-latest
+    needs: [check_program_compilation]
+    container: epitechcontent/epitest-docker:latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Build the program
+        run: |
+          make
+          make clean
+        timeout-minutes: 2
+
+      - name: Install Python dependencies
+        run: |
+          pip3 install -r tests/requirements.txt
+
+      - name: Start tests
+        run: |
+          export LD_LIBRARY_PATH=./libs/myteams
+          python3 tests/functionnal_tests.py
         timeout-minutes: 2
 
   push_to_mirror:
     name: Pushes the current repository files to a given mirror repository
     runs-on: ubuntu-latest
     if: ${{ github.event_name == 'push' }}
-    needs: [run_tests]
+    needs: [run_unit_tests, run_functionnal_tests]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3

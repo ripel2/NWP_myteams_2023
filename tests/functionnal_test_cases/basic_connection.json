@@ -1,0 +1,32 @@
+{
+    "name": "Basic connection",
+    "description": "Basic connection with one server and one client",
+    "commands": [
+        {
+            "name": "start_server"
+        },
+        {
+            "name": "start_client",
+            "args": ["crunchy"]
+        },
+        {
+            "name": "client_send_line",
+            "args": ["crunchy", "/login \"PUGO\""]
+        },
+        {
+            "name": "stop_server"
+        },
+        {
+            "name": "stop_client",
+            "args": ["crunchy"]
+        },
+        {
+            "name": "store_match_stderr",
+            "args": ["User ([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}) logged in.", "user_uuid"]
+        },
+        {
+            "name": "match_client_stderr",
+            "args": ["crunchy", "Client <<user_uuid>>(1) logged in with login PUGO"]
+        }
+    ]
+}
