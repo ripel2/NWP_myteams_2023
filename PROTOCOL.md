@@ -221,7 +221,7 @@ A team will be represented by the following format:
 
 A user will be represented by the following format:
 ```
-<uuid> <username>
+<uuid> <username> <is_logged_in>
 ```
 
 Example of a `SUBSCRIBED` command without arguments (get the list of all the teams the user is subscribed to):
@@ -237,8 +237,8 @@ Example of a `SUBSCRIBED` command with a team uuid (get the list of all the user
 ```
 IN  >>> SUBSCRIBED 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f
 OUT <<< 150 2
-OUT <<< 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f user1
-OUT <<< 2e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f user2
+OUT <<< 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f user1 1
+OUT <<< 2e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f user2 0
 ```
 
 ### 3.5.7. `LIST`
