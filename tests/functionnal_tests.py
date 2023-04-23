@@ -123,6 +123,8 @@ class CommandRunner:
 
     def kill(self):
         self.__kill_event.set()
+        self.process.send_signal(subprocess.signal.SIGINT)
+        time.sleep(1)
         try:
             self.process.kill()
         except:
@@ -130,6 +132,9 @@ class CommandRunner:
 
     def join(self, timeout=None):
         self._thread.join(timeout)
+
+    def return_code(self) -> bool:
+        return self.process.poll()
 
 class TestCase:
     VALID_COMMANDS = {
@@ -202,16 +207,13 @@ class TestCase:
         if self.__server is None:
             raise Exception("Server not started")
         self.__server.kill()
-        try:
-            os.remove("my_teams.db")
-        except:
-            pass
 
     def _destroy_server(self):
         if self.__server is None:
             raise Exception("Server not started")
         self._stop_server()
         self.__server = None
+        time.sleep(1)
 
     def _start_client(self, client_name: str):
         if client_name in self.__clients:
@@ -406,7 +408,7 @@ class TestCase:
         for client in self.__clients.values():
             client.kill()
 
-    def run(self, timeout=10, verbose=False):
+    def run(self, timeout=30, verbose=False):
         self.__exceptions = queue.Queue()
         self.__thread_needs_to_die = threading.Event()
         def inner(self):
@@ -455,6 +457,12 @@ class TestCase:
             exception = None
         if exception:
             raise exception
+        if self.__server is not None:
+            if self.__server.return_code() != 0:
+                raise Exception("Server returned non-zero return code: {}".format(self.__server.return_code()))
+        for client in self.__clients.values():
+            if client.return_code() != 0:
+                raise Exception("Client {} returned non-zero return code: {}".format(client.name, client.return_code()))
 
 
 if __name__ == "__main__":
@@ -468,6 +476,10 @@ if __name__ == "__main__":
             print("Loading test file {}...".format(file), end=" ")
             try:
                 test = TestCase("./tests/functionnal_test_cases/" + file)
+                try:
+                    os.remove("my_teams.db")
+                except:
+                    pass
             except Exception as e:
                 print(KO_COLOR + "\nError while parsing test file: {}".format(e) + RESET_COLOR)
                 print()
