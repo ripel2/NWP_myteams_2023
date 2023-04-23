@@ -22,6 +22,15 @@ static void client_print_exit_reason(client_t *client)
         printf("Server closed connection\n");
 }
 
+static void client_flush_remaining_buffer(client_t *client)
+{
+    char line[2048] = {0};
+
+    while (client_flush_line(client, line)) {
+        client_process_event_buffer(client, line);
+    }
+}
+
 int client_loop(client_t *client)
 {
     int ret = 0;
@@ -38,6 +47,7 @@ int client_loop(client_t *client)
             client_handle_command(client);
         FD_CLR(client->fd, &client->read_fds);
         FD_CLR(STDIN_FILENO, &client->read_fds);
+        client_flush_remaining_buffer(client);
     }
     client_print_exit_reason(client);
     client_destroy(client);

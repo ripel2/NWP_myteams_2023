@@ -32,6 +32,7 @@ void write_threads(FILE *fd, channel_t *channel)
     TAILQ_FOREACH(thread, &channel->threads, entries) {
         fwrite(thread->user_data, sizeof(data_t), 1, fd);
         fwrite(thread->thread_data, sizeof(data_t), 1, fd);
+        fwrite(&thread->creation_date, sizeof(time_t), 1, fd);
         write_replies(fd, thread);
     }
 }

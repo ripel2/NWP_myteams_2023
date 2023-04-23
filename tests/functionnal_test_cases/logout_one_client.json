@@ -1,0 +1,40 @@
+{
+    "name": "Logout one client",
+    "description": "Connects a client and logs it in, then logs it out",
+    "commands": [
+        {
+            "name": "start_server"
+        },
+        {
+            "name": "start_client",
+            "args": ["crunchy"]
+        },
+        {
+            "name": "client_send_line",
+            "args": ["crunchy", "/login \"Noam Caillou Aberrant\""]
+        },
+        {
+            "name": "client_send_line",
+            "args": ["crunchy", "/logout"]
+        },
+        {
+            "name": "stop_server"
+        },
+        {
+            "name": "stop_client",
+            "args": ["crunchy"]
+        },
+        {
+            "name": "store_match_stderr",
+            "args": ["User ([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}) logged in.", "user_uuid"]
+        },
+        {
+            "name": "match_client_stderr",
+            "args": ["crunchy", "Client <<user_uuid>>(1) logged in with login Noam Caillou Aberrant"]
+        },
+        {
+            "name": "match_client_stderr",
+            "args": ["crunchy", "Client <<user_uuid>>(1) logged out with login Noam Caillou Aberrant"]
+        }
+    ]
+}

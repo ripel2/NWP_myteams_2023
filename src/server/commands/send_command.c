@@ -32,7 +32,7 @@ char *user_to_send_uuid)
 static void create_new_discussion(user_t *current_user,
 char *user_to_send_uuid)
 {
-    char new_uuid[37];
+    char new_uuid[37] = {0};
 
     generate_uuid(new_uuid);
     add_personnal_discussion_to_struct(new_uuid,
@@ -72,22 +72,21 @@ static void send_message_to_user(server_t *server, server_client_t *client,
 char *user_to_send_uuid, char *message)
 {
     user_t *current_user = NULL;
-    char event_msg[512];
+    char event_msg[2048] = {0};
 
     current_user = get_user_from_struct_by_fd(client->fd);
     if (current_user == NULL || current_user->is_logged == false) {
         server_client_write_string(server, client, "530 Not logged in\n");
         return;
     }
-    if (check_if_user_need_discussion(current_user, user_to_send_uuid)
-    == true) {
+    if (check_if_user_need_discussion(current_user, user_to_send_uuid))
         create_new_discussion(current_user, user_to_send_uuid);
-    }
+    string_strip_delim(&message, '"');
     add_message_to_both_users(current_user, user_to_send_uuid, message);
     server_client_write_string(server, client, "200 OK\n");
     server_event_private_message_sended(current_user->user_data->uuid,
     user_to_send_uuid, message);
-    sprintf(event_msg, "client_event_private_message_received %s %s\n",
+    sprintf(event_msg, "client_event_private_message_received \"%s\" \"%s\"\n",
     current_user->user_data->uuid, message);
     send_event_to_user(server, get_user_from_struct(user_to_send_uuid),
     event_msg);

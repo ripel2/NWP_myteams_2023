@@ -23,6 +23,18 @@ static void set_user_uuid_quotes(char *user_uuid_with_quotes, user_t *user)
     strcat(user_uuid_with_quotes, "\"");
 }
 
+static void send_logout_event(server_t *server, server_client_t *client
+, user_t *user)
+{
+    char event_msg[512] = {0};
+
+    server_event_user_logged_out(user->user_data->uuid);
+    sprintf(event_msg, "client_event_logged_out \"%s\" \"%s\"\n",
+    user->user_data->uuid, user->user_data->name);
+    send_event_to_all_users(server, event_msg, -1);
+    server_remove_client(server, client->fd);
+}
+
 void handle_logout(server_t *server, server_client_t *client, char **args)
 {
     user_t *user = NULL;
@@ -37,12 +49,10 @@ void handle_logout(server_t *server, server_client_t *client, char **args)
         server_client_write_string(server, client, "530 Not logged in\n");
         return;
     }
+    set_user_uuid_quotes(user_uuid_with_quotes, user);
+    server_client_printf(server, client,
+    "221 %s logged out\n", user_uuid_with_quotes);
+    send_logout_event(server, client, user);
     user->is_logged = false;
     user->socket_fd = -1;
-    set_user_uuid_quotes(user_uuid_with_quotes, user);
-    server_client_write_string(server, client, "221 ");
-    server_client_write_string(server, client, user_uuid_with_quotes);
-    server_client_write_string(server, client, " logged out\n");
-    server_remove_client(server, client->fd);
-    server_event_user_logged_out(user->user_data->uuid);
 }

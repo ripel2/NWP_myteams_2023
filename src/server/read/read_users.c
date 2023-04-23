@@ -11,18 +11,18 @@
 #include "logging_server.h"
 #include "data_struct_functions.h"
 
-void read_team_uuids(FILE *fd)
+void read_team_uuids(FILE *fd, user_t *user)
 {
     unsigned int nb_team_uuids = 0;
-    char *uuid = NULL;
+    team_uuid_t *uuid = NULL;
 
     fread(&nb_team_uuids, sizeof(unsigned int), 1, fd);
     for (unsigned int i = 0; i < nb_team_uuids; i++) {
-        uuid = malloc(sizeof(char) * UUID_LENGTH + 1);
+        uuid = malloc(sizeof(team_uuid_t));
         if (uuid == NULL)
             return;
-        fread(uuid, sizeof(char) * UUID_LENGTH + 1, 1, fd);
-        free(uuid);
+        fread(uuid->uuid, sizeof(char) * UUID_LENGTH + 1, 1, fd);
+        TAILQ_INSERT_TAIL(&user->team_uuids, uuid, entries);
     }
 }
 
@@ -33,17 +33,16 @@ void read_users(FILE *fd)
 
     fread(&nb_users, sizeof(unsigned int), 1, fd);
     for (unsigned int i = 0; i < nb_users; i++) {
-        user = malloc(sizeof(user_t));
-        user->user_data = malloc(sizeof(data_t));
-        if (user == NULL || user->user_data == NULL)
+        user = calloc(1, sizeof(user_t));
+        if (user == NULL)
+            return;
+        user->user_data = calloc(1, sizeof(data_t));
+        if (user->user_data == NULL)
             return;
         fread(user->user_data, sizeof(data_t), 1, fd);
-        fread(&user->is_logged, sizeof(bool), 1, fd);
-        add_user_to_struct(init_data(user->user_data->name,
-            user->user_data->description, user->user_data->body,
-            user->user_data->uuid));
-        server_event_user_loaded(user->user_data->uuid, user->user_data->name);
-        read_team_uuids(fd);
+        read_team_uuids(fd, user);
         read_personal_discussion(fd, user);
+        TAILQ_INSERT_TAIL(&global->users, user, entries);
+        server_event_user_loaded(user->user_data->uuid, user->user_data->name);
     }
 }

@@ -23,6 +23,7 @@ data_t *message)
         return (84);
     msg->user_data = sender_uuid;
     msg->message_data = message;
+    msg->creation_date = time(NULL);
     TAILQ_INSERT_TAIL(&discussion->messages, msg, entries);
     return (0);
 }

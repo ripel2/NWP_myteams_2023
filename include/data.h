@@ -11,6 +11,7 @@
 #include <stdlib.h>
 #include <sys/queue.h>
 #include <stdbool.h>
+#include <time.h>
 
 #define MAX_NAME_LENGTH 32
 #define UUID_LENGTH 36
@@ -78,17 +79,16 @@ typedef struct channel_s {
 typedef struct thread_s {
     data_t *user_data;
     data_t *thread_data;
-    TAILQ_HEAD(reply_list_s, reply_s)
-    replies;
-    TAILQ_ENTRY(thread_s)
-    entries;
+    time_t creation_date;
+    TAILQ_HEAD(reply_list_s, reply_s) replies;
+    TAILQ_ENTRY(thread_s) entries;
 } thread_t;
 
 typedef struct reply_s {
     data_t *user_data;
     data_t *reply_data;
-    TAILQ_ENTRY(reply_s)
-    entries;
+    time_t creation_date;
+    TAILQ_ENTRY(reply_s) entries;
 } reply_t;
 
 typedef struct personal_discussion_s {
@@ -103,8 +103,8 @@ typedef struct personal_discussion_s {
 typedef struct message_s {
     data_t *user_data;
     data_t *message_data;
-    TAILQ_ENTRY(message_s)
-    entries;
+    time_t creation_date;
+    TAILQ_ENTRY(message_s) entries;
 } message_t;
 
 typedef struct global_s {

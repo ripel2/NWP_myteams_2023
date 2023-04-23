@@ -20,7 +20,7 @@ char *current_user_uuid, data_t *user_data)
     if (!user || !personal)
         return (84);
     personal->user_data = user_data;
-    strcat(personal->uuid, discussion_uuid);
+    strcpy(personal->uuid, discussion_uuid);
     TAILQ_INIT(&personal->messages);
     TAILQ_INSERT_TAIL(&user->discussions, personal, entries);
     return (0);

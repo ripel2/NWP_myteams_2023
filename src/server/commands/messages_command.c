@@ -21,7 +21,8 @@ static personal_discussion_t *get_discussion_between_user
     personal_discussion_t *discussion = NULL;
 
     TAILQ_FOREACH(discussion, &current_user->discussions, entries) {
-        if (discussion->user_data->uuid == user_to_seek->user_data->uuid) {
+        if (strcmp(discussion->user_data->uuid, user_to_seek->user_data->uuid)
+        == 0) {
             return discussion;
         }
     }
@@ -36,19 +37,15 @@ user_t *user_to_seek, server_t *server, server_client_t *client)
     message_t *message = NULL;
 
     TAILQ_FOREACH(message, &discussion->messages, entries) {
-        if (strcmp(message->user_data->uuid, current_user->user_data->uuid)
-        == 0) {
-            server_client_write_string(server, client, "TO ");
-            server_client_write_string(server, client,
-            message->message_data->body);
-            server_client_write_string(server, client, "\n");
-        }
         if (strcmp(message->user_data->uuid, user_to_seek->user_data->uuid)
         == 0) {
-            server_client_write_string(server, client, "FROM ");
-            server_client_write_string(server, client,
-            message->message_data->body);
-            server_client_write_string(server, client, "\n");
+            server_client_printf(server, client, "FROM %ld \"%s\"\n",
+            message->creation_date, message->message_data->body);
+        } else if (strcmp(message->user_data->uuid,
+        current_user->user_data->uuid)
+        == 0) {
+            server_client_printf(server, client, "TO %ld \"%s\"\n",
+            message->creation_date, message->message_data->body);
         }
     }
 }
@@ -91,8 +88,8 @@ void handle_messages(server_t *server, server_client_t *client, char **args)
     current_user = get_user_logged_in(client);
     if (is_args_error(server, client, current_user, args) == true)
         return;
-    string_strip_delim(&args[1], '"');
     remove_bad_char(args[1]);
+    string_strip_delim(&args[1], '"');
     if (is_a_uuid(args[1]) == false) {
         server_client_write_string(server, client, "550 Bad uuid\n");
         return;

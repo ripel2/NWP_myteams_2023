@@ -34,6 +34,7 @@ void write_messages(FILE *fd, personal_discussion_t *personal_discussion)
     TAILQ_FOREACH(message, &personal_discussion->messages, entries) {
         fwrite(message->user_data, sizeof(data_t), 1, fd);
         fwrite(message->message_data, sizeof(data_t), 1, fd);
+        fwrite(&message->creation_date, sizeof(time_t), 1, fd);
     }
 }
 
@@ -56,7 +57,7 @@ void write_personal_discussion(FILE *fd, user_t *user)
     fwrite(&nb_personal_discussion, sizeof(unsigned int), 1, fd);
     TAILQ_FOREACH(personal_discussion, &user->discussions, entries) {
         fwrite(personal_discussion->user_data, sizeof(data_t), 1, fd);
-        fwrite(&personal_discussion->uuid, sizeof(char), (UUID_LENGTH + 1), fd);
+        fwrite(personal_discussion->uuid, sizeof(char), (UUID_LENGTH + 1), fd);
         write_messages(fd, personal_discussion);
     }
 }

@@ -31,7 +31,6 @@ void write_users(FILE *fd)
     fwrite(&nb_users, sizeof(unsigned int), 1, fd);
     TAILQ_FOREACH(user, &global->users, entries) {
         fwrite(user->user_data, sizeof(data_t), 1, fd);
-        fwrite(&user->is_logged, sizeof(bool), 1, fd);
         write_team_uuids(fd, user);
         write_personal_discussion(fd, user);
     }

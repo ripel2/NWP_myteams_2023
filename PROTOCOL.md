@@ -194,18 +194,18 @@ The message will end with a `200 OK` response.
 
 A message will be represented by the following format:
 ```
-<FROM/TO> <message>
+<FROM/TO> <timestamp> <message>
 ```
 
 Example of a `MESSAGES` command:
 ```
 IN  >>> MESSAGES 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f
 OUT <<< 150 2
-OUT <<< FROM message
-OUT <<< TO message
+OUT <<< FROM 12345678 message
+OUT <<< TO 12345678 message
 OUT <<< 200 OK
 ```
-(first number is the number of lines of the message, second number is the timestamp of the message)
+(first number is the timestamp of the message)
 
 ### 3.5.6. `SUBSCRIBED`
 
@@ -221,7 +221,7 @@ A team will be represented by the following format:
 
 A user will be represented by the following format:
 ```
-<uuid> <username>
+<uuid> <username> <is_logged_in>
 ```
 
 Example of a `SUBSCRIBED` command without arguments (get the list of all the teams the user is subscribed to):
@@ -237,8 +237,8 @@ Example of a `SUBSCRIBED` command with a team uuid (get the list of all the user
 ```
 IN  >>> SUBSCRIBED 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f
 OUT <<< 150 2
-OUT <<< 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f user1
-OUT <<< 2e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f user2
+OUT <<< 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f user1 1
+OUT <<< 2e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f user2 0
 ```
 
 ### 3.5.7. `LIST`
@@ -257,21 +257,19 @@ Example of a `LIST` command without any context:
 ```
 IN  >>> LIST
 OUT <<< 150 2 TEAMS
-OUT <<< 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f 1234567 team1 description
-OUT <<< 2e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f 1234567 team2 description
+OUT <<< 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f team1 description
+OUT <<< 2e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f team2 description
 OUT <<< 200 OK
 ```
-(the first number is the timestamp of the team creation)
 
 Example of a `LIST` command with a team context:
 ```
 IN  >>> LIST
 OUT <<< 150 2 CHANNELS
-OUT <<< 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f 1234567 channel1 channel_description
-OUT <<< 2e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f 1234567 channel2 channel_description
+OUT <<< 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f channel1 channel_description
+OUT <<< 2e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f channel2 channel_description
 OUT <<< 200 OK
 ```
-(the first number is the timestamp of the channel creation)
 
 Example of a `LIST` command with a team and a channel context:
 ```
@@ -313,21 +311,19 @@ OUT <<< 150 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f user1
 Example of a `INFO` command with a team context:
 ```
 IN  >>> INFO
-OUT <<< 150 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f 1234567 description
+OUT <<< 150 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f name description
 ```
-(first number is the timestamp of the team creation)
 
 Example of a `INFO` command with a team and a channel context:
 ```
 IN  >>> INFO
-OUT <<< 150 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f 1234567 description
+OUT <<< 150 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f name description
 ```
-(first number is the timestamp of the channel creation)
 
 Example of a `INFO` command with a team, a channel and a thread context:
 ```
 IN  >>> INFO
-OUT <<< 150 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f 1234567 description
+OUT <<< 150 <thread_uuid> <user_uuid> 1234567 title body
 ```
 (first number is the timestamp of the thread creation)
 
@@ -343,38 +339,62 @@ The client should send the `CREATE` command followed by the uuid of the team/cha
 
 Example of a `CREATE` command without any context:
 ```
-IN  >>> CREATE 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f description
+IN  >>> CREATE name description
 OUT <<< 200 <created_uuid>
 ```
 
 Example of a `CREATE` command with a team context:
 ```
-IN  >>> CREATE 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f description
+IN  >>> CREATE name description
 OUT <<< 200 <created_uuid>
 ```
 
 Example of a `CREATE` command with a team and a channel context:
 ```
-IN  >>> CREATE 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f description
+IN  >>> CREATE name description
 OUT <<< 200 <created_uuid>
 ```
 
 Example of a `CREATE` command with a team, a channel and a thread context:
 ```
-IN  >>> CREATE 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f message
+IN  >>> CREATE name message
 OUT <<< 200 <created_uuid>
 ```
 
 # 4. Client events
 
 The client can receive events from the server at any time. The client should be able to handle the following events:
+ - client_event_logged_in
+ - client_event_logged_out
  - client_event_private_message_received
  - client_event_team_created
  - client_event_channel_created
  - client_event_thread_created
  - client_event_thread_reply_received
 
-## 4.1. `client_event_private_message_received`
+## 4.1. `client_event_logged_in`
+
+The `client_event_logged_in` event is sent by the server to every user logged in when a new user logs in.
+
+The server will send the `client_event_logged_in` event followed by the uuid of the user who logged in.
+
+Example of a `client_event_logged_in` event:
+```
+IN <<< client_event_logged_in 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f
+```
+
+## 4.2. `client_event_logged_out`
+
+The `client_event_logged_out` event is sent by the server to every user logged in when a user logs out.
+
+The server will send the `client_event_logged_out` event followed by the uuid of the user who logged out.
+
+Example of a `client_event_logged_out` event:
+```
+IN <<< client_event_logged_out 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f
+```
+
+## 4.3. `client_event_private_message_received`
 
 The `client_event_private_message_received` event is sent by the server to the user when a private message is received.
 Of course, it is only sent if the user is logged in.
@@ -387,7 +407,7 @@ Example of a `client_event_private_message_received` event:
 IN <<< client_event_private_message_received 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f message
 ```
 
-## 4.2. `client_event_team_created`
+## 4.4. `client_event_team_created`
 
 The `client_event_team_created` event is sent by the server to every user logged in when a new team is created.
 
@@ -399,7 +419,7 @@ Example of a `client_event_team_created` event:
 IN <<< client_event_team_created 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f team1 description
 ```
 
-## 4.3. `client_event_channel_created`
+## 4.5. `client_event_channel_created`
 
 The `client_event_channel_created` event is sent by the server when a new channel is created in a team.
 It is sent to every user that belongs to the team and is logged in.
@@ -412,7 +432,7 @@ Example of a `client_event_channel_created` event:
 IN <<< client_event_channel_created 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f channel1 description
 ```
 
-## 4.4. `client_event_thread_created`
+## 4.6. `client_event_thread_created`
 
 The `client_event_thread_created` event is sent by the server when a new thread is created in a channel.
 It is sent to every user that belongs to the channel and is logged in.
@@ -425,7 +445,7 @@ Example of a `client_event_thread_created` event:
 IN <<< client_event_thread_created 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f 1e6b0b0a-5b9f-4b3b-8c9a-8d2b2c3d4e5f 1234567 title message
 ```
 
-## 4.5. `client_event_thread_reply_received`
+## 4.7. `client_event_thread_reply_received`
 
 The `client_event_thread_reply_received` event is sent by the server when a new reply is created in a thread.
 It is sent to every user that belongs to the thread and is logged in.

@@ -26,5 +26,5 @@ void read_teams(FILE *fd);
 void read_users(FILE *fd);
 void read_replies(FILE *fd, thread_t *thread);
 void read_channels(FILE *fd, team_t *team);
-void read_messages(FILE *fd, user_t *user);
+void read_messages(FILE *fd, personal_discussion_t *discussion);
 void read_personal_discussion(FILE *fd, user_t *owner);

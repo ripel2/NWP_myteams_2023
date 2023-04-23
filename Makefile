@@ -121,6 +121,7 @@ CLIENT_SRC	=	$(CLIENT_FOLDER)/client_init.c	\
 				$(CLIENT_FOLDER)/commands/send_command.c	\
 				$(CLIENT_FOLDER)/commands/create_command.c	\
 				$(CLIENT_FOLDER)/commands/subscribe_command.c	\
+				$(CLIENT_FOLDER)/commands/subscribed_command.c	\
 				$(CLIENT_FOLDER)/commands/unsubscribe_command.c	\
 				$(CLIENT_FOLDER)/commands/messages_command.c	\
 				$(CLIENT_FOLDER)/commands/info_command.c
@@ -225,7 +226,7 @@ tests_run:	$(TESTS_OBJ)
 	@printf $(TEAL)"[+] Running tests"$(DEFAULT)"\n"
 	@./unit_tests && \
 	printf $(GREEN)"[+] Tests passed"$(DEFAULT)"\n" || \
-	printf $(RED)"[-] Tests failed"$(DEFAULT)"\n"
+	(printf $(RED)"[-] Tests failed"$(DEFAULT)"\n" && exit 1)
 
 debug:	CFLAGS += -g
 debug:	re

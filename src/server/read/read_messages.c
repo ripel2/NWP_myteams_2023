@@ -11,22 +11,24 @@
 #include "logging_server.h"
 #include "data_struct_functions.h"
 
-void read_messages(FILE *fd, user_t *user)
+void read_messages(FILE *fd, personal_discussion_t *discussion)
 {
     unsigned int nb_messages = 0;
     message_t *message = NULL;
 
     fread(&nb_messages, sizeof(unsigned int), 1, fd);
+    TAILQ_INIT(&discussion->messages);
     for (unsigned int i = 0; i < nb_messages; i++) {
-        message = malloc(sizeof(message_t));
-        message->user_data = malloc(sizeof(data_t));
-        message->message_data = malloc(sizeof(data_t));
-        if (message == NULL || message->user_data == NULL
-        || message->message_data == NULL)
+        message = calloc(1, sizeof(message_t));
+        if (message == NULL)
+            return;
+        message->user_data = calloc(1, sizeof(data_t));
+        message->message_data = calloc(1, sizeof(data_t));
+        if (message->user_data == NULL || message->message_data == NULL)
             return;
         fread(message->user_data, sizeof(data_t), 1, fd);
         fread(message->message_data, sizeof(data_t), 1, fd);
-        add_message_to_struct(user->user_data,
-        message->user_data, message->message_data);
+        fread(&message->creation_date, sizeof(time_t), 1, fd);
+        TAILQ_INSERT_TAIL(&discussion->messages, message, entries);
     }
 }
