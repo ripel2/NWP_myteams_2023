@@ -332,7 +332,7 @@ class TestCase:
                 return
         raise self.TestFailed(
             "Regex didn't match in client {} stderr: {}".format(
-                client_name, regex + '\n'.join(stderr)
+                client_name, regex
             )
         )
 
